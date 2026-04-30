@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+}
+
+.lab-section {
+    background: #1e293b;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.lab-section h2 {
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 8px;
+    width: 60%;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    padding: 8px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+}
+
+#comments, #safeComments {
+    margin-top: 10px;
+}
+
+/*click Jacking*/
+.clickjack-container {
+    position: relative;
+    width: 250px;
+    margin-top: 10px;
+}
+
+.fake-btn {
+    width: 100%;
+    padding: 10px;
+    background: #22c55e;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+.real-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0; /* invisible */
+
+    z-index: 3; /* ABOVE fake button */
+    cursor: pointer;
+}
+
+.hidden-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* invisible for now */
+    opacity: 0;
+
+    z-index: 1;
+}
+
+.note {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: 8px;
+}
+
+.safe-clickjack button {
+    width: 250px;
+    padding: 10px;
+    background: #3b82f6;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/*Request editor*/
+textarea {
+    width: 100%;
+    height: 120px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    resize: none;
+}
+
+#requestOutput {
+    margin-top: 10px;
+    padding: 10px;
+    background: #0f172a;
+    border-radius: 6px;
+    min-height: 40px;
+}
