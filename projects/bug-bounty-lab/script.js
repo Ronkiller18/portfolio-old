@@ -84,26 +84,81 @@ function safeAction() {
     alert("✅ Safe: You clicked the real button");
 }
 
+//Request 
 function analyzeRequest() {
     const input = document.getElementById("requestBox").value;
 
-    let result = "";
+    let findings = [];
 
-    if (input.includes("<script>")) {
-        result += "⚠️ Possible XSS pattern<br>";
+    // 🔴 XSS
+    if (
+        /<script[\s\S]*?>/i.test(input) ||
+        /on\w+\s*=/i.test(input) ||
+        /javascript:/i.test(input)
+    ) {
+        findings.push({
+            type: "XSS",
+            severity: "High",
+            confidence: 80,
+            message: "Possible script injection detected"
+        });
     }
 
-    if (input.includes("redirect=")) {
-        result += "⚠️ Possible open redirect parameter<br>";
+    // 🔁 Open Redirect
+    if (/redirect\s*=/i.test(input) || /url\s*=/i.test(input)) {
+        findings.push({
+            type: "Open Redirect",
+            severity: "Medium",
+            confidence: 60,
+            message: "Suspicious redirect parameter found"
+        });
     }
 
-    document.getElementById("requestOutput").innerHTML = result;
+    // 🧠 DOM Risk
+    if (
+        /innerHTML\s*=/i.test(input) ||
+        /document\.write/i.test(input) ||
+        /eval\s*\(/i.test(input)
+    ) {
+        findings.push({
+            type: "DOM Risk",
+            severity: "High",
+            confidence: 85,
+            message: "Unsafe DOM manipulation detected"
+        });
+    }
+
+    displayRequestResults(findings);
 }
 
-//Request edit
-function analyzeRequest() {
-    const input = document.getElementById("requestBox").value;
+function displayRequestResults(findings) {
+    const output = document.getElementById("requestOutput");
 
-    // detection logic comes Day 2
-    document.getElementById("requestOutput").innerText = "Analyzing...";
+    if (findings.length === 0) {
+        output.innerHTML = "<p class='safe'>✅ No obvious issues detected</p>";
+        return;
+    }
+
+    let html = "";
+
+    findings.forEach(f => {
+        html += `
+            <div class="result ${f.severity.toLowerCase()}">
+                <strong>${f.type}</strong> (${f.severity})<br>
+                ${f.message}<br>
+                <small>Confidence: ${f.confidence}%</small>
+            
+        `;
+        if (f.type === "XSS") {
+    html += `
+        <ul>
+            <li>&lt;img src=x onerror=alert(1)&gt;</li>
+            <li>&lt;svg onload=alert(1)&gt;</li>
+        </ul>
+    `;
+    html += `</div>`;
+}
+    });
+
+    output.innerHTML = html;
 }
