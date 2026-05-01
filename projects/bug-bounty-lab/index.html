@@ -1,114 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Mini Bug Bounty Lab</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Mini Bug Bounty Lab</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
 
-<header>
-    <h1>🧪 Mini Bug Bounty Lab</h1>
-    <p>Practice common web vulnerabilities in a safe environment</p>
-</header>
+    <header>
+        <h1>🧪 Mini Bug Bounty Lab</h1>
+        <p>Practice common web vulnerabilities in a safe environment</p>
+    </header>
 
-<main>
+    <main>
+        <section class="lab-section lab-intro">
 
-    <section class="lab-section">
-        <h2>🔴 Stored XSS (Vulnerable)</h2>
-        <input type="text" id="commentInput" placeholder="Enter comment...">
-        <button onclick="addComment()">Submit</button>
+            <h2>🧪 Bug Bounty Lab</h2>
 
-        <div id="comments"></div>
-    </section>
+            <p>
+                This interactive lab simulates common client-side web vulnerabilities 
+                including Cross-Site Scripting (XSS), Open Redirects, and Clickjacking.
+            </p>
 
-    <section class="lab-section">
-        <h2>🛡️ Stored XSS (Secure)</h2>
-        <input type="text" id="safeInput" placeholder="Enter comment...">
-        <button onclick="addSafeComment()">Submit</button>
+            <p>
+                Each section demonstrates a vulnerable implementation, a secure version, 
+                and a breakdown explaining how the vulnerability works, its impact, 
+                and how to fix it.
+            </p>
 
-        <div id="safeComments"></div>
-    </section>
+            <p><strong>How to use:</strong></p>
+            <ul>
+                <li>🧪 Try entering test payloads in vulnerable inputs</li>
+                <li>⚠️ Observe how the application behaves</li>
+                <li>🛡️ Compare with the secure implementation</li>
+                <li>🧠 Read the breakdown to understand the vulnerability</li>
+            </ul>
 
-    <section class="lab-section">
-        <h2>📘 Explanation</h2>
+        </section>
 
-        <p>
-            This lab demonstrates common web vulnerabilities including 
-            <strong>Stored XSS</strong> and <strong>Open Redirect</strong>.
-        </p>
+        <section class="lab-section">
+            <h2>🔴 Stored XSS (Vulnerable)</h2>
+            <input type="text" id="commentInput" placeholder="Enter comment...">
+            <button onclick="addComment()">Submit</button>
 
-        <ul>
-            <li><strong>XSS:</strong> Occurs when user input is executed as code due to unsafe rendering.</li>
-            <li><strong>Fix:</strong> Use safe methods like <code>textContent</code>.</li>
+            <div id="comments"></div>
+        </section>
 
-            <li><strong>Open Redirect:</strong> Redirecting users based on untrusted input.</li>
-            <li><strong>Fix:</strong> Validate and restrict allowed domains.</li>
-        </ul>
+        <section class="lab-section">
+            <h2>🛡️ Stored XSS (Secure)</h2>
+            <input type="text" id="safeInput" placeholder="Enter comment...">
+            <button onclick="addSafeComment()">Submit</button>
 
-        <h2>📘 Clickjacking Explanation</h2>
+            <div id="safeComments"></div>
+        </section>
 
-        <ul>
-            <li><strong>Clickjacking:</strong> Tricking users into clicking hidden elements.</li>
-            <li><strong>How it works:</strong> Invisible layers are placed above visible UI.</li>
-            <li><strong>Impact:</strong> Users perform unintended actions.</li>
-            <li><strong>Fix:</strong> Prevent framing and ensure UI integrity.</li>
-        </ul>
-    </section>
+        <section class="lab-section security-breakdown">
 
-    <section class="lab-section">
-        <h2>🔁 Open Redirect (Vulnerable)</h2>
+            <h2>🧠 Security Breakdown: Stored XSS</h2>
 
-        <input type="text" id="redirectInput" placeholder="Enter URL...">
-        <button onclick="redirectUser()">Go</button>
-        <button onclick="safeRedirect()">Go (Secure)</button>
-    </section>
+            <p><strong>Description:</strong><br>
+            In the vulnerable version, user input is inserted into the DOM using <code>innerHTML</code>,
+            which allows execution of arbitrary JavaScript.
+            </p>
 
-    <section class="lab-section">
-        <h2>🖱️ Clickjacking (Simulation)</h2>
+            <p><strong>How it works:</strong><br>
+            The browser treats the input as HTML instead of plain text. 
+            This allows attackers to inject scripts that execute when rendered.
+            </p>
 
-        <div class="clickjack-container">
-            <button class="fake-btn">
-                🎁 Claim Free Reward
-            </button>
+            <p><strong>Severity:</strong> Medium</p>
 
-            <button class="real-btn" onclick="hiddenAction()">
-                Hidden Action
-            </button>
-        </div>
+            <p><strong>Impact:</strong><br>
+            An attacker can execute JavaScript in another user’s browser,
+            leading to session hijacking, data theft, or phishing attacks.
+            </p>
 
-        <p class="note">
-            This simulates how attackers trick users into clicking hidden elements.
-        </p>
-    </section>
+            <p><strong>Example Payload:</strong></p>
+            <pre><code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></pre>
 
-    <section class="lab-section">
-        <h2>🛡️ Clickjacking (Secure)</h2>
+            <p><strong>Fix:</strong><br>
+            Use <code>textContent</code> instead of <code>innerHTML</code> 
+            or sanitize user input before rendering.
+            </p>
 
-        <div class="safe-clickjack">
-            <button onclick="safeAction()">🎁 Claim Free Reward</button>
-        </div>
+        </section>
 
-        <p class="note">
-            This version prevents hidden overlays and ensures the user clicks the intended element.
-        </p>
-    </section>
+        <section class="lab-section">
+            <h2>🔁 Open Redirect (Vulnerable)</h2>
 
-    <section class="lab-section">
-        <h2>🧪 Request Editor (Simulation)</h2>
+            <input type="text" id="redirectInput" placeholder="Enter URL...">
+            <button onclick="redirectUser()">Go</button>
+            <button onclick="safeRedirect()">Go (Secure)</button>
+        </section>
 
-        <textarea id="requestBox" placeholder="Enter request or input here..."></textarea>
+        <section class="lab-section security-breakdown">
 
-        <button onclick="analyzeRequest()">Analyze</button>
+            <h2>🧠 Security Breakdown: Open Redirect</h2>
 
-        <div id="requestOutput"></div>
+            <p><strong>Description:</strong><br>
+            The application redirects users based on untrusted input without validation.
+            </p>
 
-        <p class="note">
-            Simulates how security tools analyze input for potential vulnerabilities.
-        </p>
-    </section>
-</main>
+            <p><strong>How it works:</strong><br>
+            Attackers craft a malicious URL that appears legitimate but redirects users
+            to a different, potentially harmful site.
+            </p>
 
-<script src="script.js"></script>
+            <p><strong>Severity:</strong> Medium</p>
+
+            <p><strong>Impact:</strong><br>
+            Can be used for phishing attacks by tricking users into trusting a legitimate domain
+            before redirecting them to a malicious site.
+            </p>
+
+            <p><strong>Example Payload:</strong></p>
+            <pre><code>https://your-site.com?redirect=https://evil.com</code></pre>
+
+            <p><strong>Fix:</strong><br>
+            Validate redirect URLs using a whitelist of trusted domains.
+            </p>
+
+        </section>
+
+        <section class="lab-section">
+            <h2>🖱️ Clickjacking (Simulation)</h2>
+
+            <div class="clickjack-container">
+                <button class="fake-btn">
+                    🎁 Claim Free Reward
+                </button>
+
+                <button class="real-btn" onclick="hiddenAction()">
+                    Hidden Action
+                </button>
+            </div>
+
+            <p class="note">
+                This simulates how attackers trick users into clicking hidden elements.
+            </p>
+        </section>
+
+        <section class="lab-section">
+            <h2>🛡️ Clickjacking (Secure)</h2>
+
+            <div class="safe-clickjack">
+                <button onclick="safeAction()">🎁 Claim Free Reward</button>
+            </div>
+
+            <p class="note">
+                This version prevents hidden overlays and ensures the user clicks the intended element.
+            </p>
+        </section>
+
+        <section class="lab-section security-breakdown">
+
+            <h2>🧠 Security Breakdown: Clickjacking</h2>
+
+            <p><strong>Description:</strong><br>
+            Users are tricked into clicking hidden or disguised elements.
+            </p>
+
+            <p><strong>How it works:</strong><br>
+            A transparent or hidden layer is placed over a visible button,
+            causing users to unknowingly trigger unintended actions.
+            </p>
+
+            <p><strong>Severity:</strong> Medium</p>
+
+            <p><strong>Impact:</strong><br>
+            Can lead to unauthorized actions such as form submissions,
+            account changes, or unintended clicks.
+            </p>
+
+            <p><strong>Fix:</strong><br>
+            Prevent UI overlay attacks and use protections like frame restrictions.
+            </p>
+
+        </section>
+
+        <section class="lab-section">
+            <h2>🧪 Request Editor (Simulation)</h2>
+
+            <textarea id="requestBox" placeholder="Enter request or input here..."></textarea>
+
+            <button onclick="analyzeRequest()">Analyze</button>
+
+            <div id="requestOutput"></div>
+
+            <p class="note">
+                Simulates how security tools analyze input for potential vulnerabilities.
+            </p>
+        </section>
+
+        <section class="lab-section">
+
+            <h2>🧠 Tester Notes</h2>
+
+            <p>
+                While building this lab, I focused on understanding how small 
+                implementation choices (like using innerHTML or trusting user input) 
+                can lead to real security vulnerabilities.
+            </p>
+
+            <p>
+                This project helped reinforce how attackers think and how secure 
+                coding practices can prevent exploitation.
+            </p>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Rushikesh • Built with HTML, CSS & JavaScript</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

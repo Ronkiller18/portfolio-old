@@ -31,7 +31,10 @@
             </a>
 
             <p class="hero-tagline">
-                Web Developer focused on building clean, responsive, and user-friendly interfaces
+                Cybersecurity Enthusiast | Web Vulnerability Tester
+
+                I build interactive labs to demonstrate real-world web vulnerabilities
+                like XSS, Clickjacking, and Open Redirects.
             </p>
 
             <div class="hero-actions">
@@ -47,9 +50,15 @@
             <div class="section-content">
                 <h2>About Me</h2>
                 <p>
-                    Hi, I'm Rushikesh — a beginner in Web Development and Cybersecurity.<br>
-                    Currently learning Web Development and Cybersecurity with a focus on building real-world projects.<br>
-                    My goal is to grow into a developer with strong cybersecurity skills. 🐇
+                    Hi, I'm Rushikesh — a beginner focused on Web Security and client-side vulnerabilities.<br><br>
+
+                    I build interactive labs to demonstrate how real-world web vulnerabilities like Cross-Site Scripting (XSS), Open Redirects, and Clickjacking work, how they are exploited, and how they can be fixed.<br><br>
+
+                    My focus is on understanding how client-side vulnerabilities occur and how attackers exploit them in real-world applications.<br><br>
+
+                    This portfolio is a collection of interactive labs designed to simulate common web security flaws and their mitigations.<br><br>
+
+                    Currently focused on: XSS, DOM-based vulnerabilities, and client-side attack vectors.
                 </p>
             </div>
         </section>
@@ -329,24 +338,34 @@
                 <div class="project-card">
 
                     <!-- 1. Title -->
-                    <h3>Mini Bug Bounty Lab + Request Editor</h3>
+                    <h3>Bug Bounty Lab + Request Editor</h3>
                     <p class="project-subtitle">
-                        Frontend-focused project with real-world UI patterns
+                        Client-side Web Vulnerability Simulation
                     </p>
 
                     <!-- 2. Meta (quick signals) -->
                     <div class="project-meta">
                         <span class="status live">Live • Deployed</span>
                         <span class="complexity">Intermediate</span>
-                        <span class="type">Frontend</span>
+                        <span class="type">Security Lab</span>
                     </div>
 
                     <!-- Description -->
                     <p class="project-desc">
-                        A lightweight offline browser game focused on simple mechanics and performance.
+                        An interactive lab that simulates real-world client-side vulnerabilities 
+                        such as Cross-Site Scripting (XSS), Open Redirects, and Clickjacking, 
+                        along with a mini request editor for input-based security analysis.
                     </p>
 
                     <!-- 3. Tech stack -->
+                    <p class="tech-label">Vulnerabilities Covered:</p>
+                    <div class="project-tech">
+                        <span>XSS</span>
+                        <span>Open Redirect</span>
+                        <span>Clickjacking</span>
+                        <span>DOM Injection</span>
+                    </div>
+                    
                     <p class="tech-label">Tech Stack:</p> 
                     <div class="project-tech">
                         <span>HTML</span>
@@ -373,25 +392,26 @@
 
                         <!-- Features (proof of skill) -->
                         <ul class="project-features">
-                            <li>IntersectionObserver-based animations</li>
-                            <li>Responsive layout with Flexbox</li>
-                            <li>Dynamic modal preview system</li>
+                            <li>Stored XSS (vulnerable vs secure implementation)</li>
+                            <li>Open Redirect simulation with validation bypass</li>
+                            <li>Clickjacking attack simulation using hidden overlays</li>
+                            <li>Request Editor for payload testing and analysis</li>
                         </ul>
 
                         <ul class="project-details-list">
-                            <li>Designing basic game mechanics using JavaScript</li>
-                            <li>Handling user input and game state</li>
-                            <li>Optimizing for smooth performance on low-end devices</li>
+                            <li>Analyzing DOM-based vulnerabilities</li>
+                            <li>Crafting and testing attack payloads</li>
+                            <li>Understanding exploitation flow and mitigation techniques</li>
                         </ul>
 
                         <!-- Security Notes -->
                         <div class="project-security">
-                            <p class="tech-label">🔐 Security Notes</p>
+                            <p class="tech-label">🔐 Security Breakdown</p>
                             <ul>
-                                <li>Runs fully client-side with no sensitive data exposure</li>
-                                <li>No authentication system → eliminates account-based risks</li>
-                                <li>Controlled input handling (no arbitrary code execution)</li>
-                                <li>Future scope: secure score storage and validation</li>
+                                <li><strong>XSS Impact:</strong> Allows execution of arbitrary JavaScript in victim’s browser</li>
+                                <li><strong>Open Redirect Risk:</strong> Can be used for phishing and user redirection attacks</li>
+                                <li><strong>Clickjacking:</strong> Tricks users into performing unintended actions</li>
+                                <li><strong>Mitigation:</strong> Safe DOM handling, URL validation, and UI protection techniques</li>
                             </ul>
                         </div>
 
@@ -401,82 +421,82 @@
                         </p>
                     </div>
                 </div>
-            </div>
 
-            <div class="project-card">
 
-                    <!-- 1. Title -->
-                    <h3>Game Application</h3>
-                    <p class="project-subtitle">
-                        Frontend-focused project with real-world UI patterns
-                    </p>
+                <div class="project-card">
 
-                    <!-- 2. Meta (quick signals) -->
-                    <div class="project-meta">
-                        <span class="status live">Live • Deployed</span>
-                        <span class="complexity">Intermediate</span>
-                        <span class="type">Frontend</span>
-                    </div>
+                        <!-- 1. Title -->
+                        <h3>Game Application</h3>
+                        <p class="project-subtitle">
+                            Frontend-focused project with real-world UI patterns
+                        </p>
 
-                    <!-- Description -->
-                    <p class="project-desc">
-                        A lightweight offline browser game focused on simple mechanics and performance.
-                    </p>
-
-                    <!-- 3. Tech stack -->
-                    <p class="tech-label">Tech Stack:</p> 
-                    <div class="project-tech">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                    </div>
-
-                    <!-- 4. Actions (interaction) -->
-                    <div class="project-actions">
-                        <button class="btn preview-btn" aria-label="Preview project" data-url="https://ronkiller18.github.io/portfolio/">
-                        👁 Preview
-                        </button>
-                        <a href="https://ronkiller18.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="btn">
-                        🔗 Live
-                        </a>
-                        <a href="https://github.com/Ronkiller18/portfolio" target="_blank" rel="noopener noreferrer" class="btn">
-                        💻 Code
-                        </a>
-                        <button class="btn details-btn">View Details</button>
-                    </div>
-
-                    <!-- 5. Expandable details -->
-                    <div class="project-details">
-
-                        <!-- Features (proof of skill) -->
-                        <ul class="project-features">
-                            <li>IntersectionObserver-based animations</li>
-                            <li>Responsive layout with Flexbox</li>
-                            <li>Dynamic modal preview system</li>
-                        </ul>
-
-                        <ul class="project-details-list">
-                            <li>Designing basic game mechanics using JavaScript</li>
-                            <li>Handling user input and game state</li>
-                            <li>Optimizing for smooth performance on low-end devices</li>
-                        </ul>
-
-                        <!-- Security Notes -->
-                        <div class="project-security">
-                            <p class="tech-label">🔐 Security Notes</p>
-                            <ul>
-                                <li>Runs fully client-side with no sensitive data exposure</li>
-                                <li>No authentication system → eliminates account-based risks</li>
-                                <li>Controlled input handling (no arbitrary code execution)</li>
-                                <li>Future scope: secure score storage and validation</li>
-                            </ul>
+                        <!-- 2. Meta (quick signals) -->
+                        <div class="project-meta">
+                            <span class="status live">Live • Deployed</span>
+                            <span class="complexity">Intermediate</span>
+                            <span class="type">Frontend</span>
                         </div>
 
-                        <!-- Note (thinking signal) -->
-                        <p class="project-note">
-                            Currently under development🐇
+                        <!-- Description -->
+                        <p class="project-desc">
+                            A lightweight offline browser game focused on simple mechanics and performance.
                         </p>
-                    </div>
+
+                        <!-- 3. Tech stack -->
+                        <p class="tech-label">Tech Stack:</p> 
+                        <div class="project-tech">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+
+                        <!-- 4. Actions (interaction) -->
+                        <div class="project-actions">
+                            <button class="btn preview-btn" aria-label="Preview project" data-url="https://ronkiller18.github.io/portfolio/">
+                            👁 Preview
+                            </button>
+                            <a href="https://ronkiller18.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="btn">
+                            🔗 Live
+                            </a>
+                            <a href="https://github.com/Ronkiller18/portfolio" target="_blank" rel="noopener noreferrer" class="btn">
+                            💻 Code
+                            </a>
+                            <button class="btn details-btn">View Details</button>
+                        </div>
+
+                        <!-- 5. Expandable details -->
+                        <div class="project-details">
+
+                            <!-- Features (proof of skill) -->
+                            <ul class="project-features">
+                                <li>IntersectionObserver-based animations</li>
+                                <li>Responsive layout with Flexbox</li>
+                                <li>Dynamic modal preview system</li>
+                            </ul>
+
+                            <ul class="project-details-list">
+                                <li>Designing basic game mechanics using JavaScript</li>
+                                <li>Handling user input and game state</li>
+                                <li>Optimizing for smooth performance on low-end devices</li>
+                            </ul>
+
+                            <!-- Security Notes -->
+                            <div class="project-security">
+                                <p class="tech-label">🔐 Security Notes</p>
+                                <ul>
+                                    <li>Runs fully client-side with no sensitive data exposure</li>
+                                    <li>No authentication system → eliminates account-based risks</li>
+                                    <li>Controlled input handling (no arbitrary code execution)</li>
+                                    <li>Future scope: secure score storage and validation</li>
+                                </ul>
+                            </div>
+
+                            <!-- Note (thinking signal) -->
+                            <p class="project-note">
+                                Currently under development🐇
+                            </p>
+                        </div>
                 </div>
             </div>
         </section>
@@ -486,16 +506,17 @@
             <h2>🧠 Security Mindset</h2>
 
             <p>
-                I approach development with a security-first mindset, thinking beyond functionality 
-                to how features could be misused or exploited.
+                I approach development by actively thinking about how features can be exploited,
+                not just how they function. My focus is on identifying client-side vulnerabilities
+                and understanding how attackers manipulate the DOM and user input.
             </p>
 
             <ul class="security-points">
-                <li>🔍 Identify potential attack surfaces during development</li>
-                <li>🛡️ Prefer safe DOM manipulation over risky patterns</li>
-                <li>⚠️ Avoid storing sensitive data on the client side</li>
-                <li>📦 Keep applications minimal to reduce exposure</li>
-                <li>🚧 Continuously learning secure coding practices</li>
+                <li>🔍 Analyze how user input flows through the DOM (e.g., innerHTML vs textContent)</li>
+                <li>⚠️ Identify vulnerabilities like XSS, Open Redirects, and Clickjacking in UI logic</li>
+                <li>🧪 Test payloads to understand real exploitation behavior</li>
+                <li>🛡️ Apply mitigation techniques such as safe DOM handling and input validation</li>
+                <li>📚 Continuously learning through building and breaking vulnerable implementations</li>
             </ul>
         </section>
 
