@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <h1>📊 Dashboard (Protected Area)</h1>
+
+    <p style="color:red;">
+    ⚠️ This page is intentionally vulnerable and can be accessed without authentication.
+    </p>
+
+    <h1>📊 Dashboard</h1>
+    <p>Welcome! You are logged in.</p>
+
+    <section class="lab-section">
+
+        <h2>🔴 Broken Access Control</h2>
+
+        <p><strong>Description:</strong><br>
+        The dashboard page does not verify whether the user is authenticated
+        before granting access.
+        </p>
+
+        <p><strong>Vulnerability:</strong><br>
+        Users can directly access this page by entering the URL,
+        bypassing the login process.
+        </p>
+
+        <p><strong>Impact:</strong><br>
+        Attackers can access restricted areas without authentication,
+        potentially exposing sensitive data or functionality.
+        </p>
+
+        <p><strong>Example Attack:</strong></p>
+        <pre><code>
+        Open directly:
+        /dashboard.html
+        </code></pre>
+
+        <p><strong>Fix:</strong><br>
+        Validate authentication before allowing access to protected resources.
+        This is typically enforced on the server.
+        </p>
+
+    </section>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
