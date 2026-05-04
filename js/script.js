@@ -96,6 +96,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
+  //=======================================================
+  const tabButtons = document.querySelectorAll(".tab-btn");
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tabId = btn.dataset.tab;
+
+      const tabs = document.querySelectorAll(".tab-content");
+
+      tabs.forEach(tab => tab.style.display = "none");
+      tabButtons.forEach(b => b.classList.remove("active"));
+
+      document.getElementById(tabId).style.display = "block";
+      btn.classList.add("active");
+    });
+  });
+  //=========================================================
+
   // =====================
   // 5. PREVIEW SYSTEM
   // =====================
@@ -249,3 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+  //=======================================================
+
+  //=========================================================

@@ -3,104 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <title>Auth Lab - Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+    <!-- INTRO -->
     <section class="lab-intro">
-
         <h1>🔐 Authentication Vulnerability Lab</h1>
 
         <p>
-            This interactive lab demonstrates common authentication and access control
-            vulnerabilities found in web applications.
+            This lab demonstrates authentication and access control vulnerabilities.
         </p>
 
         <ul>
             <li>🔴 Weak client-side authentication</li>
             <li>🟠 Insecure session storage (localStorage)</li>
-            <li>🔴 Broken access control (direct page access)</li>
+            <li>🔴 Broken access control</li>
         </ul>
+    </section>
 
-        <p>
-            Try to bypass the login and access restricted functionality using browser tools.
-        </p>
+    <!-- LOGIN SECTION -->
+    <section class="lab-section">
+
+        <h2>🔐 Login (Vulnerable)</h2>
+
+        <input type="text" id="username" placeholder="Enter username">
+        <input type="password" id="password" placeholder="Enter password">
+
+        <button onclick="login()">Login</button>
+
+        <p id="message"></p>
 
     </section>
 
-    <h1>🔐 Login (Vulnerable)</h1>
+    <!-- EXPLOIT SECTION -->
+    <section class="lab-section exploit-box">
 
-    <input type="text" id="username" placeholder="Enter username">
-    <input type="password" id="password" placeholder="Enter password">
+        <h2>⚔️ Exploit</h2>
 
-    <button onclick="login()">Login</button>
+        <ol>
+            <li>Open DevTools → Console</li>
+            <li>Run:
+                <code>localStorage.setItem("isLoggedIn", "true")</code>
+            </li>
+            <li>Refresh page</li>
+            <li>Access without login</li>
+        </ol>
 
-    <p id="message"></p>
+        <button id="autoExploitBtn">⚡ Auto Exploit</button>
+        <button id="resetExploitBtn">🔄 Reset Session</button>
 
-    <hr>
-    <h2>🧠 Vulnerability Breakdown</h2>
+    </section>
 
-   <section class="lab-section">
+    <!-- IMPACT -->
+    <section class="lab-section exploit-impact">
 
-        <h2>🔴 Weak Authentication (Client-Side)</h2>
+        <h2>💥 Impact</h2>
 
-        <p><strong>Description:</strong><br>
-        The login logic is implemented entirely in client-side JavaScript,
-        making it visible and modifiable by users.
-        </p>
+        <ul>
+            <li>Unauthorized access</li>
+            <li>Session bypass</li>
+            <li>Client-side auth is insecure</li>
+        </ul>
 
-        <p><strong>Vulnerability:</strong><br>
-        Credentials are hardcoded in the browser and validated locally.
-        </p>
+    </section>
 
-        <p><strong>Impact:</strong><br>
-        Attackers can bypass authentication by modifying JavaScript
-        or directly invoking functions.
-        </p>
+    <!-- BREAKDOWN -->
+    <section class="lab-section">
 
-        <p><strong>Example Attack:</strong></p>
+        <h2>🧠 Vulnerability Breakdown</h2>
+
+        <h3>🔴 Weak Authentication</h3>
+        <p>Login logic is fully client-side and can be modified.</p>
+
         <pre><code>
         login = function() {
         document.getElementById("message").textContent = "Login successful";
         }
         </code></pre>
 
-        <p><strong>Fix:</strong><br>
-        Authentication should be handled securely on a backend server.
-        </p>
+        <h3>🟠 Insecure Session</h3>
+        <p>Session stored in localStorage can be manipulated.</p>
 
-    </section>
-
-    <section class="lab-section">
-
-        <h2>🟠 Insecure Session Storage</h2>
-
-        <p><strong>Description:</strong><br>
-        The application stores authentication state in <code>localStorage</code>,
-        which is fully controlled by the user.
-        </p>
-
-        <p><strong>Vulnerability:</strong><br>
-        A session flag (<code>isLoggedIn</code>) is stored in the browser after login.
-        This value can be manually modified by an attacker.
-        </p>
-
-        <p><strong>Impact:</strong><br>
-        Attackers can bypass authentication by setting the session value directly,
-        gaining unauthorized access.
-        </p>
-
-        <p><strong>Example Attack:</strong></p>
         <pre><code>
         localStorage.setItem("isLoggedIn", "true");
         </code></pre>
 
-        <p><strong>Fix:</strong><br>
-        Session management should be handled securely using server-side sessions
-        or HTTP-only cookies.
-        </p>
-
     </section>
 
     <script src="js/script.js"></script>
+
 </body>
 </html>

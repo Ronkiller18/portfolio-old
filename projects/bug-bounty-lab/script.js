@@ -162,3 +162,73 @@ function displayRequestResults(findings) {
 
     output.innerHTML = html;
 }
+
+const selector = document.getElementById("payloadSelector");
+const applyBtn = document.getElementById("applyPayloadBtn");
+const runBtn = document.getElementById("runXSSBtn");
+const input = document.getElementById("commentInput");
+const msg = document.getElementById("xssMessage");
+const explain = document.getElementById("xssExplanation");
+
+// Apply payload
+if (applyBtn) {
+  applyBtn.addEventListener("click", () => {
+    let payload = "";
+
+    switch (selector.value) {
+      case "alert":
+        payload = "<img src=x onerror=alert('XSS')>";
+        break;
+
+      case "img":
+        payload = "<img src=x onerror=\"alert('Image XSS')\">";
+        break;
+
+      case "style":
+        payload = "<img src=x onerror=\"document.body.style.background='red'\">";
+        break;
+    }
+
+    if (input) input.value = payload;
+
+    if (msg) {
+      msg.textContent = payload
+        ? "✅ Payload ready. Click Run Attack"
+        : "⚠️ Select a payload first";
+    }
+  });
+}
+
+// Explanation
+if (selector) {
+  selector.addEventListener("change", () => {
+    let text = "";
+
+    switch (selector.value) {
+      case "alert":
+        text = "Triggers JavaScript using an image error event.";
+        break;
+
+      case "img":
+        text = "Browser fails to load image → onerror executes code.";
+        break;
+
+      case "style":
+        text = "Manipulates DOM → proves code execution.";
+        break;
+    }
+
+    if (explain) explain.textContent = text;
+  });
+}
+
+// Run attack
+if (runBtn) {
+  runBtn.addEventListener("click", () => {
+    addComment();
+
+    if (msg) {
+      msg.textContent = "🔥 Attack executed. Check output.";
+    }
+  });
+}
