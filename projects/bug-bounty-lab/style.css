@@ -155,11 +155,52 @@ textarea:focus {
     color: #22c55e;
 }
 
-.xss-controls {
-    margin-top: 10px;
+/* Hacker Tool UI */
+
+.xss-lab {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.tool-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.tool-bar select,
+.tool-bar button {
+    background: #161b22;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+.panel {
+    background: #161b22;
+    border: 1px solid #30363d;
     padding: 10px;
-    border: 1px solid #444;
+    margin-top: 10px;
     border-radius: 6px;
+}
+
+.panel label {
+    font-size: 0.8rem;
+    color: #8b949e;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.output {
+    min-height: 60px;
+}
+
+.info {
+    font-size: 0.9rem;
+    color: #9ecbff;
 }
 
 #xssExplanation {
@@ -167,6 +208,45 @@ textarea:focus {
     font-size: 0.9rem;
     color: #aaa;
 }
+
+.scanner-panel {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #333;
+    background: #111;
+    border-radius: 8px;
+}
+
+.scanner-status {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.scan-card {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background: #1a1a1a;
+}
+
+.scan-card.high {
+    border-left: 4px solid red;
+}
+
+.scan-card.medium {
+    border-left: 4px solid orange;
+}
+
+.scan-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.safe {
+    color: lightgreen;
+}
+
 
 /* =========================
    9. Footer

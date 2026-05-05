@@ -38,35 +38,43 @@
 
         </section>
 
-        <section class="lab-section">
+        <section class="lab-section xss-lab">
+
             <h2>🔴 Stored XSS (Vulnerable)</h2>
-            <input type="text" id="commentInput" placeholder="Enter comment...">
-            <button onclick="addComment()">Submit</button>
 
-            <<p class="attack-label">⚔️ Attack Tools</p>
-
-            <div class="xss-controls">
-
-                <!-- Payload Selector -->
+            <!-- TOOL BAR -->
+            <div class="tool-bar">
                 <select id="payloadSelector">
-                    <option value="">-- Select Payload --</option>
-                    <option value="alert">Alert XSS</option>
-                    <option value="img">Image onerror XSS</option>
+                    <option value="">Select Payload</option>
+                    <option value="alert">Alert</option>
+                    <option value="img">Image onerror</option>
                     <option value="style">DOM Manipulation</option>
                 </select>
 
-                <button id="applyPayloadBtn">Apply Payload</button>
-                <button id="runXSSBtn">⚡ Run Attack</button>
-
-                <p id="xssMessage"></p>
-                <div id="xssExplanation"></div>
-
+                <button id="applyPayloadBtn">Apply</button>
+                <button id="runXSSBtn">Run</button>
             </div>
 
-            <div id="comments"></div>
-            <p class="note">
-                ⚠️ If you see a broken image icon, it means injected HTML was rendered.
-            </p>
+            <!-- INPUT PANEL -->
+            <div class="panel">
+                <label>Request / Input</label>
+                <input type="text" id="commentInput" placeholder="Enter payload...">
+            </div>
+
+            <!-- OUTPUT PANEL -->
+            <div class="panel output">
+                <label>Response (Rendered Output)</label>
+                <div id="comments"></div>
+            </div>
+
+            <!-- INFO PANEL -->
+            <div class="panel info">
+                <label>Analysis</label>
+                <p id="xssMessage"></p>
+                <p id="xssExplanation"></p>
+                <p><strong>Status:</strong> <span id="attackStatus">Idle</span></p>
+            </div>
+
         </section>
 
         <section class="lab-section">
@@ -205,6 +213,20 @@
             <h2>🧪 Request Editor (Simulation)</h2>
 
             <textarea id="requestBox" placeholder="Enter request or input here..."></textarea>
+
+            <div class="scanner-panel">
+
+    <h3>🧠 Detection Engine</h3>
+
+    <div class="scanner-status">
+        Status: <span id="scanStatus">Idle</span>
+    </div>
+
+    <div class="scanner-results" id="scannerResults">
+        <p class="placeholder">No scan performed yet</p>
+    </div>
+
+</div>
 
             <button onclick="analyzeRequest()">Analyze</button>
 

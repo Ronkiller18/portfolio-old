@@ -88,54 +88,66 @@ function safeAction() {
 function analyzeRequest() {
     const input = document.getElementById("requestBox").value;
 
-    let findings = [];
+    const status = document.getElementById("scanStatus");
+    const results = document.getElementById("scannerResults");
 
-    // 🔴 XSS
-    if (
-        /<script[\s\S]*?>/i.test(input) ||
-        /on\w+\s*=/i.test(input) ||
-        /javascript:/i.test(input)
-    ) {
-        findings.push({
-            type: "XSS",
-            severity: "High",
-            confidence: 80,
-            message: "Possible script injection detected"
-        });
-    }
+    if (status) status.textContent = "🔍 Scanning...";
 
-    // 🔁 Open Redirect
-    if (/redirect\s*=/i.test(input) || /url\s*=/i.test(input)) {
-        findings.push({
-            type: "Open Redirect",
-            severity: "Medium",
-            confidence: 60,
-            message: "Suspicious redirect parameter found"
-        });
-    }
+    setTimeout(() => {
+        let findings = [];
 
-    // 🧠 DOM Risk
-    if (
-        /innerHTML\s*=/i.test(input) ||
-        /document\.write/i.test(input) ||
-        /eval\s*\(/i.test(input)
-    ) {
-        findings.push({
-            type: "DOM Risk",
-            severity: "High",
-            confidence: 85,
-            message: "Unsafe DOM manipulation detected"
-        });
-    }
+        // 🔴 XSS
+        if (
+            /<script[\s\S]*?>/i.test(input) ||
+            /on\w+\s*=/i.test(input) ||
+            /javascript:/i.test(input)
+        ) {
+            findings.push({
+                type: "XSS",
+                severity: "High",
+                message: "Script injection pattern detected"
+            });
+        }
 
-    displayRequestResults(findings);
+        // 🔁 Open Redirect
+        if (/redirect\s*=/i.test(input) || /url\s*=/i.test(input)) {
+            findings.push({
+                type: "Open Redirect",
+                severity: "Medium",
+                message: "Suspicious redirect parameter"
+            });
+        }
+
+        // 🧠 DOM Risk
+        if (
+            /innerHTML\s*=/i.test(input) ||
+            /document\.write/i.test(input) ||
+            /eval\s*\(/i.test(input)
+        ) {
+            findings.push({
+                type: "DOM Risk",
+                severity: "High",
+                message: "Unsafe DOM manipulation"
+            });
+        }
+
+        renderResults(findings);
+
+        if (status) {
+            status.textContent =
+                findings.length > 0 ? "⚠️ Vulnerabilities Found" : "✅ Clean";
+        }
+
+    }, 500); // fake scan delay
 }
 
-function displayRequestResults(findings) {
-    const output = document.getElementById("requestOutput");
+function renderResults(findings) {
+    const container = document.getElementById("scannerResults");
+
+    if (!container) return;
 
     if (findings.length === 0) {
-        output.innerHTML = "<p class='safe'>✅ No obvious issues detected</p>";
+        container.innerHTML = "<p class='safe'>✅ No issues detected</p>";
         return;
     }
 
@@ -143,26 +155,20 @@ function displayRequestResults(findings) {
 
     findings.forEach(f => {
         html += `
-            <div class="result ${f.severity.toLowerCase()}">
-                <strong>${f.type}</strong> (${f.severity})<br>
-                ${f.message}<br>
-                <small>Confidence: ${f.confidence}%</small>
-            
+            <div class="scan-card ${f.severity.toLowerCase()}">
+                <div class="scan-header">
+                    <span class="scan-type">${f.type}</span>
+                    <span class="scan-severity">${f.severity}</span>
+                </div>
+                <p>${f.message}</p>
+            </div>
         `;
-        if (f.type === "XSS") {
-    html += `
-        <ul>
-            <li>&lt;img src=x onerror=alert(1)&gt;</li>
-            <li>&lt;svg onload=alert(1)&gt;</li>
-        </ul>
-    `;
-    html += `</div>`;
-}
     });
 
-    output.innerHTML = html;
+    container.innerHTML = html;
 }
 
+//===========================================================
 const selector = document.getElementById("payloadSelector");
 const applyBtn = document.getElementById("applyPayloadBtn");
 const runBtn = document.getElementById("runXSSBtn");
@@ -226,6 +232,11 @@ if (selector) {
 if (runBtn) {
   runBtn.addEventListener("click", () => {
     addComment();
+
+    if (status) {
+      status.textContent = "🟢 Executed";
+    }
+
 
     if (msg) {
       msg.textContent = "🔥 Attack executed. Check output.";
