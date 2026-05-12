@@ -212,28 +212,27 @@
         <section class="lab-section">
             <h2>🧪 Request Editor (Simulation)</h2>
 
-            <textarea id="requestBox" placeholder="Enter request or input here..."></textarea>
-
-            <div class="scanner-panel">
-
-    <h3>🧠 Detection Engine</h3>
-
-    <div class="scanner-status">
-        Status: <span id="scanStatus">Idle</span>
-    </div>
-
-    <div class="scanner-results" id="scannerResults">
-        <p class="placeholder">No scan performed yet</p>
-    </div>
-
-</div>
+            <textarea id="requestBox"
+                placeholder="Enter request or input here..."></textarea>
 
             <button onclick="analyzeRequest()">Analyze</button>
 
-            <div id="requestOutput"></div>
+            <div class="scanner-panel">
+
+                <h3>🧠 Detection Engine</h3>
+
+                <div class="scanner-status">
+                    Status: <span id="scanStatus">Idle</span>
+                </div>
+
+                <div class="scanner-results" id="scannerResults">
+                    <p class="placeholder">No scan performed yet</p>
+                </div>
+
+            </div>
 
             <p class="note">
-                Simulates how security tools analyze input for potential vulnerabilities.
+                Simulates how security tools analyze input for vulnerabilities.
             </p>
         </section>
 
