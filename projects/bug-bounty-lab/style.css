@@ -1,16 +1,50 @@
-html, body {
+/* =========================================================
+   1. Global Reset / Base
+========================================================= */
+
+html,
+body {
     height: 100%;
     margin: 0;
 }
 
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
     display: flex;
     flex-direction: column;
+
     background: #0f172a;
     color: #e2e8f0;
 }
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* =========================================================
+   2. Utility Classes
+========================================================= */
+
+.hidden {
+    display: none;
+}
+
+.safe {
+    color: #22c55e;
+}
+
+/*
+OLD DUPLICATE
+-----------------------------------------
+.safe {
+    color: lightgreen;
+}
+*/
+
+/* =========================================================
+   3. Header / Footer
+========================================================= */
 
 header {
     text-align: center;
@@ -18,37 +52,65 @@ header {
     background: #020617;
 }
 
-main {
-    flex: 1;
-    padding: 20px;
-}
-/*=======================================*/
-.hidden {
-    display: none;
+footer {
+    margin-top: 20px;
+    padding: 15px;
+    text-align: center;
+    background: #1e293b;
 }
 
-.nav-item.active {
-    background: #1d4ed8;
-    color: white;
-}
-/*=======================================*/
+/* =========================================================
+   4. Main Layout
+========================================================= */
+
 .app-layout {
     display: grid;
     grid-template-columns: 220px 1fr;
     gap: 20px;
 }
 
+.workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+/*
+POSSIBLY UNUSED
+-----------------------------------------
+You currently don't appear to use these
+classes in HTML anymore.
+
+.lab-column,
+.side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+*/
+
+/* =========================================================
+   5. Sidebar Navigation
+========================================================= */
+
 .sidebar {
     background: #0d1117;
     border: 1px solid #30363d;
     border-radius: 10px;
-    padding: 20px;
 
-    height: fit-content;
+    padding: 20px;
 
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    height: fit-content;
 
     position: sticky;
     top: 20px;
@@ -65,24 +127,26 @@ main {
 }
 
 .nav-item {
-    background: #161b22;
-    border: 1px solid #30363d;
-
-    color: #c9d1d9;
-
-    padding: 12px 14px;
-
-    border-radius: 8px;
+    width: 100%;
 
     display: flex;
     align-items: center;
     gap: 10px;
 
+    padding: 12px 14px;
+
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+
+    color: #c9d1d9;
+    font-size: 0.95rem;
+
+    text-align: left;
+
     cursor: pointer;
 
     transition: all 0.2s ease;
-
-    font-size: 0.95rem;
 }
 
 .nav-item:hover {
@@ -96,36 +160,233 @@ main {
     color: white;
 }
 
-.workspace {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/*
+OLD DUPLICATE NAV STYLE
+-----------------------------------------
+This was overriding your better nav-item
+style above.
+
+.nav-item {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    padding: 10px;
+    margin-top: 6px;
 }
 
-.workspace-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
+.nav-item:hover {
+    background: #161b22;
+}
+*/
+
+/* =========================================================
+   6. Topbar
+========================================================= */
+
+.topbar {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+
+    padding: 20px;
 }
 
-.lab-column,
-.side-column {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.topbar h2 {
+    margin-bottom: 5px;
+    font-size: 2rem;
 }
-/*========================================*/
+
+/* =========================================================
+   7. Generic Sections
+========================================================= */
+
+.lab-section {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.lab-section h2 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.primary-panel {
+    border: 1px solid #3b82f6;
+
+    box-shadow:
+        0 0 12px rgba(59, 130, 246, 0.15);
+}
+
+.note,
+.scanner-status,
+.placeholder {
+    font-size: 0.9rem;
+}
+
+.placeholder {
+    color: #94a3b8;
+}
+
+/* =========================================================
+   8. Forms / Inputs
+========================================================= */
+
+input,
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 10px;
+
+    background: #0f172a;
+    color: #e2e8f0;
+
+    border: 1px solid #334155;
+    border-radius: 8px;
+}
+
+textarea {
+    min-height: 120px;
+
+    margin-top: 10px;
+
+    resize: vertical;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #22c55e;
+}
+
+/* =========================================================
+   9. Buttons
+========================================================= */
+
+button {
+    padding: 10px 14px;
+
+    background: #161b22;
+    color: #e2e8f0;
+
+    border: 1px solid #30363d;
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background: #1f2937;
+    border-color: #475569;
+    opacity: 0.9;
+}
+
+/*
+FIXED
+-----------------------------------------
+These styles were incorrectly placed
+inside button {} before.
+
+display: flex;
+gap: 10px;
+margin-top: 12px;
+flex-wrap: wrap;
+*/
+
+.button-group {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 12px;
+
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   10. Panels
+========================================================= */
+
+.panel {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.panel label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 0.8rem;
+    color: #8b949e;
+}
+
+.output {
+    min-height: 60px;
+}
+
+.info {
+    font-size: 0.9rem;
+    color: #9ecbff;
+}
+
+#comments,
+#safeComments {
+    margin-top: 10px;
+}
+
+/* =========================================================
+   11. Tool Bar
+========================================================= */
+
+.tool-bar {
+    display: flex;
+    gap: 10px;
+
+    margin-bottom: 10px;
+
+    flex-wrap: wrap;
+}
+
+.tool-bar select,
+.tool-bar button {
+    background: #161b22;
+    color: #c9d1d9;
+
+    border: 1px solid #30363d;
+    border-radius: 4px;
+
+    padding: 6px 10px;
+}
+
+/* =========================================================
+   12. Payload Library
+========================================================= */
+
 .payload-library {
     display: flex;
     flex-direction: column;
     gap: 12px;
+
     margin-bottom: 15px;
 }
 
 .payload-card {
     background: #161b22;
+
     border: 1px solid #30363d;
     border-radius: 8px;
+
     padding: 12px;
 }
 
@@ -145,9 +406,20 @@ main {
     color: #94a3b8;
 }
 
+.load-payload-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* =========================================================
+   13. Severity Badges
+========================================================= */
+
 .severity-badge {
     padding: 4px 8px;
+
     border-radius: 20px;
+
     font-size: 0.75rem;
     font-weight: bold;
 }
@@ -162,11 +434,164 @@ main {
     color: #eab308;
 }
 
-.load-payload-btn {
+/* =========================================================
+   14. Clickjacking Demo
+========================================================= */
+
+.clickjack-container {
+    position: relative;
+
+    width: 250px;
+
     margin-top: 10px;
-    width: 100%;
 }
-/*========================================*/
+
+.fake-btn {
+    width: 100%;
+
+    padding: 10px;
+
+    background: #22c55e;
+    color: black;
+
+    border: none;
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    position: relative;
+    z-index: 2;
+}
+
+.real-btn {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    z-index: 3;
+
+    cursor: pointer;
+
+    color: transparent;
+    background: transparent;
+    border: none;
+}
+
+.real-btn:hover {
+    background: transparent;
+    border-color: transparent;
+    opacity: 0;
+}
+/*
+POSSIBLY UNUSED
+-----------------------------------------
+.hidden-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    z-index: 1;
+}
+*/
+
+.safe-clickjack button {
+    width: 250px;
+
+    background: #3b82f6;
+    color: white;
+
+    border: none;
+}
+
+/* =========================================================
+   15. Scanner / Detection Engine
+========================================================= */
+
+.scanner-results {
+    margin-top: 15px;
+}
+
+.scanner-status {
+    margin-bottom: 10px;
+}
+
+.scan-card {
+    background: #1a1a1a;
+
+    border-radius: 6px;
+
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.scan-card.high {
+    border-left: 4px solid red;
+}
+
+.scan-card.medium {
+    border-left: 4px solid orange;
+}
+
+.scan-header {
+    display: flex;
+    justify-content: space-between;
+
+    font-weight: bold;
+}
+
+/*
+POSSIBLY UNUSED
+-----------------------------------------
+.result
+.result.high
+.result.medium
+
+These appear to be old scan styles.
+
+.result {
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+}
+
+.result.high {
+    background: #7f1d1d;
+}
+
+.result.medium {
+    background: #78350f;
+}
+*/
+
+/*
+POSSIBLY UNUSED
+-----------------------------------------
+.scanner-panel
+
+Looks like old layout structure.
+
+.scanner-panel {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+*/
+
+/* =========================================================
+   16. Scan History
+========================================================= */
+
 .scan-history {
     display: flex;
     flex-direction: column;
@@ -175,9 +600,12 @@ main {
 
 .history-card {
     background: #161b22;
+
     border: 1px solid #30363d;
     border-left: 4px solid #475569;
+
     border-radius: 6px;
+
     padding: 10px;
 }
 
@@ -192,302 +620,26 @@ main {
 .history-header {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
-}
-/*========================================*/
-.primary-panel {
-    border: 1px solid #3b82f6;
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
-}
 
-.nav-item {
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    color: #cbd5e1;
-    padding: 10px;
-    margin-top: 6px;
-}
-
-.nav-item:hover {
-    background: #161b22;
-}
-
-.topbar h2 {
-    font-size: 2rem;
-    margin-bottom: 5px;
-}
-
-.lab-section h2 {
-    font-size: 1.4rem;
-}
-
-.note,
-.scanner-status,
-.placeholder {
     font-size: 0.9rem;
 }
 
-.scanner-results {
-    margin-top: 15px;
-}
-
-.placeholder {
-    color: #94a3b8;
-}
-
-/*=======================================*/
-.lab-section {
-    background: #0d1117;
-    border: 1px solid #30363d;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-}
-
-.lab-section h2 {
-    margin-bottom: 10px;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #334155;
-    background: #0f172a;
-    color: #e2e8f0;
-    box-sizing: border-box;
-}
-
-button {
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: 1px solid #30363d;
-    background: #161b22;
-    color: #e2e8f0;
-    cursor: pointer;
-    transition: 0.2s ease;
-
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-}
-
-button:hover {
-    background: #1f2937;
-    border-color: #475569;
-    opacity: 0.9;
-}
-
-#comments, #safeComments {
-    margin-top: 10px;
-}
-
-/*click Jacking*/
-.clickjack-container {
-    position: relative;
-    width: 250px;
-    margin-top: 10px;
-}
-
-.fake-btn {
-    width: 100%;
-    padding: 10px;
-    background: #22c55e;
-    color: black;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
-}
-
-.real-btn {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    opacity: 0; /* invisible */
-
-    z-index: 3; /* ABOVE fake button */
-    cursor: pointer;
-}
-
-.hidden-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    /* invisible for now */
-    opacity: 0;
-
-    z-index: 1;
-}
-
-.note {
-    font-size: 14px;
-    color: #94a3b8;
-    margin-top: 8px;
-}
-
-.safe-clickjack button {
-    width: 250px;
-    padding: 10px;
-    background: #3b82f6;
-    border-radius: 6px;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
-
-/*Request editor*/
-textarea {
-    width: 100%;
-    max-width: 600px;
-    height: 120px;
-    margin-top: 10px;
-    padding: 10px;
-
-    border-radius: 8px;
-    border: 1px solid #334155;
-
-    background: #0f172a;
-    color: #e2e8f0;
-
-    resize: vertical; /* allow resize but controlled */
-    outline: none;
-
-    box-sizing: border-box;
-}
-
-textarea:focus {
-    border-color: #22c55e;
-}
-
-/* Output box */
-.result {
-    padding: 8px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-}
-
-.result.high {
-    background: #7f1d1d;
-}
-
-.result.medium {
-    background: #78350f;
-}
-
-.safe {
-    color: #22c55e;
-}
-
-/* Hacker Tool UI */
-.tool-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.tool-bar select,
-.tool-bar button {
-    background: #161b22;
-    color: #c9d1d9;
-    border: 1px solid #30363d;
-    padding: 6px 10px;
-    border-radius: 4px;
-}
-
-.panel {
-    background: #161b22;
-    border: 1px solid #30363d;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-}
-
-.panel label {
-    font-size: 0.8rem;
-    color: #8b949e;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.output {
-    min-height: 60px;
-}
-
-.info {
-    font-size: 0.9rem;
-    color: #9ecbff;
-}
+/* =========================================================
+   17. XSS Analysis Text
+========================================================= */
 
 #xssExplanation {
     margin-top: 8px;
+
     font-size: 0.9rem;
     color: #aaa;
 }
 
-.scanner-panel {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #333;
-    border-radius: 8px;
-}
+/* =========================================================
+   18. Responsive Design
+========================================================= */
 
-.scanner-status {
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.scan-card {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    background: #1a1a1a;
-}
-
-.scan-card.high {
-    border-left: 4px solid red;
-}
-
-.scan-card.medium {
-    border-left: 4px solid orange;
-}
-
-.scan-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-}
-
-.safe {
-    color: lightgreen;
-}
-
-
-/* =========================
-   Footer
-========================= */
-footer {
-    margin-top: 20px;
-    padding: 15px;
-    text-align: center;
-    background: #1e293b;
-}
-
-/*====================================
-  Mobile view
-  ==================================*/
-  @media (max-width: 900px) {
+@media (max-width: 900px) {
 
     .app-layout {
         grid-template-columns: 1fr;
@@ -498,6 +650,15 @@ footer {
     }
 
     .sidebar {
+        position: static;
         order: -1;
+    }
+
+    .tool-bar {
+        flex-direction: column;
+    }
+
+    .button-group {
+        flex-direction: column;
     }
 }
