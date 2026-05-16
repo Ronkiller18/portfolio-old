@@ -94,8 +94,6 @@
 
                                         </div>
 
-                                        <div class="payload-library" id="payloadLibrary"></div>
-
                                         <div class="panel">
                                             <label>Request / Input</label>
 
@@ -165,6 +163,38 @@
 
                             </div>
 
+                            <!-- XSS BREAKDOWN -->   
+                                <section class="lab-section security-breakdown">
+
+                                    <h2>🧠 Security Breakdown: Stored XSS</h2>
+
+                                    <p><strong>Description:</strong><br>
+                                    In the vulnerable version, user input is inserted into the DOM using <code>innerHTML</code>,
+                                    which allows execution of arbitrary JavaScript.
+                                    </p>
+
+                                    <p><strong>How it works:</strong><br>
+                                    The browser treats the input as HTML instead of plain text. 
+                                    This allows attackers to inject scripts that execute when rendered.
+                                    </p>
+
+                                    <p><strong>Severity:</strong> Medium</p>
+
+                                    <p><strong>Impact:</strong><br>
+                                    An attacker can execute JavaScript in another user’s browser,
+                                    leading to session hijacking, data theft, or phishing attacks.
+                                    </p>
+
+                                    <p><strong>Example Payload:</strong></p>
+                                    <pre><code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></pre>
+
+                                    <p><strong>Fix:</strong><br>
+                                    Use <code>textContent</code> instead of <code>innerHTML</code> 
+                                    or sanitize user input before rendering.
+                                    </p>
+
+                                </section>  
+
                         </div>
 
                         <!-- ================= REDIRECT WORKSPACE ================= -->
@@ -187,6 +217,36 @@
                                 </button>
 
                             </section>
+
+                            <!-- REDIRECT BREAKDOWN -->
+                            <section class="lab-section security-breakdown">
+
+                                <h2>🧠 Security Breakdown: Open Redirect</h2>
+
+                                <p><strong>Description:</strong><br>
+                                The application redirects users based on untrusted input without validation.
+                                </p>
+
+                                <p><strong>How it works:</strong><br>
+                                Attackers craft a malicious URL that appears legitimate but redirects users
+                                to a different, potentially harmful site.
+                                </p>
+
+                                <p><strong>Severity:</strong> Medium</p>
+
+                                <p><strong>Impact:</strong><br>
+                                Can be used for phishing attacks by tricking users into trusting a legitimate domain
+                                before redirecting them to a malicious site.
+                                </p>
+
+                                <p><strong>Example Payload:</strong></p>
+                                <pre><code>https://your-site.com?redirect=https://evil.com</code></pre>
+
+                                <p><strong>Fix:</strong><br>
+                                Validate redirect URLs using a whitelist of trusted domains.
+                                </p>
+
+                            </section>                            
 
                         </div>
 
@@ -227,6 +287,33 @@
                                 </div>
 
                             </section>
+
+                            <!-- CLICKJACK BREAKDOWN -->
+                            <section class="lab-section security-breakdown">
+
+                                <h2>🧠 Security Breakdown: Clickjacking</h2>
+
+                                <p><strong>Description:</strong><br>
+                                Users are tricked into clicking hidden or disguised elements.
+                                </p>
+
+                                <p><strong>How it works:</strong><br>
+                                A transparent or hidden layer is placed over a visible button,
+                                causing users to unknowingly trigger unintended actions.
+                                </p>
+
+                                <p><strong>Severity:</strong> Medium</p>
+
+                                <p><strong>Impact:</strong><br>
+                                Can lead to unauthorized actions such as form submissions,
+                                account changes, or unintended clicks.
+                                </p>
+
+                                <p><strong>Fix:</strong><br>
+                                Prevent UI overlay attacks and use protections like frame restrictions.
+                                </p>
+
+                            </section>                            
 
                         </div>
 
@@ -283,6 +370,39 @@
 
                             </div>
 
+                            <section class="lab-section security-breakdown">
+
+                                <h2>🧠 Security Breakdown: Detection Engine</h2>
+
+                                <p>
+                                    This scanner simulates how security tools analyze
+                                    requests and payloads for suspicious patterns.
+                                </p>
+
+                                <p>
+                                    The engine checks for indicators commonly associated
+                                    with vulnerabilities such as:
+                                </p>
+
+                                <ul>
+                                    <li>XSS payload patterns</li>
+                                    <li>Unsafe DOM manipulation</li>
+                                    <li>Open redirect parameters</li>
+                                </ul>
+
+                                <p>
+                                    Real-world scanners use advanced parsing,
+                                    signatures, heuristics, and behavioral analysis
+                                    to identify vulnerabilities automatically.
+                                </p>
+
+                                <p>
+                                    This simulation demonstrates the core concept
+                                    behind automated vulnerability detection tools.
+                                </p>
+
+                            </section>
+
                         </div>
 
                     </div>
@@ -310,95 +430,6 @@
                     <li>🛡️ Compare with the secure implementation</li>
                     <li>🧠 Read the breakdown to understand the vulnerability</li>
                 </ul>
-
-            </section>
-
-            <!-- XSS BREAKDOWN -->
-            <section class="lab-section security-breakdown">
-
-                <h2>🧠 Security Breakdown: Stored XSS</h2>
-
-                <p><strong>Description:</strong><br>
-                In the vulnerable version, user input is inserted into the DOM using <code>innerHTML</code>,
-                which allows execution of arbitrary JavaScript.
-                </p>
-
-                <p><strong>How it works:</strong><br>
-                The browser treats the input as HTML instead of plain text. 
-                This allows attackers to inject scripts that execute when rendered.
-                </p>
-
-                <p><strong>Severity:</strong> Medium</p>
-
-                <p><strong>Impact:</strong><br>
-                An attacker can execute JavaScript in another user’s browser,
-                leading to session hijacking, data theft, or phishing attacks.
-                </p>
-
-                <p><strong>Example Payload:</strong></p>
-                <pre><code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></pre>
-
-                <p><strong>Fix:</strong><br>
-                Use <code>textContent</code> instead of <code>innerHTML</code> 
-                or sanitize user input before rendering.
-                </p>
-
-            </section>            
-
-            <!-- REDIRECT BREAKDOWN -->
-            <section class="lab-section security-breakdown">
-
-                <h2>🧠 Security Breakdown: Open Redirect</h2>
-
-                <p><strong>Description:</strong><br>
-                The application redirects users based on untrusted input without validation.
-                </p>
-
-                <p><strong>How it works:</strong><br>
-                Attackers craft a malicious URL that appears legitimate but redirects users
-                to a different, potentially harmful site.
-                </p>
-
-                <p><strong>Severity:</strong> Medium</p>
-
-                <p><strong>Impact:</strong><br>
-                Can be used for phishing attacks by tricking users into trusting a legitimate domain
-                before redirecting them to a malicious site.
-                </p>
-
-                <p><strong>Example Payload:</strong></p>
-                <pre><code>https://your-site.com?redirect=https://evil.com</code></pre>
-
-                <p><strong>Fix:</strong><br>
-                Validate redirect URLs using a whitelist of trusted domains.
-                </p>
-
-            </section>            
-
-            <!-- CLICKJACK BREAKDOWN -->
-            <section class="lab-section security-breakdown">
-
-                <h2>🧠 Security Breakdown: Clickjacking</h2>
-
-                <p><strong>Description:</strong><br>
-                Users are tricked into clicking hidden or disguised elements.
-                </p>
-
-                <p><strong>How it works:</strong><br>
-                A transparent or hidden layer is placed over a visible button,
-                causing users to unknowingly trigger unintended actions.
-                </p>
-
-                <p><strong>Severity:</strong> Medium</p>
-
-                <p><strong>Impact:</strong><br>
-                Can lead to unauthorized actions such as form submissions,
-                account changes, or unintended clicks.
-                </p>
-
-                <p><strong>Fix:</strong><br>
-                Prevent UI overlay attacks and use protections like frame restrictions.
-                </p>
 
             </section>
 
