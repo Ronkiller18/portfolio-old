@@ -41,9 +41,59 @@ main {
 .sidebar {
     background: #0d1117;
     border: 1px solid #30363d;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 20px;
+
     height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar h2 {
+    margin: 0 0 10px 0;
+
+    font-size: 1.1rem;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-item {
+    background: #161b22;
+    border: 1px solid #30363d;
+
+    color: #c9d1d9;
+
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    font-size: 0.95rem;
+}
+
+.nav-item:hover {
+    background: #1f2937;
+    transform: translateX(3px);
+}
+
+.nav-item.active {
+    background: #1d4ed8;
+    border-color: #2563eb;
+    color: white;
 }
 
 .workspace {
@@ -218,11 +268,17 @@ button {
     color: #e2e8f0;
     cursor: pointer;
     transition: 0.2s ease;
+
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
 }
 
 button:hover {
     background: #1f2937;
     border-color: #475569;
+    opacity: 0.9;
 }
 
 #comments, #safeComments {
@@ -307,6 +363,8 @@ textarea {
 
     resize: vertical; /* allow resize but controlled */
     outline: none;
+
+    box-sizing: border-box;
 }
 
 textarea:focus {

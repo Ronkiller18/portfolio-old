@@ -1,48 +1,13 @@
-function renderPayloadLibrary() {
+// ===========================================================
+// Unsafe XSS Demo
+// ===========================================================
 
-    const container = document.getElementById("payloadLibrary");
-
-    if (!container) return;
-
-    let html = "";
-
-    Object.entries(payloadLibrary).forEach(([key, payload]) => {
-
-        html += `
-            <div class="payload-card">
-
-                <div class="payload-header">
-
-                    <h3>${payload.name}</h3>
-
-                    <span class="severity-badge ${payload.severity.toLowerCase()}">
-                        ${payload.severity}
-                    </span>
-
-                </div>
-
-                <p>
-                    ${payload.description}
-                </p>
-
-                <button
-                    class="load-payload-btn"
-                    data-payload="${key}"
-                >
-                    Load Payload
-                </button>
-
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-// unsafe
 let comments = [];
 
 function addComment() {
-    const input = document.getElementById("commentInput").value;
+
+    const input =
+        document.getElementById("commentInput").value;
 
     comments.push(input);
 
@@ -50,11 +15,14 @@ function addComment() {
 }
 
 function displayComments() {
-    const container = document.getElementById("comments");
+
+    const container =
+        document.getElementById("comments");
 
     let html = "";
 
     comments.forEach(comment => {
+
         html += `<p>${comment}</p>`;
     });
 
@@ -62,11 +30,16 @@ function displayComments() {
     container.innerHTML = html;
 }
 
-// safer
+// ===========================================================
+// Safe XSS Demo
+// ===========================================================
+
 let safeComments = [];
 
 function addSafeComment() {
-    const input = document.getElementById("safeInput").value;
+
+    const input =
+        document.getElementById("safeInput").value;
 
     safeComments.push(input);
 
@@ -74,11 +47,14 @@ function addSafeComment() {
 }
 
 function displaySafeComments() {
-    const container = document.getElementById("safeComments");
+
+    const container =
+        document.getElementById("safeComments");
 
     container.innerHTML = "";
 
     safeComments.forEach(comment => {
+
         const p = document.createElement("p");
 
         // ✅ Safe
@@ -92,42 +68,31 @@ function displaySafeComments() {
 // Payload UI
 // ===========================================================
 
-const selector = document.getElementById("payloadSelector");
-const applyBtn = document.getElementById("applyPayloadBtn");
-const runBtn = document.getElementById("runXSSBtn");
+const selector =
+    document.getElementById("payloadSelector");
 
-const input = document.getElementById("commentInput");
+const runBtn =
+    document.getElementById("runXSSBtn");
 
-const msg = document.getElementById("xssMessage");
-const explain = document.getElementById("xssExplanation");
+const clearBtn =
+    document.getElementById("clearOutputBtn");
 
-const attackStatus = document.getElementById("attackStatus");
+const input =
+    document.getElementById("commentInput");
 
-// Apply payload
-if (applyBtn) {
+const msg =
+    document.getElementById("xssMessage");
 
-    applyBtn.addEventListener("click", () => {
+const explain =
+    document.getElementById("xssExplanation");
 
-        const selectedPayload =
-            payloadLibrary[selector.value];
+const attackStatus =
+    document.getElementById("attackStatus");
 
-        if (selectedPayload) {
+// ===========================================================
+// Payload Selection
+// ===========================================================
 
-            input.value =
-                selectedPayload.payload;
-
-            msg.textContent =
-                `✅ ${selectedPayload.name} loaded`;
-
-        } else {
-
-            msg.textContent =
-                "⚠️ Select a payload first";
-        }
-    });
-}
-
-// Explanation
 if (selector) {
 
     selector.addEventListener("change", () => {
@@ -135,30 +100,52 @@ if (selector) {
         const selectedPayload =
             payloadLibrary[selector.value];
 
-        if (selectedPayload) {
+        if (!selectedPayload) {
 
-            explain.textContent =
-                selectedPayload.description;
-
-            if (attackStatus) {
-                attackStatus.textContent = "⚪ Ready";
-            }    
-
-        } else {
+            input.value = "";
 
             explain.textContent = "";
+
+            msg.textContent = "";
+
+            if (attackStatus) {
+                attackStatus.textContent = "⚪ Idle";
+            }
+
+            return;
+        }
+
+        // Auto load payload
+        input.value =
+            selectedPayload.payload;
+
+        // Update explanation
+        explain.textContent =
+            selectedPayload.description;
+
+        // Update message
+        msg.textContent =
+            `✅ ${selectedPayload.name} loaded`;
+
+        // Reset status
+        if (attackStatus) {
+            attackStatus.textContent = "⚪ Ready";
         }
     });
 }
 
-// Run attack
+// ===========================================================
+// Run Attack
+// ===========================================================
+
 if (runBtn) {
 
     runBtn.addEventListener("click", () => {
 
-        const value = input.value.trim();
+        const value =
+            input.value.trim();
 
-        // Empty input validation
+        // Empty validation
         if (!value) {
 
             if (attackStatus) {
@@ -186,40 +173,48 @@ if (runBtn) {
         }
     });
 }
-//renderpayload
-renderPayloadLibrary();
-document.addEventListener("click", (e) => {
 
-    if (
-        e.target.classList.contains(
-            "load-payload-btn"
-        )
-    ) {
+// ===========================================================
+// Clear Output
+// ===========================================================
 
-        const key =
-            e.target.dataset.payload;
+if (clearBtn) {
 
-        const payload =
-            payloadLibrary[key];
+    clearBtn.addEventListener("click", () => {
 
-        if (payload && input) {
+        // Clear input + reset state
+        if (input) {
 
-            input.value = payload.payload;
+            input.value = "";
 
-            if (msg) {
-                msg.textContent =
-                    `✅ ${payload.name} loaded`;
-            }
-
-            if (explain) {
-                explain.textContent =
-                    payload.description;
-            }
-
-            if (attackStatus) {
-                attackStatus.textContent =
-                    "⚪ Ready";
-            }
+            comments = [];
         }
-    }
-});
+
+        // Clear rendered output
+        const commentsContainer =
+            document.getElementById("comments");
+
+        if (commentsContainer) {
+            commentsContainer.innerHTML = "";
+        }
+
+        // Reset messages
+        if (msg) {
+            msg.textContent = "";
+        }
+
+        if (explain) {
+            explain.textContent = "";
+        }
+
+        // Reset dropdown
+        if (selector) {
+            selector.value = "";
+        }
+
+        // Reset status
+        if (attackStatus) {
+            attackStatus.textContent = "⚪ Ready";
+        }
+    });
+}

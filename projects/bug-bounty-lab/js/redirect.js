@@ -1,3 +1,7 @@
+// ===========================================================
+// Open Redirect
+// ===========================================================
+
 function redirectUser() {
     const url = document.getElementById("redirectInput").value;
 

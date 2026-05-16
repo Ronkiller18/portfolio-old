@@ -1,27 +1,60 @@
+// ===========================================================
+// Scan History Storage
+// ===========================================================
+
 let scanHistory = [];
+
+// ===========================================================
+// Utility
+// ===========================================================
+
 function getCurrentTime() {
 
     return new Date().toLocaleTimeString();
 }
 
-//Request 
+// ===========================================================
+// Detection Engine
+// ===========================================================
+
 function analyzeRequest() {
-    const input = document.getElementById("requestBox").value;
 
-    const status = document.getElementById("scanStatus");
-    const results = document.getElementById("scannerResults");
+    const input =
+        document.getElementById("requestBox").value.trim();
 
-    if (status) status.textContent = "🔍 Scanning...";
+    const status =
+        document.getElementById("scanStatus");
+
+    // Prevent empty scans
+    if (!input) {
+
+        if (status) {
+            status.textContent = "⚪ No input";
+        }
+
+        renderResults([]);
+
+        return;
+    }
+
+    if (status) {
+        status.textContent = "🔍 Scanning...";
+    }
 
     setTimeout(() => {
+
         let findings = [];
 
-        // 🔴 XSS
+        // ===================================================
+        // XSS Detection
+        // ===================================================
+
         if (
             /<script[\s\S]*?>/i.test(input) ||
             /on\w+\s*=/i.test(input) ||
             /javascript:/i.test(input)
         ) {
+
             findings.push({
                 type: "XSS",
                 severity: "High",
@@ -29,8 +62,15 @@ function analyzeRequest() {
             });
         }
 
-        // 🔁 Open Redirect
-        if (/redirect\s*=/i.test(input) || /url\s*=/i.test(input)) {
+        // ===================================================
+        // Open Redirect Detection
+        // ===================================================
+
+        if (
+            /redirect\s*=/i.test(input) ||
+            /url\s*=/i.test(input)
+        ) {
+
             findings.push({
                 type: "Open Redirect",
                 severity: "Medium",
@@ -38,12 +78,16 @@ function analyzeRequest() {
             });
         }
 
-        // 🧠 DOM Risk
+        // ===================================================
+        // Dangerous DOM APIs
+        // ===================================================
+
         if (
             /innerHTML\s*=/i.test(input) ||
             /document\.write/i.test(input) ||
             /eval\s*\(/i.test(input)
         ) {
+
             findings.push({
                 type: "DOM Risk",
                 severity: "High",
@@ -51,53 +95,96 @@ function analyzeRequest() {
             });
         }
 
+        // ===================================================
+        // Render + Save
+        // ===================================================
+
         renderResults(findings);
+
         saveScanToHistory(findings);
 
+        // ===================================================
+        // Status
+        // ===================================================
+
         if (status) {
+
             status.textContent =
-                findings.length > 0 ? "⚠️ Vulnerabilities Found" : "✅ Clean";
+                findings.length > 0
+                    ? "⚠️ Vulnerabilities Found"
+                    : "✅ Clean";
         }
 
-    }, 500); // fake scan delay
+    }, 500);
 }
 
-function saveScanToHistory(findings) {
-
-    scanHistory.unshift({
-        time: getCurrentTime(),
-        findings: findings
-    });
-
-    renderScanHistory();
-}
+// ===========================================================
+// Render Scan Results
+// ===========================================================
 
 function renderResults(findings) {
-    const container = document.getElementById("scannerResults");
+
+    const container =
+        document.getElementById("scannerResults");
 
     if (!container) return;
 
+    // No issues found
     if (findings.length === 0) {
-        container.innerHTML = "<p class='safe'>✅ No issues detected</p>";
+
+        container.innerHTML =
+            "<p class='safe'>✅ No issues detected</p>";
+
         return;
     }
 
     let html = "";
 
     findings.forEach(f => {
+
         html += `
             <div class="scan-card ${f.severity.toLowerCase()}">
+
                 <div class="scan-header">
-                    <span class="scan-type">${f.type}</span>
-                    <span class="scan-severity">${f.severity}</span>
+
+                    <span class="scan-type">
+                        ${f.type}
+                    </span>
+
+                    <span class="scan-severity">
+                        ${f.severity}
+                    </span>
+
                 </div>
+
                 <p>${f.message}</p>
+
             </div>
         `;
     });
 
     container.innerHTML = html;
 }
+
+// ===========================================================
+// Save Scan History
+// ===========================================================
+
+function saveScanToHistory(findings) {
+
+    scanHistory.unshift({
+
+        time: getCurrentTime(),
+
+        findings: findings
+    });
+
+    renderScanHistory();
+}
+
+// ===========================================================
+// Render History
+// ===========================================================
 
 function renderScanHistory() {
 
@@ -106,6 +193,7 @@ function renderScanHistory() {
 
     if (!container) return;
 
+    // Empty history
     if (scanHistory.length === 0) {
 
         container.innerHTML =
@@ -122,7 +210,9 @@ function renderScanHistory() {
             scan.findings.length;
 
         const severity =
-            scan.findings.some(f => f.severity === "High")
+            scan.findings.some(
+                f => f.severity === "High"
+            )
                 ? "high"
                 : "medium";
 

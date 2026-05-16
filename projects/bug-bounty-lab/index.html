@@ -21,18 +21,22 @@
                     <h2>⚡ Security Lab</h2>
 
                     <button class="nav-item active" data-tab="xss">
-                        XSS
+                        <span>🔴</span>
+                        XSS Lab
                     </button>
 
                     <button class="nav-item" data-tab="redirect">
-                        Redirect
+                        <span>🔁</span>
+                        Redirect Lab
                     </button>
 
                     <button class="nav-item" data-tab="clickjack">
-                        Clickjacking
+                        <span>🖱️</span>
+                        Clickjack Lab
                     </button>
 
                     <button class="nav-item" data-tab="scanner">
+                        <span>🧪</span>
                         Scanner
                     </button>
                 </aside>
@@ -59,15 +63,35 @@
                                         <h2>🔴 Stored XSS (Vulnerable)</h2>
 
                                         <div class="tool-bar">
+
                                             <select id="payloadSelector">
-                                                <option value="">Select Payload</option>
-                                                <option value="alert">Alert</option>
-                                                <option value="img">Image onerror</option>
-                                                <option value="style">DOM Manipulation</option>
+
+                                                <option value="">
+                                                    Select Payload
+                                                </option>
+
+                                                <option value="alert">
+                                                    Alert Payload
+                                                </option>
+
+                                                <option value="img">
+                                                    Image onerror
+                                                </option>
+
+                                                <option value="style">
+                                                    DOM Manipulation
+                                                </option>
+
                                             </select>
 
-                                            <button id="applyPayloadBtn">Apply</button>
-                                            <button id="runXSSBtn">Run</button>
+                                            <button id="runXSSBtn">
+                                                ▶ Run
+                                            </button>
+
+                                            <button id="clearOutputBtn">
+                                                ✖ Clear
+                                            </button>
+
                                         </div>
 
                                         <div class="payload-library" id="payloadLibrary"></div>
