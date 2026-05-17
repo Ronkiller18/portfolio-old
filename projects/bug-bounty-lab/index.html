@@ -66,7 +66,7 @@
                                 <!-- LEFT -->
                                 <div class="lab-area">
 
-                                    <section class="lab-section xss-lab">
+                                    <section class="lab-section xss-lab threat-xss">
 
                                         <h2>🔴 Stored XSS (Vulnerable)</h2>
 
@@ -121,7 +121,7 @@
 
                                     </section>
 
-                                    <section class="lab-section">
+                                    <section class="lab-section threat-xss">
 
                                         <h2>🛡️ Stored XSS (Secure)</h2>
 
@@ -146,7 +146,7 @@
                                 <!-- RIGHT -->
                                 <div class="right-panel">
 
-                                    <section class="lab-section">
+                                    <section class="lab-section threat-xss">
 
                                         <h2>🧠 Attack Analysis</h2>
 
@@ -159,24 +159,11 @@
                                         <p id="xssExplanation"></p>
 
                                     </section>
-
-                                    <section class="lab-section">
-
-                                        <h2>📌 Tester Notes</h2>
-
-                                        <p>
-                                            This project simulates common web vulnerabilities
-                                            and demonstrates secure coding practices.
-                                        </p>
-
-                                    </section>
-
                                 </div>
-
                             </div>
 
                             <!-- XSS BREAKDOWN -->   
-                                <section class="lab-section security-breakdown">
+                                <section class="lab-section security-breakdown threat-xss">
 
                                     <h2>🧠 Security Breakdown: Stored XSS</h2>
 
@@ -212,7 +199,7 @@
                         <!-- ================= REDIRECT WORKSPACE ================= -->
                         <div class="tab-section hidden" id="redirect">
 
-                            <section class="lab-section">
+                            <section class="lab-section threat-redirect">
 
                                 <h2>🔁 Open Redirect (Vulnerable)</h2>
 
@@ -224,16 +211,35 @@
 
                                 <div class="button-group">
                                     <button onclick="redirectUser()">Go</button>
-
-                                    <button onclick="safeRedirect()">
-                                        Go (Secure)
-                                    </button>
                                 </div>
 
                             </section>
 
+                            <section class="lab-section threat-redirect">
+
+                                <h2>🛡️ Open Redirect (Secure)</h2>
+
+                                <p>
+                                    This version validates URLs against a whitelist
+                                    before redirecting the user.
+                                </p>
+
+                                <input
+                                    type="text"
+                                    id="redirectInput"
+                                    placeholder="Enter URL..."
+                                >
+
+                                <div class="button-group">
+                                    <button onclick="safeRedirect()">
+                                        Go (Secure)
+                                    </button>
+                                </div>                                
+
+                            </section>
+
                             <!-- REDIRECT BREAKDOWN -->
-                            <section class="lab-section security-breakdown">
+                            <section class="lab-section security-breakdown threat-redirect">
 
                                 <h2>🧠 Security Breakdown: Open Redirect</h2>
 
@@ -267,7 +273,7 @@
                         <!-- ================= CLICKJACK WORKSPACE ================= -->
                         <div class="tab-section hidden" id="clickjack">
 
-                            <section class="lab-section">
+                            <section class="lab-section threat-clickjack">
 
                                 <h2>🖱️ Clickjacking (Simulation)</h2>
 
@@ -288,9 +294,14 @@
 
                             </section>
 
-                            <section class="lab-section">
+                            <section class="lab-section threat-clickjack">
 
                                 <h2>🛡️ Clickjacking (Secure)</h2>
+
+                                <p class="note">
+                                    This secure version prevents hidden overlays
+                                    and unintended click actions.
+                                </p>
 
                                 <div class="safe-clickjack">
 
@@ -303,7 +314,7 @@
                             </section>
 
                             <!-- CLICKJACK BREAKDOWN -->
-                            <section class="lab-section security-breakdown">
+                            <section class="lab-section security-breakdown threat-clickjack">
 
                                 <h2>🧠 Security Breakdown: Clickjacking</h2>
 
@@ -338,7 +349,7 @@
 
                                 <div class="lab-area">
 
-                                    <section class="lab-section">
+                                    <section class="lab-section threat-scanner">
 
                                         <h2>🧪 Detection Engine</h2>
 
@@ -370,7 +381,7 @@
 
                                 <div class="right-panel">
 
-                                    <section class="lab-section">
+                                    <section class="lab-section threat-scanner">
 
                                         <h2>📜 Scan History</h2>
 
@@ -386,7 +397,7 @@
 
                             </div>
 
-                            <section class="lab-section security-breakdown">
+                            <section class="lab-section security-breakdown threat-scanner">
 
                                 <h2>🧠 Security Breakdown: Detection Engine</h2>
 
@@ -418,11 +429,10 @@
                                 </p>
 
                             </section>
-
                         </div>
-
                     </div>
-
+                </section>    
+            </div> 
             <!-- EDUCATIONAL BREAKDOWNS -->
             <section class="lab-section lab-intro">
 
@@ -449,9 +459,9 @@
 
             </section>
 
-            <section class="lab-section">
+            <section class="lab-section tester-notes">
 
-                <h2>🧠 Tester Notes</h2>
+                <h2>📌 Tester Notes</h2>
 
                 <p>
                     While building this lab, I focused on understanding how small 
@@ -464,7 +474,7 @@
                     coding practices can prevent exploitation.
                 </p>
 
-            </section>
+            </section>               
         </main>
 
         <footer>
