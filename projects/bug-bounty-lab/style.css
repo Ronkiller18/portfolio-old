@@ -17,6 +17,45 @@ body {
     color: #e2e8f0;
 }
 
+:root {
+
+    /* Colors */
+    --bg-main: #0f172a;
+    --bg-card: #0d1117;
+    --bg-soft: #161b22;
+
+    --border: #30363d;
+
+    --text-main: #e2e8f0;
+    --text-soft: #94a3b8;
+
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #eab308;
+
+    /* Spacing */
+    --space-xs: 6px;
+    --space-sm: 10px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    /* Shadows */
+    --shadow-soft:
+        0 0 10px rgba(0,0,0,0.15);
+
+    --shadow-blue:
+        0 0 16px rgba(59,130,246,0.15);
+}
+
 main {
     flex: 1;
     padding: 20px;
@@ -26,6 +65,10 @@ main {
    2. Utility Classes
 ========================================================= */
 
+.tab-section {
+    animation: fadeIn 0.25s ease;
+}
+
 .hidden {
     display: none;
 }
@@ -33,14 +76,6 @@ main {
 .safe {
     color: #22c55e;
 }
-
-/*
-OLD DUPLICATE
------------------------------------------
-.safe {
-    color: lightgreen;
-}
-*/
 
 /* =========================================================
    3. Header / Footer
@@ -81,27 +116,13 @@ footer {
     gap: 20px;
 }
 
-/*
-POSSIBLY UNUSED
------------------------------------------
-You currently don't appear to use these
-classes in HTML anymore.
-
-.lab-column,
-.side-column {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-*/
-
 /* =========================================================
    5. Sidebar Navigation
 ========================================================= */
 
 .sidebar {
-    background: #0d1117;
-    border: 1px solid #30363d;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 10px;
 
     padding: 20px;
@@ -135,8 +156,8 @@ classes in HTML anymore.
 
     padding: 12px 14px;
 
-    background: #161b22;
-    border: 1px solid #30363d;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
     border-radius: 8px;
 
     color: #c9d1d9;
@@ -160,34 +181,14 @@ classes in HTML anymore.
     color: white;
 }
 
-/*
-OLD DUPLICATE NAV STYLE
------------------------------------------
-This was overriding your better nav-item
-style above.
-
-.nav-item {
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    color: #cbd5e1;
-    padding: 10px;
-    margin-top: 6px;
-}
-
-.nav-item:hover {
-    background: #161b22;
-}
-*/
 
 /* =========================================================
    6. Topbar
 ========================================================= */
 
 .topbar {
-    background: #0d1117;
-    border: 1px solid #30363d;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 10px;
 
     padding: 20px;
@@ -195,7 +196,8 @@ style above.
 
 .topbar h2 {
     margin-bottom: 5px;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    font-weight: 700;
 }
 
 /* =========================================================
@@ -203,17 +205,23 @@ style above.
 ========================================================= */
 
 .lab-section {
-    background: #0d1117;
-    border: 1px solid #30363d;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 8px;
 
     padding: 15px;
     margin-bottom: 20px;
+
+    transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .lab-section h2 {
     margin-bottom: 10px;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .primary-panel {
@@ -229,8 +237,19 @@ style above.
     font-size: 0.9rem;
 }
 
+.topbar p,
+header p,
+.note,
 .placeholder {
-    color: #94a3b8;
+    color: var(--text-soft);
+}
+
+.lab-section:hover {
+    transform: translateY(-2px);
+
+    border-color: #3b82f6;
+
+    box-shadow: var(--shadow-soft);
 }
 
 /* =========================================================
@@ -271,10 +290,10 @@ textarea:focus {
 button {
     padding: 10px 14px;
 
-    background: #161b22;
+    background: var(--bg-soft);
     color: #e2e8f0;
 
-    border: 1px solid #30363d;
+    border: 1px solid var(--border);
     border-radius: 6px;
 
     cursor: pointer;
@@ -287,18 +306,6 @@ button:hover {
     border-color: #475569;
     opacity: 0.9;
 }
-
-/*
-FIXED
------------------------------------------
-These styles were incorrectly placed
-inside button {} before.
-
-display: flex;
-gap: 10px;
-margin-top: 12px;
-flex-wrap: wrap;
-*/
 
 .button-group {
     display: flex;
@@ -314,8 +321,8 @@ flex-wrap: wrap;
 ========================================================= */
 
 .panel {
-    background: #161b22;
-    border: 1px solid #30363d;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
     border-radius: 6px;
 
     padding: 10px;
@@ -360,10 +367,10 @@ flex-wrap: wrap;
 
 .tool-bar select,
 .tool-bar button {
-    background: #161b22;
+    background: var(--bg-soft);
     color: #c9d1d9;
 
-    border: 1px solid #30363d;
+    border: 1px solid var(--border);
     border-radius: 4px;
 
     padding: 6px 10px;
@@ -382,9 +389,9 @@ flex-wrap: wrap;
 }
 
 .payload-card {
-    background: #161b22;
+    background: var(--bg-soft);
 
-    border: 1px solid #30363d;
+    border: 1px solid var(--border);
     border-radius: 8px;
 
     padding: 12px;
@@ -403,7 +410,7 @@ flex-wrap: wrap;
 
 .payload-card p {
     font-size: 0.9rem;
-    color: #94a3b8;
+    color: var(--text-soft);
 }
 
 .load-payload-btn {
@@ -488,21 +495,6 @@ flex-wrap: wrap;
     border-color: transparent;
     opacity: 0;
 }
-/*
-POSSIBLY UNUSED
------------------------------------------
-.hidden-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    opacity: 0;
-
-    z-index: 1;
-}
-*/
 
 .safe-clickjack button {
     width: 250px;
@@ -549,45 +541,6 @@ POSSIBLY UNUSED
     font-weight: bold;
 }
 
-/*
-POSSIBLY UNUSED
------------------------------------------
-.result
-.result.high
-.result.medium
-
-These appear to be old scan styles.
-
-.result {
-    padding: 8px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-}
-
-.result.high {
-    background: #7f1d1d;
-}
-
-.result.medium {
-    background: #78350f;
-}
-*/
-
-/*
-POSSIBLY UNUSED
------------------------------------------
-.scanner-panel
-
-Looks like old layout structure.
-
-.scanner-panel {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #333;
-    border-radius: 8px;
-}
-*/
-
 /* =========================================================
    16. Scan History
 ========================================================= */
@@ -599,9 +552,9 @@ Looks like old layout structure.
 }
 
 .history-card {
-    background: #161b22;
+    background: var(--bg-soft);
 
-    border: 1px solid #30363d;
+    border: 1px solid var(--border);
     border-left: 4px solid #475569;
 
     border-radius: 6px;
@@ -635,8 +588,25 @@ Looks like old layout structure.
     color: #aaa;
 }
 
+/* ====================================
+   18. Animations
+==================================== */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* =========================================================
-   18. Responsive Design
+   19. Responsive Design
 ========================================================= */
 
 @media (max-width: 900px) {
