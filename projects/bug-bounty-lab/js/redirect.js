@@ -3,14 +3,14 @@
 // ===========================================================
 
 function redirectUser() {
-    const url = document.getElementById("redirectInput").value;
+    const url = document.getElementById("redirectInputVuln").value;
 
     // 🚨 VULNERABLE
     window.location.href = url;
 }
 
 function safeRedirect() {
-    const input = document.getElementById("redirectInput").value;
+    const input = document.getElementById("redirectInputSafe").value;
 
     try {
         const url = new URL(input);
