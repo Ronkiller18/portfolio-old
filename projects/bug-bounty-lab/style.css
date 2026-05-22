@@ -716,7 +716,8 @@ select:focus-visible {
 }
 
 .scan-card {
-    background: #1a1a1a;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: var(--space-sm);
     margin-bottom: var(--space-sm);
@@ -727,12 +728,25 @@ select:focus-visible {
 }
 
 .scan-card.medium {
-    border-left: 4px solid orange;
+    border-left: 4px solid var(--yellow);
+}
+
+.scan-card:hover {
+    border-color: var(--border-hover);
+
+    transform: translateY(-1px);
+
+    transition:
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
 }
 
 .scan-header {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+
+    gap: var(--space-sm);
+
     font-weight: bold;
 }
 
@@ -744,11 +758,6 @@ select:focus-visible {
     font-weight: bold;
 }
 
-.scan-meta {
-    font-size: var(--text-sm);
-    color: var(--text-soft);
-}
-
 .scan-recommendation {
     margin-top: var(--space-sm);
 
@@ -757,6 +766,85 @@ select:focus-visible {
     border-top: 1px solid var(--border);
 
     color: var(--text-main);
+}
+
+/* =========================================================
+   Expandable Findings
+========================================================= */
+
+.scan-toggle {
+    padding: 6px 10px;
+
+    min-height: auto;
+
+    font-size: var(--text-xs);
+}
+
+.scan-details {
+    margin-top: var(--space-sm);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    overflow: hidden;
+}
+
+.scan-details.hidden {
+    display: none;
+}
+
+.scan-meta {
+    margin: 0;
+
+    color: var(--text-soft);
+
+    font-size: var(--text-sm);
+}
+
+/* =========================================================
+   Scanner Summary
+========================================================= */
+
+.scan-summary {
+    margin-bottom: var(--space-md);
+}
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(120px, 1fr));
+
+    gap: var(--space-sm);
+}
+
+.summary-card {
+    background: var(--bg-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    padding: var(--space-md);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-xs);
+}
+
+.summary-card strong {
+    line-height: 1;
+}
+
+.summary-card span {
+    color: var(--text-soft);
+
+    font-size: var(--text-sm);
+}
+
+.summary-card strong {
+    font-size: var(--text-xl);
 }
 
 /* =========================================================

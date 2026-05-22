@@ -20,6 +20,9 @@ const scannerElements = {
     scanStatus:
         document.getElementById("scanStatus"),
 
+    scanSummary:
+        document.getElementById("scanSummary"),
+
     scannerResults:
         document.getElementById("scannerResults"),
 
@@ -158,6 +161,8 @@ function analyzeRequest() {
         detectDOMRisk(input, findings);
 
         renderResults(findings);
+
+        renderSummary(findings);
 
         // Only save vulnerable scans
         if (findings.length > 0) {
@@ -403,7 +408,19 @@ function renderResults(findings) {
         recommendation.textContent =
             `Recommendation: ${finding.recommendation}`;
 
-        header.append(type, severity);
+        const toggleBtn =
+            createElement(
+                "button",
+                "scan-toggle"
+            );
+
+        toggleBtn.textContent = "Details";
+
+        header.append(
+            type,
+            severity,
+            toggleBtn
+        );
 
         const matched =
             createElement("p", "scan-meta");
@@ -411,8 +428,12 @@ function renderResults(findings) {
         matched.textContent =
             `Matched Pattern: ${finding.matchedPattern}`;
 
-        card.append(
-            header,
+        const details =
+            createElement("div", "scan-details");
+
+        details.classList.add("hidden");
+
+        details.append(
             message,
             matched,
             confidence,
@@ -420,8 +441,80 @@ function renderResults(findings) {
             recommendation
         );
 
+        card.append(
+            header,
+            details
+        );
+
+        toggleBtn.addEventListener("click", () => {
+
+            details.classList.toggle("hidden");
+
+            toggleBtn.textContent =
+                details.classList.contains("hidden")
+                    ? "Details"
+                    : "Hide";
+        });
+
         container.appendChild(card);
     });
+}
+
+//============================================================
+// Render Summary
+//============================================================
+
+function renderSummary(findings) {
+
+    const summary =
+        scannerElements.scanSummary;
+
+    if (!summary) return;
+
+    // Hide if clean
+    if (findings.length === 0) {
+
+        summary.classList.add("hidden");
+
+        summary.innerHTML = "";
+
+        return;
+    }
+
+    const highCount =
+        findings.filter(
+            finding =>
+                finding.severity === "High"
+        ).length;
+
+    const mediumCount =
+        findings.filter(
+            finding =>
+                finding.severity === "Medium"
+        ).length;
+
+    summary.classList.remove("hidden");
+
+    summary.innerHTML = `
+        <div class="summary-grid">
+
+            <div class="summary-card">
+                <span>Total</span>
+                <strong>${findings.length}</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>High</span>
+                <strong>${highCount}</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Medium</span>
+                <strong>${mediumCount}</strong>
+            </div>
+
+        </div>
+    `;
 }
 
 // ===========================================================
@@ -539,6 +632,16 @@ function clearScanner() {
         scannerElements.scannerResults.appendChild(
             cleared
         );
+    }
+
+    // Clear Summary
+    if (scannerElements.scanSummary) {
+
+        scannerElements.scanSummary.classList.add(
+            "hidden"
+        );
+
+        scannerElements.scanSummary.innerHTML = "";
     }
 
     // Clear history
