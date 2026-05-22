@@ -1,30 +1,77 @@
 // ===========================================================
-// Open Redirect
+// Open Redirect Demo
+// ===========================================================
+
+const ALLOWED_DOMAINS = [
+    "google.com",
+    "github.com"
+];
+
+// ===========================================================
+// Elements
+// ===========================================================
+
+const redirectElements = {
+
+    vulnerableInput:
+        document.getElementById("redirectInputVuln"),
+
+    safeInput:
+        document.getElementById("redirectInputSafe")
+};
+
+// ===========================================================
+// Vulnerable Redirect
 // ===========================================================
 
 function redirectUser() {
-    const url = document.getElementById("redirectInputVuln").value;
 
-    // 🚨 VULNERABLE
+    const url =
+        redirectElements.vulnerableInput?.value.trim();
+
+    if (!url) {
+        alert("⚠️ Please enter a URL");
+        return;
+    }
+
+    // 🚨 Vulnerable
     window.location.href = url;
 }
 
+// ===========================================================
+// Safe Redirect
+// ===========================================================
+
 function safeRedirect() {
-    const input = document.getElementById("redirectInputSafe").value;
+
+    const input =
+        redirectElements.safeInput?.value.trim();
+
+    if (!input) {
+        alert("⚠️ Please enter a URL");
+        return;
+    }
 
     try {
+
         const url = new URL(input);
 
-        // ✅ whitelist allowed domains
-        const allowedDomains = ["google.com", "github.com"];
+        const isAllowed =
+            ALLOWED_DOMAINS.some(domain =>
+                url.hostname.includes(domain)
+            );
 
-        if (allowedDomains.some(domain => url.hostname.includes(domain))) {
+        if (isAllowed) {
+
             window.location.href = url.href;
+
         } else {
+
             alert("⚠️ Blocked: Untrusted domain");
         }
 
-    } catch (e) {
+    } catch {
+
         alert("❌ Invalid URL");
     }
 }

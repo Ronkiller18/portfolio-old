@@ -1,17 +1,131 @@
 // ===========================================================
-// Scan History Storage
+// Scanner Engine
+// ===========================================================
+
+// ===========================================================
+// State
 // ===========================================================
 
 let scanHistory = [];
 
 // ===========================================================
-// Utility
+// Elements
+// ===========================================================
+
+const scannerElements = {
+
+    requestBox:
+        document.getElementById("requestBox"),
+
+    scanStatus:
+        document.getElementById("scanStatus"),
+
+    scannerResults:
+        document.getElementById("scannerResults"),
+
+    scanHistory:
+        document.getElementById("scanHistory"),
+    
+    clearScanBtn:
+        document.getElementById("clearScanBtn")
+};
+
+// ===========================================================
+// Utilities
 // ===========================================================
 
 function getCurrentTime() {
 
     return new Date().toLocaleTimeString();
 }
+
+function updateScanStatus(message) {
+
+    if (scannerElements.scanStatus) {
+
+        scannerElements.scanStatus.textContent =
+            message;
+    }
+}
+
+function createElement(tag, className = "") {
+
+    const element =
+        document.createElement(tag);
+
+    if (className) {
+        element.className = className;
+    }
+
+    return element;
+}
+
+// ===========================================================
+// Detection Rules Database
+// ===========================================================
+
+const detectionRules = {
+
+    xss: [
+        {
+            regex: /<script[\s\S]*?>/gi,
+            label: "<script>",
+            dynamic: false
+        },
+
+        {
+            regex: /on\w+\s*=/gi,
+            dynamic: true
+        },
+
+        {
+            regex: /javascript:/gi,
+            label: "javascript:",
+            dynamic: false
+        }
+    ],
+
+    redirect: [
+        {
+            regex: /redirect\s*=/gi,
+            label: "redirect=",
+            dynamic: false
+        },
+
+        {
+            regex: /url\s*=/gi,
+            label: "url=",
+            dynamic: false
+        }
+    ],
+
+    dom: [
+
+        {
+            regex: /innerHTML\s*=/gi,
+            label: "innerHTML",
+            dynamic: false
+        },
+
+        {
+            regex: /document\.write/gi,
+            label: "document.write",
+            dynamic: false
+        },
+
+        {
+            regex: /eval\s*\(/gi,
+            label: "eval()",
+            dynamic: false
+        },
+
+        {
+            regex: /document\.body\.style/gi,
+            label: "document.body.style",
+            dynamic: false
+        }
+    ]
+};
 
 // ===========================================================
 // Detection Engine
@@ -20,154 +134,298 @@ function getCurrentTime() {
 function analyzeRequest() {
 
     const input =
-        document.getElementById("requestBox").value.trim();
+        scannerElements.requestBox?.value.trim();
 
-    const status =
-        document.getElementById("scanStatus");
-
-    // Prevent empty scans
     if (!input) {
 
-        if (status) {
-            status.textContent = "⚪ No input";
-        }
+        updateScanStatus("⚪ No input");
 
         renderResults([]);
 
         return;
     }
 
-    if (status) {
-        status.textContent = "🔍 Scanning...";
-    }
+    updateScanStatus("🔍 Scanning...");
 
     setTimeout(() => {
 
-        let findings = [];
+        const findings = [];
 
-        // ===================================================
-        // XSS Detection
-        // ===================================================
+        detectXSS(input, findings);
 
-        if (
-            /<script[\s\S]*?>/i.test(input) ||
-            /on\w+\s*=/i.test(input) ||
-            /javascript:/i.test(input)
-        ) {
+        detectRedirect(input, findings);
 
-            findings.push({
-                type: "XSS",
-                severity: "High",
-                message: "Script injection pattern detected"
-            });
-        }
-
-        // ===================================================
-        // Open Redirect Detection
-        // ===================================================
-
-        if (
-            /redirect\s*=/i.test(input) ||
-            /url\s*=/i.test(input)
-        ) {
-
-            findings.push({
-                type: "Open Redirect",
-                severity: "Medium",
-                message: "Suspicious redirect parameter"
-            });
-        }
-
-        // ===================================================
-        // Dangerous DOM APIs
-        // ===================================================
-
-        if (
-            /innerHTML\s*=/i.test(input) ||
-            /document\.write/i.test(input) ||
-            /eval\s*\(/i.test(input)
-        ) {
-
-            findings.push({
-                type: "DOM Risk",
-                severity: "High",
-                message: "Unsafe DOM manipulation"
-            });
-        }
-
-        // ===================================================
-        // Render + Save
-        // ===================================================
+        detectDOMRisk(input, findings);
 
         renderResults(findings);
 
-        saveScanToHistory(findings);
+        // Only save vulnerable scans
+        if (findings.length > 0) {
 
-        // ===================================================
-        // Status
-        // ===================================================
-
-        if (status) {
-
-            status.textContent =
-                findings.length > 0
-                    ? "⚠️ Vulnerabilities Found"
-                    : "✅ Clean";
+            saveScanToHistory(findings);
         }
+
+        updateScanStatus(
+            findings.length > 0
+                ? "⚠️ Vulnerabilities Found"
+                : "✅ Clean"
+        );
 
     }, 500);
 }
 
 // ===========================================================
-// Render Scan Results
+// Detection Rules
+// ===========================================================
+
+function detectXSS(input, findings) {
+
+    const patterns = detectionRules.xss;
+
+    patterns.forEach(pattern => {
+
+        const matches =
+            [...input.matchAll(pattern.regex)];
+
+        if (matches.length === 0) return;
+
+        const seenPatterns =
+            new Set();
+
+        matches.forEach(match => {
+
+            const matchedPattern =
+                pattern.dynamic
+                    ? match[0]
+                    : pattern.label;
+
+            // Skip duplicate findings
+            if (seenPatterns.has(matchedPattern)) {
+                return;
+            }
+
+            seenPatterns.add(matchedPattern);
+
+            findings.push({
+
+                type: "XSS",
+
+                severity: "High",
+
+                confidence: "High",
+
+                cwe: "CWE-79",
+
+                matchedPattern,
+
+                message:
+                    "Script injection pattern detected",
+
+                recommendation:
+                    "Avoid rendering untrusted HTML. Use textContent instead."
+            });
+        });
+    });
+}
+
+function detectRedirect(input, findings) {
+
+    const patterns = detectionRules.redirect;
+
+    patterns.forEach(pattern => {
+
+        const matches =
+            [...input.matchAll(pattern.regex)];
+
+        if (matches.length === 0) return;
+
+        const seenPatterns = new Set();
+
+        matches.forEach(match => {
+
+            const matchedPattern =
+                pattern.dynamic
+                    ? match[0]
+                    : pattern.label;
+
+            // Skip duplicate findings
+            if (seenPatterns.has(matchedPattern)) {
+                return;
+            }
+
+            seenPatterns.add(matchedPattern);
+
+            findings.push({
+
+                type: "Open Redirect",
+
+                severity: "Medium",
+
+                confidence: "Medium",
+
+                cwe: "CWE-601",
+
+                matchedPattern,
+
+                message:
+                    "Suspicious redirect parameter",
+
+                recommendation:
+                    "Validate redirect destinations against a trusted allowlist."
+            });
+        });
+    });
+}
+
+function detectDOMRisk(input, findings) {
+
+    const patterns = detectionRules.dom;
+
+    patterns.forEach(pattern => {
+
+        const matches =
+            [...input.matchAll(pattern.regex)];
+
+        if (matches.length === 0) return;
+
+        const seenPatterns = new Set();
+
+        matches.forEach(match => {
+
+            const matchedPattern =
+                pattern.dynamic
+                    ? match[0]
+                    : pattern.label;
+
+            // Skip duplicate findings
+            if (seenPatterns.has(matchedPattern)) {
+                return;
+            }
+
+            seenPatterns.add(matchedPattern);
+
+            findings.push({
+
+                type: "DOM Risk",
+
+                severity: "High",
+
+                confidence: "High",
+
+                cwe: "CWE-79",
+
+                matchedPattern,
+
+                message:
+                    "Unsafe DOM manipulation",
+
+                recommendation:
+                    "Avoid dangerous DOM APIs like innerHTML and document.write."
+            });
+        });
+    });
+}
+
+// ===========================================================
+// Render Results
 // ===========================================================
 
 function renderResults(findings) {
 
     const container =
-        document.getElementById("scannerResults");
+        scannerElements.scannerResults;
 
     if (!container) return;
 
-    // No issues found
+    container.innerHTML = "";
+
+    // Empty state
     if (findings.length === 0) {
 
-        container.innerHTML =
-            "<p class='safe'>✅ No issues detected</p>";
+        const emptyMessage =
+            createElement("p", "safe");
+
+        emptyMessage.textContent =
+            "✅ No issues detected";
+
+        container.appendChild(emptyMessage);
 
         return;
     }
 
-    let html = "";
+    findings.forEach(finding => {
 
-    findings.forEach(f => {
+        const card =
+            createElement(
+                "div",
+                `scan-card ${finding.severity.toLowerCase()}`
+            );
 
-        html += `
-            <div class="scan-card ${f.severity.toLowerCase()}">
+        const header =
+            createElement("div", "scan-header");
 
-                <div class="scan-header">
+        const type =
+            createElement("span", "scan-type");
 
-                    <span class="scan-type">
-                        ${f.type}
-                    </span>
+        type.textContent =
+            finding.type;
 
-                    <span class="scan-severity">
-                        ${f.severity}
-                    </span>
+        const severity =
+            createElement(
+                "span",
+                `severity-badge ${finding.severity.toLowerCase()}`
+            );
 
-                </div>
+        severity.textContent =
+            finding.severity;
 
-                <p>${f.message}</p>
+        const message =
+            createElement("p");
 
-            </div>
-        `;
+        message.textContent =
+            finding.message;
+
+        const confidence =
+            createElement("p", "scan-meta");
+
+        confidence.textContent =
+            `Confidence: ${finding.confidence}`;
+
+        const cwe =
+            createElement("p", "scan-meta");
+
+        cwe.textContent =
+            `Reference: ${finding.cwe}`;
+
+        const recommendation =
+            createElement("p", "scan-meta");
+
+        recommendation.textContent =
+            `Recommendation: ${finding.recommendation}`;
+
+        header.append(type, severity);
+
+        const matched =
+            createElement("p", "scan-meta");
+
+        matched.textContent =
+            `Matched Pattern: ${finding.matchedPattern}`;
+
+        card.append(
+            header,
+            message,
+            matched,
+            confidence,
+            cwe,
+            recommendation
+        );
+
+        container.appendChild(card);
     });
-
-    container.innerHTML = html;
 }
 
 // ===========================================================
-// Save Scan History
+// Scan History
 // ===========================================================
 
 function saveScanToHistory(findings) {
@@ -176,33 +434,37 @@ function saveScanToHistory(findings) {
 
         time: getCurrentTime(),
 
-        findings: findings
+        findings
     });
 
     renderScanHistory();
 }
 
-// ===========================================================
-// Render History
-// ===========================================================
-
 function renderScanHistory() {
 
     const container =
-        document.getElementById("scanHistory");
+        scannerElements.scanHistory;
 
     if (!container) return;
 
-    // Empty history
+    container.innerHTML = "";
+
+    // Empty state
     if (scanHistory.length === 0) {
 
-        container.innerHTML =
-            "<p class='placeholder'>No scan history yet</p>";
+        const placeholder =
+            createElement(
+                "p",
+                "placeholder"
+            );
+
+        placeholder.textContent =
+            "No scan history yet";
+
+        container.appendChild(placeholder);
 
         return;
     }
-
-    let html = "";
 
     scanHistory.forEach(scan => {
 
@@ -211,29 +473,97 @@ function renderScanHistory() {
 
         const severity =
             scan.findings.some(
-                f => f.severity === "High"
+                finding =>
+                    finding.severity === "High"
             )
                 ? "high"
                 : "medium";
 
-        html += `
-            <div class="history-card ${severity}">
+        const card =
+            createElement(
+                "div",
+                `history-card ${severity}`
+            );
 
-                <div class="history-header">
+        const header =
+            createElement(
+                "div",
+                "history-header"
+            );
 
-                    <span>
-                        ${scan.time}
-                    </span>
+        const time =
+            createElement("span");
 
-                    <span>
-                        ${count} finding${count !== 1 ? "s" : ""}
-                    </span>
+        time.textContent =
+            scan.time;
 
-                </div>
+        const result =
+            createElement("span");
 
-            </div>
-        `;
+        result.textContent =
+            `${count} finding${count !== 1 ? "s" : ""}`;
+
+        header.append(time, result);
+
+        card.appendChild(header);
+
+        container.appendChild(card);
     });
+}
 
-    container.innerHTML = html;
+// ===========================================================
+// Clear Scanner
+// ===========================================================
+
+function clearScanner() {
+
+    scanHistory = [];
+
+    // Clear textarea
+    if (scannerElements.requestBox) {
+
+        scannerElements.requestBox.value = "";
+    }
+
+    // Clear results
+    if (scannerElements.scannerResults) {
+
+        scannerElements.scannerResults.innerHTML = "";
+
+        const cleared =
+            createElement("p", "placeholder");
+
+        cleared.textContent =
+            "Scanner cleared";
+
+        scannerElements.scannerResults.appendChild(
+            cleared
+        );
+    }
+
+    // Clear history
+    if (scannerElements.scanHistory) {
+
+        scannerElements.scanHistory.innerHTML =
+            "<p class='placeholder'>No scan history yet</p>";
+    }
+
+    // Reset status
+    if (scannerElements.scanStatus) {
+
+        scannerElements.scanStatus.textContent =
+            "⚪ Idle";
+    }
+}
+
+// ===========================================================
+// Event Listeners
+// ===========================================================
+
+if (scannerElements.clearScanBtn) {
+
+    scannerElements.clearScanBtn.addEventListener(
+        "click",
+        clearScanner
+    );
 }

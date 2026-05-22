@@ -362,6 +362,9 @@
                                             <button onclick="analyzeRequest()">
                                                 Analyze
                                             </button>
+                                            <button id="clearScanBtn">
+                                                Clear Scanner
+                                            </button>
                                         </div>
 
                                         <div class="scanner-status">
@@ -432,49 +435,52 @@
                         </div>
                     </div>
                 </section>    
-            </div> 
-            <!-- EDUCATIONAL BREAKDOWNS -->
-            <section class="lab-section lab-intro">
+            </div>
+            
+            <div class="content-column">
+                <!-- EDUCATIONAL BREAKDOWNS -->
+                <section class="lab-section lab-intro">
 
-                <h2>🧪 Bug Bounty Lab</h2>
+                    <h2>🧪 Bug Bounty Lab</h2>
 
-                <p>
-                    This interactive lab simulates common client-side web vulnerabilities 
-                    including Cross-Site Scripting (XSS), Open Redirects, and Clickjacking.
-                </p>
+                    <p>
+                        This interactive lab simulates common client-side web vulnerabilities 
+                        including Cross-Site Scripting (XSS), Open Redirects, and Clickjacking.
+                    </p>
 
-                <p>
-                    Each section demonstrates a vulnerable implementation, a secure version, 
-                    and a breakdown explaining how the vulnerability works, its impact, 
-                    and how to fix it.
-                </p>
+                    <p>
+                        Each section demonstrates a vulnerable implementation, a secure version, 
+                        and a breakdown explaining how the vulnerability works, its impact, 
+                        and how to fix it.
+                    </p>
 
-                <p><strong>How to use:</strong></p>
-                <ul>
-                    <li>🧪 Try entering test payloads in vulnerable inputs</li>
-                    <li>⚠️ Observe how the application behaves</li>
-                    <li>🛡️ Compare with the secure implementation</li>
-                    <li>🧠 Read the breakdown to understand the vulnerability</li>
-                </ul>
+                    <p><strong>How to use:</strong></p>
+                    <ul>
+                        <li>🧪 Try entering test payloads in vulnerable inputs</li>
+                        <li>⚠️ Observe how the application behaves</li>
+                        <li>🛡️ Compare with the secure implementation</li>
+                        <li>🧠 Read the breakdown to understand the vulnerability</li>
+                    </ul>
 
-            </section>
+                </section>
 
-            <section class="lab-section tester-notes">
+                <section class="lab-section tester-notes">
 
-                <h2>📌 Tester Notes</h2>
+                    <h2>📌 Tester Notes</h2>
 
-                <p>
-                    While building this lab, I focused on understanding how small 
-                    implementation choices (like using innerHTML or trusting user input) 
-                    can lead to real security vulnerabilities.
-                </p>
+                    <p>
+                        While building this lab, I focused on understanding how small 
+                        implementation choices (like using innerHTML or trusting user input) 
+                        can lead to real security vulnerabilities.
+                    </p>
 
-                <p>
-                    This project helped reinforce how attackers think and how secure 
-                    coding practices can prevent exploitation.
-                </p>
+                    <p>
+                        This project helped reinforce how attackers think and how secure 
+                        coding practices can prevent exploitation.
+                    </p>
 
-            </section>               
+                </section>
+            </div>               
         </main>
 
         <footer>

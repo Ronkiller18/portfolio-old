@@ -1,23 +1,109 @@
 // ===========================================================
-// Unsafe XSS Demo
+// XSS Demo
+// ===========================================================
+
+// ===========================================================
+// State
 // ===========================================================
 
 let comments = [];
 
+let safeComments = [];
+
+// ===========================================================
+// Elements
+// ===========================================================
+
+const elements = {
+
+    commentInput:
+        document.getElementById("commentInput"),
+
+    safeInput:
+        document.getElementById("safeInput"),
+
+    comments:
+        document.getElementById("comments"),
+
+    safeComments:
+        document.getElementById("safeComments"),
+
+    payloadSelector:
+        document.getElementById("payloadSelector"),
+
+    runButton:
+        document.getElementById("runXSSBtn"),
+
+    clearButton:
+        document.getElementById("clearOutputBtn"),
+
+    message:
+        document.getElementById("xssMessage"),
+
+    explanation:
+        document.getElementById("xssExplanation"),
+
+    attackStatus:
+        document.getElementById("attackStatus")
+};
+
+// ===========================================================
+// Helpers
+// ===========================================================
+
+function updateStatus(message) {
+
+    if (elements.attackStatus) {
+
+        elements.attackStatus.textContent =
+            message;
+    }
+}
+
+function updateMessage(message) {
+
+    if (elements.message) {
+
+        elements.message.textContent =
+            message;
+    }
+}
+
+function updateExplanation(message) {
+
+    if (elements.explanation) {
+
+        elements.explanation.textContent =
+            message;
+    }
+}
+
+function clearElement(element) {
+
+    if (element) {
+        element.innerHTML = "";
+    }
+}
+
+// ===========================================================
+// Vulnerable XSS Demo
+// ===========================================================
+
 function addComment() {
 
-    const input =
-        document.getElementById("commentInput").value;
+    const value =
+        elements.commentInput?.value;
 
-    comments.push(input);
+    if (!value) return;
+
+    comments.push(value);
 
     displayComments();
 }
 
 function displayComments() {
 
-    const container =
-        document.getElementById("comments");
+    if (!elements.comments) return;
 
     let html = "";
 
@@ -27,194 +113,151 @@ function displayComments() {
     });
 
     // 🚨 Vulnerable
-    container.innerHTML = html;
+    elements.comments.innerHTML = html;
 }
 
 // ===========================================================
 // Safe XSS Demo
 // ===========================================================
 
-let safeComments = [];
-
 function addSafeComment() {
 
-    const input =
-        document.getElementById("safeInput").value;
+    const value =
+        elements.safeInput?.value;
 
-    safeComments.push(input);
+    if (!value || !elements.safeComments) return;
+
+    safeComments.push(value);
 
     displaySafeComments();
 }
 
 function displaySafeComments() {
 
-    const container =
-        document.getElementById("safeComments");
-
-    container.innerHTML = "";
+    clearElement(elements.safeComments);
 
     safeComments.forEach(comment => {
 
-        const p = document.createElement("p");
+        const paragraph =
+            document.createElement("p");
 
         // ✅ Safe
-        p.textContent = comment;
+        paragraph.textContent = comment;
 
-        container.appendChild(p);
+        elements.safeComments.appendChild(
+            paragraph
+        );
     });
 }
-
-// ===========================================================
-// Payload UI
-// ===========================================================
-
-const selector =
-    document.getElementById("payloadSelector");
-
-const runBtn =
-    document.getElementById("runXSSBtn");
-
-const clearBtn =
-    document.getElementById("clearOutputBtn");
-
-const input =
-    document.getElementById("commentInput");
-
-const msg =
-    document.getElementById("xssMessage");
-
-const explain =
-    document.getElementById("xssExplanation");
-
-const attackStatus =
-    document.getElementById("attackStatus");
 
 // ===========================================================
 // Payload Selection
 // ===========================================================
 
-if (selector) {
+if (elements.payloadSelector) {
 
-    selector.addEventListener("change", () => {
+    elements.payloadSelector.addEventListener(
+        "change",
+        () => {
 
-        const selectedPayload =
-            payloadLibrary[selector.value];
+            const selectedPayload =
+                payloadLibrary[
+                    elements.payloadSelector.value
+                ];
 
-        if (!selectedPayload) {
+            if (!selectedPayload) {
 
-            input.value = "";
+                elements.commentInput.value = "";
 
-            explain.textContent = "";
+                updateExplanation("");
 
-            msg.textContent = "";
+                updateMessage("");
 
-            if (attackStatus) {
-                attackStatus.textContent = "⚪ Idle";
+                updateStatus("⚪ Idle");
+
+                return;
             }
 
-            return;
+            elements.commentInput.value =
+                selectedPayload.payload;
+
+            updateExplanation(
+                selectedPayload.description
+            );
+
+            updateMessage(
+                `✅ ${selectedPayload.name} loaded`
+            );
+
+            updateStatus("⚪ Ready");
         }
-
-        // Auto load payload
-        input.value =
-            selectedPayload.payload;
-
-        // Update explanation
-        explain.textContent =
-            selectedPayload.description;
-
-        // Update message
-        msg.textContent =
-            `✅ ${selectedPayload.name} loaded`;
-
-        // Reset status
-        if (attackStatus) {
-            attackStatus.textContent = "⚪ Ready";
-        }
-    });
+    );
 }
 
 // ===========================================================
-// Run Attack
+// Run Payload
 // ===========================================================
 
-if (runBtn) {
+if (elements.runButton) {
 
-    runBtn.addEventListener("click", () => {
+    elements.runButton.addEventListener(
+        "click",
+        () => {
 
-        const value =
-            input.value.trim();
+            const value =
+                elements.commentInput?.value.trim();
 
-        // Empty validation
-        if (!value) {
+            if (!value) {
 
-            if (attackStatus) {
-                attackStatus.textContent = "⚪ Idle";
+                updateStatus("⚪ Idle");
+
+                updateMessage(
+                    "⚠️ No payload loaded"
+                );
+
+                return;
             }
 
-            if (msg) {
-                msg.textContent =
-                    "⚠️ No payload loaded";
-            }
+            addComment();
 
-            return;
+            updateStatus("🟢 Executed");
+
+            updateMessage(
+                "🔥 Attack executed. Check output."
+            );
         }
-
-        addComment();
-
-        if (attackStatus) {
-            attackStatus.textContent =
-                "🟢 Executed";
-        }
-
-        if (msg) {
-            msg.textContent =
-                "🔥 Attack executed. Check output.";
-        }
-    });
+    );
 }
 
 // ===========================================================
 // Clear Output
 // ===========================================================
 
-if (clearBtn) {
+if (elements.clearButton) {
 
-    clearBtn.addEventListener("click", () => {
+    elements.clearButton.addEventListener(
+        "click",
+        clearXSSDemo
+    );
+}
 
-        // Clear input + reset state
-        if (input) {
+function clearXSSDemo() {
 
-            input.value = "";
+    comments = [];
 
-            comments = [];
-        }
+    if (elements.commentInput) {
+        elements.commentInput.value = "";
+    }
 
-        // Clear rendered output
-        const commentsContainer =
-            document.getElementById("comments");
+    clearElement(elements.comments);
 
-        if (commentsContainer) {
-            commentsContainer.innerHTML = "";
-        }
+    updateMessage("");
 
-        // Reset messages
-        if (msg) {
-            msg.textContent = "";
-        }
+    updateExplanation("");
 
-        if (explain) {
-            explain.textContent = "";
-        }
+    updateStatus("⚪ Ready");
 
-        // Reset dropdown
-        if (selector) {
-            selector.value = "";
-        }
-
-        // Reset status
-        if (attackStatus) {
-            attackStatus.textContent = "⚪ Ready";
-        }
-    });
+    if (elements.payloadSelector) {
+        elements.payloadSelector.value = "";
+    }
 }

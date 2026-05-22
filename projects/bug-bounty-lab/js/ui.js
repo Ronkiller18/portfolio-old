@@ -1,8 +1,16 @@
+// ===========================================================
+// Tab Navigation
+// ===========================================================
+
 const navItems =
     document.querySelectorAll(".nav-item");
 
 const tabSections =
     document.querySelectorAll(".tab-section");
+
+// ===========================================================
+// Navigation Logic
+// ===========================================================
 
 navItems.forEach(item => {
 
@@ -11,25 +19,37 @@ navItems.forEach(item => {
         const targetTab =
             item.dataset.tab;
 
-        // Remove active states
-        navItems.forEach(btn => {
-            btn.classList.remove("active");
-        });
+        resetNavigation();
 
-        // Hide all sections
-        tabSections.forEach(section => {
-            section.classList.add("hidden");
-        });
-
-        // Activate button
         item.classList.add("active");
 
-        // Show target section
-        const targetSection =
-            document.getElementById(targetTab);
-
-        if (targetSection) {
-            targetSection.classList.remove("hidden");
-        }
+        showTab(targetTab);
     });
 });
+
+// ===========================================================
+// Helpers
+// ===========================================================
+
+function resetNavigation() {
+
+    navItems.forEach(item => {
+
+        item.classList.remove("active");
+    });
+
+    tabSections.forEach(section => {
+
+        section.classList.add("hidden");
+    });
+}
+
+function showTab(tabId) {
+
+    const targetSection =
+        document.getElementById(tabId);
+
+    if (!targetSection) return;
+
+    targetSection.classList.remove("hidden");
+}
