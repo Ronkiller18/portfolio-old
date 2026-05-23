@@ -670,3 +670,29 @@ if (scannerElements.clearScanBtn) {
         clearScanner
     );
 }
+
+// ===========================================================
+// Copy Payload Buttons
+// ===========================================================
+
+const copyButtons =
+    document.querySelectorAll(".copy-btn");
+
+copyButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const payload =
+            button.nextElementSibling.textContent;
+
+        navigator.clipboard.writeText(payload);
+
+        button.textContent = "Copied";
+
+        setTimeout(() => {
+
+            button.textContent = "Copy";
+
+        }, 1200);
+    });
+});

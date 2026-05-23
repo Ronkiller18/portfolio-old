@@ -421,6 +421,41 @@
                                     <li>Open redirect parameters</li>
                                 </ul>
 
+                                <h3>Example Test Payloads</h3>
+
+                                <div class="example-payloads">
+
+                                    <div class="example-payload-card">
+
+                                        <button class="copy-btn">
+                                            Copy
+                                        </button>
+
+                                        <pre>&lt;img src=x onerror=alert('XSS')&gt;</pre>
+
+                                    </div>
+
+                                    <div class="example-payload-card">
+
+                                        <button class="copy-btn">
+                                            Copy
+                                        </button>
+
+                                        <pre>https://site.com?redirect=https://evil.com</pre>
+
+                                    </div>
+
+                                    <div class="example-payload-card">
+
+                                        <button class="copy-btn">
+                                            Copy
+                                        </button>
+
+                                        <pre>document.write('Injected')</pre>
+
+                                    </div>
+                                </div>
+
                                 <p>
                                     Real-world scanners use advanced parsing,
                                     signatures, heuristics, and behavioral analysis

@@ -42,7 +42,7 @@
 }
 
 /* =========================================================
-   PROFESSIONAL DARK MODE
+  DARK MODE
 ========================================================= */
 
 body.dark {
@@ -988,24 +988,3 @@ body.dark footer {
     height: 75vh;
   }
 }
-```
-
-# Important JS Note
-
-Keep your existing JS dark mode toggle.
-
-Only keep this logic:
-
-```js
-if (toggle) {
-  toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-
-    toggle.textContent = document.body.classList.contains("dark")
-      ? "☀️ Light Mode"
-      : "🌙 Dark Mode";
-  });
-}
-```
-
-This CSS is fully compatible with your current JS.
