@@ -1,20 +1,132 @@
-/* =========================
-   1. Reset & Base
-========================= */
+/* =========================================================
+   1. ROOT VARIABLES & THEME SYSTEM
+========================================================= */
+
 :root {
   --nav-height: 110px;
+
+  /* =========================
+     LIGHT THEME (DEFAULT)
+  ========================= */
+
+  /* Backgrounds */
+  --bg-primary: #f4f7fb;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-navbar: rgba(255, 255, 255, 0.82);
+  --bg-elevated: #eef2f7;
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  /* Accent */
+  --accent: #0ea5e9;
+  --accent-hover: #0284c7;
+
+  /* Borders */
+  --border-color: rgba(15, 23, 42, 0.08);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 14px 40px rgba(15, 23, 42, 0.12);
+
+  /* Effects */
+  --transition: 0.25s ease;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
 }
 
-html {
-    scroll-padding-top: var(--nav-height);
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+/* =========================================================
+   PROFESSIONAL DARK MODE
+========================================================= */
+
+body.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #111827;
+  --bg-card: #1e293b;
+  --bg-card-hover: #263449;
+  --bg-navbar: rgba(15, 23, 42, 0.82);
+  --bg-elevated: #172033;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.35);
 }
+
+/* =========================================================
+   2. RESET & BASE STYLES
+========================================================= */
+
+html {
+  scroll-padding-top: var(--nav-height);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding-top: 80px;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  overflow-x: hidden;
+
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: var(--text-primary);
+}
+
+p,
+li,
+span {
+  color: var(--text-secondary);
+}
+
+a {
+  color: inherit;
+}
+
+/* =========================================================
+   3. PAGE LOADER
+========================================================= */
 
 #pageLoader {
   position: fixed;
   inset: 0;
-  background: #111;
+
+  background: var(--bg-primary);
+
   z-index: 9999;
 
   display: flex;
@@ -34,155 +146,177 @@ body.loaded #pageLoader {
   pointer-events: none;
 }
 
-body {
-  margin: 0;
-  padding-top: 80px;
-  font-family: system-ui, -apple-system, sans-serif;
-  background-color: #0f172a;
-  color: #e2e8f0;
-  overflow-x: hidden;
-}
+/* =========================================================
+   4. MAIN LAYOUT
+========================================================= */
 
-h1, h2 {
-    margin-bottom: 10px;
-}
-
-
-/* =========================
-   2. Layout
-========================= */
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   animation: fadeIn 0.6s ease;
 }
 
-/*Scroll Progress-bar*/
-.progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
+.section {
+  width: 80%;
+  max-width: 850px;
 
-    height: 3px;
-    width: 0%;
+  margin: 15px;
+  padding: 30px;
 
-    background: linear-gradient(to right, #00c6ff, #0072ff);
+  border-radius: var(--radius-lg);
 
-    z-index: 9999;
+  background: var(--bg-card);
 
-    transition: width 0.1s linear;
+  border: 1px solid var(--border-color);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
 }
 
-.section {
-    width: 80%;
-    max-width: 800px;
-    margin: 15px;
-    padding: 25px;
-    border-radius: 10px;
-    background: #1e293b;
-    transition: transform 0.3s ease;
+.section:hover {
+  box-shadow: var(--shadow-md);
 }
 
 .section-content {
-    transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 .section-content:hover {
-    transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
-/* =====================
-   SECTION FOCUS SYSTEM
-===================== */
 section {
-    box-sizing: border-box;
-    padding-left: 1.5rem;
-    padding-right: 1rem;
-    transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+
+  transition:
+    opacity 0.25s ease-out,
+    transform 0.25s ease-out;
 }
 
-/* inactive sections */
+/* =========================================================
+   5. ACTIVE SECTION SYSTEM
+========================================================= */
+
 section:not(.active-section) {
-  opacity: 0.6;
-  transform: scale(0.98);
+  opacity: 0.7;
+  transform: scale(0.99);
 }
 
-/* active section */
 section.active-section {
   opacity: 1;
   transform: scale(1);
-  border-left: 8px solid;
+
+  border-left: 6px solid var(--accent);
 }
 
-/* =========================
-   3. Navigation
-========================= */
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-
-    width: 100%;
-    padding: 15px;
-
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-
-    background: rgba(0, 0, 0, 0.95);
-}
+/* =========================================================
+   6. NAVIGATION
+========================================================= */
 
 nav {
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  width: 100%;
+  padding: 16px;
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  background: var(--bg-navbar);
+
+  backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid var(--border-color);
+
+  transition:
+    background-color var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
 }
 
 nav.nav-scrolled {
-  background-color: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 nav a {
-    position: relative;
-    padding-bottom: 5px;
+  position: relative;
 
-    color: #e2e8f0;
-    text-decoration: none;
-    font-weight: bold;
-    transition: transform 0.15s ease, opacity 0.15s ease;
-}
+  padding-bottom: 5px;
 
-nav a.active {
-  color: #00c6ff;
-  border-bottom: 2px solid #00c6ff;
+  color: var(--text-secondary);
+
+  text-decoration: none;
+  font-weight: 600;
+
+  transition:
+    color var(--transition),
+    transform var(--transition);
 }
 
 nav a:hover {
-    color: #38bdf8;
+  color: var(--accent);
+}
+
+nav a.active {
+  color: var(--accent);
 }
 
 nav a::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  content: "";
 
-    width: 0%;
-    height: 3px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 
-    background: #38bdf8;
-    transition: width 0.3s ease;
+  width: 0%;
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: var(--accent);
+
+  transition: width 0.25s ease;
 }
 
 nav a:hover::before,
 nav a.active::before {
-    width: 100%;
+  width: 100%;
 }
 
-/* =========================
-   4. Buttons & Links
-========================= */
+/* =========================================================
+   7. PROGRESS BAR
+========================================================= */
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 0%;
+  height: 3px;
+
+  background: linear-gradient(to right, var(--accent), var(--accent-hover));
+
+  z-index: 9999;
+
+  transition: width 0.1s linear;
+}
+
+/* =========================================================
+   8. BUTTON SYSTEM
+========================================================= */
 
 button:focus,
 a:focus {
@@ -191,395 +325,380 @@ a:focus {
 
 button:focus-visible,
 a:focus-visible {
-  box-shadow: 0 0 0 2px #38bdf8;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.35);
 }
 
 button,
 .details-btn,
 #darkModeToggle,
-#helloBtn {
-  padding: 10px 15px;
-
-  border: none;
-  border-radius: 6px;
-
-  background-color: #333;
-  color: white;
-
-  cursor: pointer;
-
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-button:hover {
-  transform: translateY(-2px);
-}
-
-#darkModeToggle:hover,
-#helloBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-}
-
-.details-btn:hover {
-  color: #38bdf8;
-}
-
-.project-actions .btn:hover,
-.project-actions a:hover {
-  color: #38bdf8;
-}
-
-button:active,
-.details-btn:active,
-#darkModeToggle:active,
-#helloBtn:active {
-  transform: translateY(1px) scale(0.97);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.cta-btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 15px;
-
-  background: #38bdf8;
-  color: black;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-}
-
-.cta-btn:active {
-  transform: translateY(1px) scale(0.97);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* =========================
-   Button System (Unified)
-========================= */
-
+#helloBtn,
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  height: 36px;              /* fixed height = consistency */
-  width: 100%; 
-  min-width: 0;
-  padding: 0 12px;           /* horizontal padding only */
+  min-height: 42px;
 
-  font-size: 13px;
-  line-height: 1;
+  padding: 10px 16px;
 
-  border-radius: 6px;
-  background: #1a1a1a;
-  color: #ccc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
 
-  border: none;
-  text-decoration: none;
+  background: var(--bg-elevated);
+
+  color: var(--text-secondary);
+
   cursor: pointer;
 
-  box-sizing: border-box;
-  vertical-align: middle;    /* fixes inline alignment issues */
+  font-weight: 600;
+  text-decoration: none;
 
-  transition: 
-    background 0.2s ease,
-    transform 0.08s ease,
-    box-shadow 0.08s ease;
+  transition:
+    background-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition),
+    color var(--transition),
+    border-color var(--transition);
 }
 
-/* Hover */
-.btn:hover {
-  background: #1f2937;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+button:hover,
+.btn:hover,
+.details-btn:hover,
+#darkModeToggle:hover,
+#helloBtn:hover {
+  background: var(--accent);
+  color: white;
+
+  border-color: transparent;
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-md);
 }
 
-/* Active */
+button:active,
 .btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transform: scale(0.97);
 }
 
-/* =========================
-   5. Hero
-========================= */
-/* Ensure hero is strong on load */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 10px;
+  padding: 12px 20px;
+
+  background: var(--accent);
+  color: white;
+
+  border-radius: var(--radius-sm);
+
+  text-decoration: none;
+  font-weight: 700;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.cta-btn:hover {
+  background: var(--accent-hover);
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================================
+   9. HERO SECTION
+========================================================= */
+
 #hero {
-    text-align: center;
-    opacity: 1;
-    transform: scale(1);
-    border-radius: 10px;
+  text-align: center;
+
+  opacity: 1;
+  transform: scale(1);
+
+  border-radius: var(--radius-lg);
 }
 
 .hero-tagline {
-    opacity: 0.8;
-    font-size: 1rem;
+  max-width: 700px;
+
+  margin: 20px auto 0;
+
+  line-height: 1.7;
+
+  color: var(--text-muted);
 }
 
 .hero-actions {
   display: flex;
-  gap: 12px;        /* spacing between buttons */
-  justify-content: center;  /* optional (center align) */
-  margin-top: 10px; /* space from above content */
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 20px;
 }
 
-/* =========================
-   6. Animations
-========================= */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
+/* =========================================================
+   10. SKILLS SECTION
+========================================================= */
 
-.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.clicked {
-  transform: translateY(1px) scale(0.97);
-}
-
-/* No_ scroll*/
-.no-scroll {
-  overflow: hidden;
-  touch-action: none;
-}
-
-/* =========================
-   7. Skills
-========================= */
 .skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+  gap: 15px;
+
+  margin-top: 20px;
 }
 
 .skills-container div {
-    text-align: center;
-    padding: 10px 15px;
+  text-align: center;
 
-    background: #334155;
-    border-radius: 6px;
-    transition: transform 0.2s ease, background 0.2s ease;
+  padding: 14px 18px;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius-md);
+
+  color: var(--text-secondary);
+
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
 }
 
 .skills-container div:hover {
-    background: #38bdf8;
-    color: black;
-    transform: scale(1.05);
+  background: var(--accent);
+  color: white;
+
+  transform: translateY(-4px);
+
+  box-shadow: var(--shadow-md);
 }
 
+/* =========================================================
+   11. PROJECTS SECTION
+========================================================= */
 
-/* =========================
-   8. Projects
-========================= */
 #projects {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.project-subtitle {
-  font-size: 0.85rem;
-  color: #9ca3af;
-  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .project-card {
-    margin-top: 25px;
-    margin-bottom: 15px;
-    padding: 1.2rem;
+  margin-top: 25px;
+  margin-bottom: 15px;
 
-    background: #435875;
-    border-radius: 10px;
+  padding: 1.5rem;
 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--bg-secondary);
 
-    cursor: default;
+  border-radius: var(--radius-lg);
+
+  border: 1px solid var(--border-color);
+
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition),
+    border-color var(--transition);
 }
 
 .project-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
-  cursor: pointer;
+  transform: translateY(-6px);
+
+  background: var(--bg-card-hover);
+
+  box-shadow: var(--shadow-lg);
 }
 
-.project-card:active {
-    transform: scale(0.98);
+.project-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-.project-desc {
-    margin: 8px 0;
-    font-size: 0.95rem;
+.project-desc,
+.project-role,
+.project-note {
+  color: var(--text-secondary);
 }
 
-.project-details {
-    max-height: 0;
-    overflow: hidden;
-
-    transition: max-height 0.3s ease;
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 10px;
+.project-note {
+  opacity: 0.75;
+  font-size: 0.85rem;
 }
 
-.project-details-list {
-  margin: 10px 0;
-  padding-left: 18px;
-  font-size: 14px;
+/* =========================================================
+   12. PROJECT META
+========================================================= */
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-bottom: 12px;
 }
 
-.project-details.show {
-  max-height: 2000px;
+.project-meta span {
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-color);
+
+  font-size: 12px;
 }
+
+.status.live {
+  color: #16a34a;
+}
+
+.status.wip {
+  color: #eab308;
+}
+
+.status.completed {
+  color: #2563eb;
+}
+
+/* =========================================================
+   13. TECH STACK TAGS
+========================================================= */
 
 .tech-label {
-  font-size: 0.75rem;
-  color: #9ca3af;
-  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+
+  margin-top: 12px;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 8px;
+
+  margin-top: 10px;
 }
 
 .project-tech span {
-  font-size: 11px;
-  background: #1a1a1a;
-  padding: 4px 6px;
-  border-radius: 6px;
-  color: #888;
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  background: var(--bg-elevated);
+
+  border: 1px solid var(--border-color);
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
 }
 
-.project-note {
-    font-size: 0.8rem;
-    opacity: 0.6;
-}
-
-/* =========================
-   Project Actions (NEW)
-========================= */
+/* =========================================================
+   14. PROJECT ACTIONS
+========================================================= */
 
 .project-actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  align-items: stretch;
-  justify-items: stretch;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.preview-btn {
+  background: var(--accent);
+  color: white;
+}
+
+.preview-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* =========================================================
+   15. PROJECT DETAILS
+========================================================= */
+
+.project-details {
+  max-height: 0;
   overflow: hidden;
-  margin-top: 12px;
-  padding: 4px 0;
+
+  margin-top: 14px;
+  padding-top: 0;
+
+  border-top: 1px solid transparent;
+
+  transition:
+    max-height 0.3s ease,
+    padding 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.project-actions a,
-.project-actions button {
-  font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #1a1a1a;
-  color: #ccc;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s ease, transform 0.1s ease;
+.project-details.show {
+  max-height: 2500px;
+
+  padding-top: 16px;
+
+  border-color: var(--border-color);
 }
 
-.project-actions a:hover,
-.project-actions button:hover {
-  background: #2a2a2a;
+.project-features,
+.project-details-list,
+.project-security ul,
+.security-points {
+  padding-left: 20px;
 }
 
-.project-actions a:hover {
-  color: #38bdf8;
+.project-features li,
+.project-details-list li,
+.project-security li,
+.security-points li {
+  margin-bottom: 8px;
 }
 
-.project-actions a:active,
-.project-actions button:active {
-  transform: scale(0.96);
+.project-security {
+  margin-top: 16px;
 }
 
-.hidden {
-    display: none;
-}
+/* =========================================================
+   16. TABS
+========================================================= */
 
-/* project meta*/
-
-.project-meta {
+.tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-  font-size: 12px;
-  opacity: 0.8;
+  gap: 10px;
+
+  margin-bottom: 20px;
 }
 
-.project-meta span {
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: #222;
-  color: #aaa;
+.tab-btn.active {
+  background: var(--accent);
+  color: white;
 }
 
-.status.live {
-  color: #4ade80;
-}
-
-.status.wip {
-  color: #facc15;
-}
-
-.status.completed {
-  color: #60a5fa;
-}
-
-/* ===================
-   PROJECT FEATURE
-=====================*/
-
-.project-features {
-  margin: 10px 0;
-  padding-left: 16px;
-  font-size: 13px;
-}
-
-.project-features li {
-  margin-bottom: 4px;
-}
-
-/* =========================
-   Preview
-========================= */
+/* =========================================================
+   17. PREVIEW MODAL
+========================================================= */
 
 .preview-modal {
   position: fixed;
   inset: 0;
+
   z-index: 9999;
 
   display: flex;
@@ -588,6 +707,7 @@ button:active,
 
   opacity: 0;
   visibility: hidden;
+
   transition: opacity 0.25s ease;
 }
 
@@ -596,119 +716,154 @@ button:active,
   visibility: visible;
 }
 
-.preview-modal.active .preview-content {
-  opacity: 1;
-  transform: scale(1);
-}
-
 .preview-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-    opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
 
-  z-index: 1;
-}
+  background: rgba(0, 0, 0, 0.65);
 
-.preview-btn {
-  background: #0ea5e9;
-  color: white;
-  font-weight: 600;              /* 🔥 stronger presence */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  transform: translateY(0);
-  cursor: pointer;
-}
-
-.project-actions .preview-btn:hover {
-  background: #0284c7;
-  box-shadow: 0 6px 16px rgba(14,165,233,0.35);
-  transform: translateY(-1px);
-  color: #fff;
-}
-
-.preview-modal.active .preview-overlay {
-  opacity: 1;
+  backdrop-filter: blur(6px);
 }
 
 .preview-content {
   position: relative;
 
   width: 90%;
-  max-width: 900px;
+  max-width: 950px;
   height: 80vh;
 
-  background: #111;
-  border-radius: 10px;
   overflow: hidden;
 
-  margin: auto; /* ✅ THIS fixes centering */
+  border-radius: var(--radius-lg);
 
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  background: var(--bg-card);
+
+  border: 1px solid var(--border-color);
+
+  box-shadow: var(--shadow-lg);
 
   z-index: 2;
-  will-change: transform, opacity;
+
+  transform: scale(0.96);
+
+  transition: transform 0.25s ease;
+}
+
+.preview-modal.active .preview-content {
+  transform: scale(1);
 }
 
 .preview-content iframe {
   width: 100%;
   height: 100%;
+
   border: none;
-    opacity: 0;
+
+  opacity: 0;
+
   transition: opacity 0.2s ease;
+}
+
+.preview-content iframe.loaded {
+  opacity: 1;
 }
 
 .preview-close {
   position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
+  top: 12px;
+  right: 14px;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  font-size: 20px;
 }
 
-.preview-loader {
+.preview-loader,
+.preview-fallback {
   position: absolute;
   inset: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #111;
-  z-index: 2;
 
-  transition: opacity 0.2s ease;
+  background: var(--bg-card);
 }
 
 .preview-hint {
   position: absolute;
   bottom: 10px;
   left: 50%;
+
   transform: translateX(-50%);
+
   font-size: 12px;
-  opacity: 0.6;
-}
 
-.preview-loader.hidden {
-  display: none;
-
-  opacity: 0;
-  pointer-events: none;
+  color: var(--text-muted);
 }
 
 .spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid #444;
-  border-top: 3px solid #fff;
+  width: 34px;
+  height: 34px;
+
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent);
+
   border-radius: 50%;
+
   animation: spin 0.8s linear infinite;
+}
+
+/* =========================================================
+   18. FOOTER
+========================================================= */
+
+footer {
+  margin-top: 20px;
+  padding: 24px;
+
+  text-align: center;
+
+  background: var(--bg-secondary);
+
+  border-top: 1px solid var(--border-color);
+
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   19. UTILITIES
+========================================================= */
+
+.hidden {
+  display: none;
+}
+
+.clicked {
+  transform: scale(0.97);
+}
+
+.no-scroll {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* =========================================================
+   20. ANIMATIONS
+========================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes spin {
@@ -717,74 +872,25 @@ button:active,
   }
 }
 
-.preview-fallback {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #111;
-  color: white;
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 
-.preview-fallback a {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: #38bdf8;
-  color: black;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-.preview-fallback.hidden {
-  display: none;
-}
-
-.preview-content iframe.loaded {
+.reveal.active {
   opacity: 1;
+  transform: translateY(0);
 }
 
-/* Security */
-#security {
-  min-height: 70vh;
-}
+/* =========================================================
+   21. OLD DARK MODE (COMMENTED)
+========================================================= */
 
-.security-points {
-  margin-top: 10px;
-  padding-left: 18px;
-  font-size: 14px;
-}
-
-.security-points li {
-  margin-bottom: 6px;
-}
-
-.project-security {
-  margin-top: 10px;
-  font-size: 13px;
- /*color: #9ca3af;*/
-}
-
-.project-security ul {
-  padding-left: 16px;
-  margin-top: 4px;
-}
-
-/* =========================
-   9. Footer
-========================= */
-footer {
-    margin-top: 20px;
-    padding: 15px;
-    text-align: center;
-    background: #1e293b;
-}
-
-
-/* =========================
-   10. Dark Mode
-========================= */
+/*
 body.dark {
     background-color: #121212;
     color: #39FF14;
@@ -813,10 +919,11 @@ body.dark .project-card:hover {
 body.dark footer {
   background-color: black;
 }
+*/
 
-/* =========================
-   15. RESPONSIVE (FULL - RESTORED)
-========================= */
+/* =========================================================
+   22. RESPONSIVE DESIGN
+========================================================= */
 
 @media (max-width: 600px) {
 
@@ -828,29 +935,25 @@ body.dark footer {
     padding-top: 100px;
   }
 
-  /* NAVBAR (IMPORTANT FOR MOBILE SCROLL) */
   nav {
     flex-wrap: nowrap;
     overflow-x: auto;
+
     justify-content: flex-start;
+
     gap: 12px;
-    padding: 10px;
-    scroll-padding-right: 20px;
-  }
 
-  nav a {
-    flex: 0 0 auto;
-  }
-
-  nav a:last-child {
-    margin-right: 20px;
+    padding: 12px;
   }
 
   nav::-webkit-scrollbar {
     display: none;
   }
 
-  /* SECTION SPACING */
+  nav a {
+    flex: 0 0 auto;
+  }
+
   section {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -858,33 +961,51 @@ body.dark footer {
 
   .section {
     width: 95%;
-    margin: 10px 0;
+
+    padding: 22px;
   }
 
   section.active-section {
     border-left: none;
-    border-top: 3px solid white;
+    border-top: 4px solid var(--accent);
   }
 
-  /* HERO STACKING */
   .hero-actions {
     flex-direction: column;
     align-items: center;
   }
 
-  /* SKILLS STACK */
   .skills-container {
     grid-template-columns: 1fr;
   }
 
-  /* PROJECT BUTTONS STACK */
   .project-actions {
     grid-template-columns: 1fr;
   }
 
-  /* PREVIEW FIX */
   .preview-content {
     width: 95%;
     height: 75vh;
   }
 }
+```
+
+# Important JS Note
+
+Keep your existing JS dark mode toggle.
+
+Only keep this logic:
+
+```js
+if (toggle) {
+  toggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+
+    toggle.textContent = document.body.classList.contains("dark")
+      ? "☀️ Light Mode"
+      : "🌙 Dark Mode";
+  });
+}
+```
+
+This CSS is fully compatible with your current JS.
