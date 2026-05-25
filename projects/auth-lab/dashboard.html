@@ -6,48 +6,74 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="page-container">
 
-    <h1>📊 Dashboard (Protected Area)</h1>
+        <h1>📊 Dashboard (Protected Area)</h1>
 
-    <p style="color:red;">
-    ⚠️ This page is intentionally vulnerable and can be accessed without authentication.
-    </p>
+        <div class="alert-warning">
+            ⚠️ This page is intentionally vulnerable and can be accessed without authentication.
+        </div>
 
-    <h1>📊 Dashboard</h1>
-    <p>Welcome! You are logged in.</p>
+        <h1>📊 Dashboard</h1>
+        <p>Welcome! You are logged in.</p>
 
-    <section class="lab-section">
+        <section class="lab-section exploit-box">
 
-        <h2>🔴 Broken Access Control</h2>
+            <div class="section-header">
+                <h2>🪪 Active Session</h2>
 
-        <p><strong>Description:</strong><br>
-        The dashboard page does not verify whether the user is authenticated
-        before granting access.
-        </p>
+                <span class="severity-badge" id="sessionRiskBadge">
+                    Loading...
+                </span>
+            </div>
 
-        <p><strong>Vulnerability:</strong><br>
-        Users can directly access this page by entering the URL,
-        bypassing the login process.
-        </p>
+            <p>
+                Current session identifier:
+            </p>
 
-        <p><strong>Impact:</strong><br>
-        Attackers can access restricted areas without authentication,
-        potentially exposing sensitive data or functionality.
-        </p>
+            <pre>
+            <code id="sessionDisplay"></code>
+            </pre>
 
-        <p><strong>Example Attack:</strong></p>
-        <pre><code>
-        Open directly:
-        /dashboard.html
-        </code></pre>
+            <div class="alert-warning" id="sessionWarning">
+                Loading session warning...
+            </div>
 
-        <p><strong>Fix:</strong><br>
-        Validate authentication before allowing access to protected resources.
-        This is typically enforced on the server.
-        </p>
+        </section>
 
-    </section>
+        <section class="lab-section">
 
-    <script src="js/script.js"></script>
+            <h2>🔴 Broken Access Control</h2>
+
+            <p><strong>Description:</strong><br>
+            The dashboard page does not verify whether the user is authenticated
+            before granting access.
+            </p>
+
+            <p><strong>Vulnerability:</strong><br>
+            Users can directly access this page by entering the URL,
+            bypassing the login process.
+            </p>
+
+            <p><strong>Impact:</strong><br>
+            Attackers can access restricted areas without authentication,
+            potentially exposing sensitive data or functionality.
+            </p>
+
+            <p><strong>Example Attack:</strong></p>
+            <pre><code>
+            Open directly:
+            /dashboard.html
+            </code></pre>
+
+            <p><strong>Fix:</strong><br>
+            Validate authentication before allowing access to protected resources.
+            This is typically enforced on the server.
+            </p>
+
+        </section>
+
+        <script type="module" src="./js/auth/app.js"></script>
+    </div>
 </body>
 </html>

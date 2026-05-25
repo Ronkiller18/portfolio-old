@@ -6,92 +6,154 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="page-container">
 
-    <!-- INTRO -->
-    <section class="lab-intro">
-        <h1>🔐 Authentication Vulnerability Lab</h1>
+        <!-- INTRO -->
+        <section class="lab-intro">
+            <h1>🔐 Authentication Vulnerability Lab</h1>
 
-        <p>
-            This lab demonstrates authentication and access control vulnerabilities.
-        </p>
+            <p>
+                This lab demonstrates authentication and access control vulnerabilities.
+            </p>
 
-        <ul>
-            <li>🔴 Weak client-side authentication</li>
-            <li>🟠 Insecure session storage (localStorage)</li>
-            <li>🔴 Broken access control</li>
-        </ul>
-    </section>
+            <ul>
+                <li>🔴 Weak client-side authentication</li>
+                <li>🟠 Insecure session storage (localStorage)</li>
+                <li>🔴 Broken access control</li>
+            </ul>
+        </section>
 
-    <!-- LOGIN SECTION -->
-    <section class="lab-section">
+        <!--Login-->
+        <section class="lab-section auth-card">
 
-        <h2>🔐 Login (Vulnerable)</h2>
+            <div class="section-header">
+                <h2>🔐 Login (Vulnerable)</h2>
 
-        <input type="text" id="username" placeholder="Enter username">
-        <input type="password" id="password" placeholder="Enter password">
+                <span class="severity-badge critical">
+                    Critical
+                </span>
+            </div>
 
-        <button onclick="login()">Login</button>
+            <div class="security-mode-selector">
 
-        <p id="message"></p>
+                <label>
+                    <input
+                        type="radio"
+                        name="sessionMode"
+                        value="vulnerable"
+                        checked
+                    >
+                    Vulnerable Mode
+                </label>
 
-    </section>
+                <label>
+                    <input
+                        type="radio"
+                        name="sessionMode"
+                        value="secure"
+                    >
+                    Secure Mode
+                </label>
 
-    <!-- EXPLOIT SECTION -->
-    <section class="lab-section exploit-box">
+            </div>
 
-        <h2>⚔️ Exploit</h2>
+            <form id="loginForm" class="auth-form">
 
-        <ol>
-            <li>Open DevTools → Console</li>
-            <li>Run:
-                <code>localStorage.setItem("isLoggedIn", "true")</code>
-            </li>
-            <li>Refresh page</li>
-            <li>Access without login</li>
-        </ol>
+                <div class="form-group">
+                    <label for="username">Username</label>
 
-        <button id="autoExploitBtn">⚡ Auto Exploit</button>
-        <button id="resetExploitBtn">🔄 Reset Session</button>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter username"
+                        autocomplete="off"
+                    >
+                </div>
 
-    </section>
+                <div class="form-group">
+                    <label for="password">Password</label>
 
-    <!-- IMPACT -->
-    <section class="lab-section exploit-impact">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                    >
 
-        <h2>💥 Impact</h2>
+                    <div id="passwordStrength"></div>
 
-        <ul>
-            <li>Unauthorized access</li>
-            <li>Session bypass</li>
-            <li>Client-side auth is insecure</li>
-        </ul>
+                    <ul id="passwordFeedback"></ul>
+                </div>
 
-    </section>
+                <button type="submit">
+                    Login
+                </button>
 
-    <!-- BREAKDOWN -->
-    <section class="lab-section">
+            </form>
 
-        <h2>🧠 Vulnerability Breakdown</h2>
+            <p id="message" class="status-message"></p>
 
-        <h3>🔴 Weak Authentication</h3>
-        <p>Login logic is fully client-side and can be modified.</p>
+        </section>
+        
+        <!-- EXPLOIT SECTION -->
+        <section class="lab-section exploit-box">
 
-        <pre><code>
-        login = function() {
-        document.getElementById("message").textContent = "Login successful";
-        }
-        </code></pre>
+            <h2>⚔️ Exploit</h2>
 
-        <h3>🟠 Insecure Session</h3>
-        <p>Session stored in localStorage can be manipulated.</p>
+            <ol>
+                <li>Open DevTools → Console</li>
+                <li>Run:
+                    <code>localStorage.setItem("isLoggedIn", "true")</code>
+                </li>
+                <li>Refresh page</li>
+                <li>Access without login</li>
+            </ol>
 
-        <pre><code>
-        localStorage.setItem("isLoggedIn", "true");
-        </code></pre>
+            <button id="autoExploitBtn">⚡ Auto Exploit</button>
+            <button id="fixateSessionBtn">🎯 Fix Session ID</button>
+            <button id="resetExploitBtn">🔄 Reset Session</button>
 
-    </section>
+        </section>
 
-    <script src="js/script.js"></script>
+        <!-- IMPACT -->
+        <section class="lab-section exploit-impact">
 
+            <h2>💥 Impact</h2>
+
+            <ul>
+                <li>Unauthorized access</li>
+                <li>Session bypass</li>
+                <li>Client-side auth is insecure</li>
+            </ul>
+
+        </section>
+
+        <!-- BREAKDOWN -->
+        <section class="lab-section">
+
+            <h2>🧠 Vulnerability Breakdown</h2>
+
+            <h3>🔴 Weak Authentication</h3>
+            <p>Login logic is fully client-side and can be modified.</p>
+
+            <pre><code>
+            login = function() {
+            document.getElementById("message").textContent = "Login successful";
+            }
+            </code></pre>
+
+            <h3>🟠 Insecure Session</h3>
+            <p>Session stored in localStorage can be manipulated.</p>
+
+            <pre><code>
+            localStorage.setItem("isLoggedIn", "true");
+            </code></pre>
+
+        </section>
+
+        <script type="module" src="./js/auth/app.js"></script>
+
+    </div>
 </body>
 </html>
