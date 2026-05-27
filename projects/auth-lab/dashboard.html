@@ -10,19 +10,83 @@
 
         <h1>📊 Dashboard (Protected Area)</h1>
 
-        <div class="alert-warning">
+        <div class="alert alert-warning">
             ⚠️ This page is intentionally vulnerable and can be accessed without authentication.
         </div>
 
-        <h1>📊 Dashboard</h1>
         <p>Welcome! You are logged in.</p>
 
-        <section class="lab-section exploit-box">
+        <div class="action-row">
+
+            <button
+                id="logoutBtn"
+                class="btn btn-danger"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🛡️ Route Protection Status</h2>
+
+                <span
+                    class="severity-badge info"
+                    id="routeProtectionBadge"
+                >
+                    Checking...
+                </span>
+
+            </div>
+
+            <div
+                class="alert alert-info"
+                id="routeProtectionMessage"
+            >
+                Checking route protection...
+            </div>
+
+        </section>
+        
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>👤 User Authorization</h2>
+
+                <span
+                    class="severity-badge medium"
+                    id="roleBadge"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+            <p>
+                Current role:
+            </p>
+
+            <pre><code id="roleDisplay"></code></pre>
+
+            <div
+                class="alert alert-info"
+                id="roleMessage"
+            >
+                Checking permissions...
+            </div>
+
+        </section>        
+
+        <section class="lab-section security-card exploit-box">
 
             <div class="section-header">
                 <h2>🪪 Active Session</h2>
 
-                <span class="severity-badge" id="sessionRiskBadge">
+                <span class="severity-badge info" id="sessionRiskBadge">
                     Loading...
                 </span>
             </div>
@@ -35,13 +99,25 @@
             <code id="sessionDisplay"></code>
             </pre>
 
-            <div class="alert-warning" id="sessionWarning">
+            <div class="alert alert-warning" id="sessionWarning">
                 Loading session warning...
             </div>
 
         </section>
 
-        <section class="lab-section">
+
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+                <h2>🕒 Session Activity Timeline</h2>
+            </div>
+
+            <ul id="sessionTimeline" class="timeline-list">
+            </ul>
+
+        </section>
+
+        <section class="lab-section security-card">
 
             <h2>🔴 Broken Access Control</h2>
 

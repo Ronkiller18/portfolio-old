@@ -8,10 +8,29 @@ import {
     getSessionMode
 } from "./storage.js";
 
-import { showMessage } from "./ui.js";
-import { validateLogin } from "./auth.js";
+import {
+    incrementFailedAttempts,
+    resetFailedAttempts,
+    isLockedOut,
+    getRemainingLockTime
+} from "./rate-limit.js";
+
+import {
+    showMessage,
+    initializePasswordStrengthUI,
+    renderSessionDisplay,
+    renderRouteProtectionStatus,
+    renderSessionTimeline,
+    initializeLockoutCountdown,
+    renderRoleDisplay
+} from "./ui.js";
+
+//import { validateLogin } from "./auth.js";
+
 import { analyzePasswordStrength } from "./password-checker.js";
 import { generateSessionId } from "./session.js";
+import { protectDashboardRoute } from "./guard.js";
+import { validateUserRole } from "./roles.js";
 
 // ==========================
 // DOM ELEMENTS
@@ -21,14 +40,7 @@ const exploitBtn = document.getElementById("autoExploitBtn");
 const resetBtn = document.getElementById("resetExploitBtn");
 const fixateSessionBtn = document.getElementById("fixateSessionBtn");
 const loginForm = document.getElementById("loginForm");
-const passwordInput =
-    document.getElementById("password");
-
-const passwordStrength =
-    document.getElementById("passwordStrength");
-
-const passwordFeedback =
-    document.getElementById("passwordFeedback");
+const logoutBtn = document.getElementById("logoutBtn");
 
 const sessionModeInputs = document.querySelectorAll('input[name="sessionMode"]');
 
@@ -59,11 +71,34 @@ if (loginForm) {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const isValid = validateLogin(username, password);
+        // ==========================
+        // CHECK LOCKOUT
+        // ==========================
+        if (isLockedOut()) {
+
+            const remaining =
+                getRemainingLockTime();
+
+            showMessage(
+                messageBox,
+                `Too many failed attempts. Try again in ${remaining}s.`,
+                "#f87171"
+            );
+
+            return;
+        }
+
+        const role = validateUserRole(username, password);
+
+        const isValid = role !== null;
 
         if (isValid) {
 
+            resetFailedAttempts();
+
             setLoginSession();
+
+            localStorage.setItem("userRole", role);
 
             const currentMode = getCurrentSessionMode();
 
@@ -104,6 +139,9 @@ if (loginForm) {
 
             window.location.href = "dashboard.html";
         } else {
+
+            incrementFailedAttempts();
+
             showMessage(
                 messageBox,
                 "Invalid credentials",
@@ -119,7 +157,7 @@ if (loginForm) {
 if (messageBox && hasLoginSession()) {
     showMessage(
         messageBox,
-        "User is already logged in (session exists)",
+        "⚠️ Existing client-side session detected in localStorage.",
         "orange"
     );
 }
@@ -130,11 +168,16 @@ if (messageBox && hasLoginSession()) {
 if (exploitBtn) {
     exploitBtn.addEventListener("click", () => {
 
+        localStorage.setItem(
+            "userRole",
+            "admin"
+        );
+
         setLoginSession();
 
         showMessage(
             messageBox,
-            "⚠️ Exploit successful: Session manually set in localStorage",
+            "⚠️ Exploit successful: Client-side session and admin role injected.",
             "orange"
         );
     });
@@ -147,6 +190,8 @@ if (resetBtn) {
     resetBtn.addEventListener("click", () => {
 
         removeLoginSession();
+        localStorage.removeItem("sessionId");
+        localStorage.removeItem("userRole");
 
         showMessage(
             messageBox,
@@ -157,37 +202,34 @@ if (resetBtn) {
 }
 
 // ==========================
-// PASSWORD STRENGTH ANALYSIS
+// LOGOUT BUTTON
 // ==========================
-if (
-    passwordInput &&
-    passwordStrength &&
-    passwordFeedback
-) {
-    passwordInput.addEventListener("input", () => {
+if (logoutBtn) {
 
-        const result =
-            analyzePasswordStrength(passwordInput.value);
+    logoutBtn.addEventListener(
+        "click",
+        () => {
 
-        // Strength label
-        passwordStrength.textContent =
-            `Strength: ${result.strength}`;
+            removeLoginSession();
 
-        passwordStrength.className =
-            `password-strength ${result.className}`;
+            localStorage.removeItem(
+                "sessionId"
+            );
 
-        // Feedback list
-        passwordFeedback.innerHTML = "";
+            localStorage.removeItem(
+                "userRole"
+            );
 
-        result.feedback.forEach(item => {
+            showMessage(
+                messageBox,
+                "Logged out successfully.",
+                "#4ade80"
+            );
 
-            const li = document.createElement("li");
-
-            li.textContent = item;
-
-            passwordFeedback.appendChild(li);
-        });
-    });
+            window.location.href =
+                "index.html";
+        }
+    );
 }
 
 // ==========================
@@ -211,56 +253,62 @@ if (fixateSessionBtn) {
 }
 
 // ==========================
-// SESSION DISPLAY
+// INITIALIZE UI SYSTEMS
 // ==========================
-const sessionDisplay =
-    document.getElementById("sessionDisplay");
+initializePasswordStrengthUI(
+    analyzePasswordStrength
+);
 
-const sessionRiskBadge =
-    document.getElementById("sessionRiskBadge");
+renderRouteProtectionStatus(
+    getSessionMode
+);
 
-const sessionWarning =
-    document.getElementById("sessionWarning");
+renderSessionDisplay(
+    getSessionId,
+    getSessionMode
+);
+
+renderRoleDisplay();
+
+renderSessionTimeline(
+    getSessionMode,
+    getSessionId
+);
+
+initializeLockoutCountdown(
+    isLockedOut,
+    getRemainingLockTime
+);
+
+// ==========================
+// ROUTE PROTECTION
+// ==========================
+if (
+    window.location.pathname.includes(
+        "dashboard.html"
+    )
+) {
+    protectDashboardRoute();
+}
+
+// ==========================
+// AUTH ERROR MESSAGE
+// ==========================
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const authError =
+    params.get("error");
 
 if (
-    sessionDisplay &&
-    sessionRiskBadge &&
-    sessionWarning
+    authError === "unauthorized"
 ) {
-    const activeSession = getSessionId();
 
-    const currentMode = getSessionMode();
-
-    sessionDisplay.textContent =
-        activeSession || "No active session";
-
-    // ==========================
-    // VULNERABLE MODE
-    // ==========================
-    if (currentMode === "vulnerable") {
-
-        sessionRiskBadge.textContent =
-            "HIGH RISK";
-
-        sessionRiskBadge.classList.add("high");
-
-        sessionWarning.textContent =
-            "Session ID was NOT regenerated after login. " +
-            "An attacker who knows this value may hijack the session.";
-    }
-
-    // ==========================
-    // SECURE MODE
-    // ==========================
-    if (currentMode === "secure") {
-
-        sessionRiskBadge.textContent =
-            "LOW RISK";
-
-        sessionRiskBadge.classList.add("low");
-
-        sessionWarning.textContent =
-            "Session ID was regenerated after login. " +
-            "Previously fixed attacker sessions become invalid.";
-    }
+    showMessage(
+        messageBox,
+        "⚠️ Access denied. Please login first.",
+        "#f87171"
+    );
 }

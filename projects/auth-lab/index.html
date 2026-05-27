@@ -9,7 +9,7 @@
     <div class="page-container">
 
         <!-- INTRO -->
-        <section class="lab-intro">
+        <section class="lab-intro security-card ">
             <h1>🔐 Authentication Vulnerability Lab</h1>
 
             <p>
@@ -24,7 +24,7 @@
         </section>
 
         <!--Login-->
-        <section class="lab-section auth-card">
+        <section class="lab-section security-card auth-card">
 
             <div class="section-header">
                 <h2>🔐 Login (Vulnerable)</h2>
@@ -86,20 +86,29 @@
                     <ul id="passwordFeedback"></ul>
                 </div>
 
-                <button type="submit">
+                <button type="submit" class="btn btn-primary">
                     Login
                 </button>
 
             </form>
 
             <p id="message" class="status-message"></p>
+            <p id="lockoutMessage" class="lockout-message"></p>
 
         </section>
         
         <!-- EXPLOIT SECTION -->
-        <section class="lab-section exploit-box">
+        <section class="lab-section security-card exploit-box">
 
-            <h2>⚔️ Exploit</h2>
+            <div class="section-header">
+
+                <h2>⚔️ Exploit</h2>
+
+                <span class="severity-badge high">
+                    High Risk
+                </span>
+
+            </div>
 
             <ol>
                 <li>Open DevTools → Console</li>
@@ -110,29 +119,58 @@
                 <li>Access without login</li>
             </ol>
 
-            <button id="autoExploitBtn">⚡ Auto Exploit</button>
-            <button id="fixateSessionBtn">🎯 Fix Session ID</button>
-            <button id="resetExploitBtn">🔄 Reset Session</button>
+            <div class="action-row">
+                <button id="autoExploitBtn" class="btn btn-danger">⚡ Auto Exploit</button>
+                <button id="fixateSessionBtn" class="btn btn-warning">🎯 Fix Session ID</button>
+                <button id="resetExploitBtn" class="btn btn-success">🔄 Reset Session</button>
+            </div>
 
         </section>
 
         <!-- IMPACT -->
-        <section class="lab-section exploit-impact">
+        <section class="lab-section security-card exploit-impact">
 
-            <h2>💥 Impact</h2>
+            <div class="section-header">
 
-            <ul>
-                <li>Unauthorized access</li>
-                <li>Session bypass</li>
-                <li>Client-side auth is insecure</li>
-            </ul>
+                <h2>💥 Impact</h2>
 
+                <span class="severity-badge medium">
+                    Medium Risk
+                </span>
+
+            </div>
+            <div class="alert alert-danger">
+
+                <strong>Potential Impact:</strong>
+
+                <ul>
+                    <li>Unauthorized access</li>
+                    <li>Session bypass</li>
+                    <li>Client-side authentication is insecure</li>
+                </ul>
+
+            </div>
         </section>
 
         <!-- BREAKDOWN -->
-        <section class="lab-section">
+        <section class="lab-section security-card">
 
-            <h2>🧠 Vulnerability Breakdown</h2>
+            <div class="section-header">
+
+                <h2>🧠 Vulnerability Breakdown</h2>
+
+                <span class="severity-badge info">
+                    Educational
+                </span>
+
+            </div>
+
+            <div class="alert alert-info">
+
+                This lab intentionally demonstrates insecure authentication patterns
+                commonly found in poorly designed frontend applications.
+
+            </div>
 
             <h3>🔴 Weak Authentication</h3>
             <p>Login logic is fully client-side and can be modified.</p>
@@ -149,6 +187,83 @@
             <pre><code>
             localStorage.setItem("isLoggedIn", "true");
             </code></pre>
+
+            <h3>🟠 Session Fixation</h3>
+            <p>
+            A session fixation vulnerability occurs when an application
+            accepts a session identifier supplied by an attacker instead
+            of generating a new one after authentication.
+            </p>
+
+            <p>
+            In vulnerable mode, the application reuses the existing
+            session ID stored in localStorage.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "sessionId",
+                "attacker-session-123"
+            );
+            </code></pre>
+
+            <p>
+            If the victim logs in using this fixed session,
+            the attacker already knows the authenticated session value.
+            </p>
+
+            <p>
+            Secure applications regenerate session identifiers
+            after successful authentication.
+            </p>            
+
+            <h3>🔴 Broken Route Protection</h3>
+
+            <p>
+            Protected routes should verify authentication
+            before granting access.
+            </p>
+
+            <p>
+            In vulnerable mode, dashboard pages can be
+            accessed directly without proper validation.
+            </p>
+
+            <pre><code>
+            /dashboard.html
+            </code></pre>
+
+            <h3>🟠 Privilege Escalation</h3>
+
+            <p>
+            The application trusts roles stored in localStorage.
+            Attackers can modify their own privileges.
+            </p>
+
+            <pre><code>
+            localStorage.setItem(
+                "userRole",
+                "admin"
+            );
+            </code></pre>
+
+            <p>
+            This allows unauthorized administrative access.
+            </p>
+
+            <h3>🟢 Secure Mitigations</h3>
+
+            <ul>
+                <li>Regenerate sessions after login</li>
+
+                <li>Invalidate sessions during logout</li>
+
+                <li>Enforce authentication checks on protected routes</li>
+
+                <li>Validate authorization server-side</li>
+
+                <li>Never trust localStorage for security decisions</li>
+            </ul>
 
         </section>
 

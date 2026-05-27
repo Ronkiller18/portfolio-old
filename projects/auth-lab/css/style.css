@@ -1,3 +1,6 @@
+/* =========================================================
+   GLOBAL LAYOUT
+========================================================= */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,108 +11,66 @@ body {
     line-height: 1.6;
 }
 
-/* ==========================
-   MAIN LAYOUT
-========================== */
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
 .page-container {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
+    width: min(1100px, 92%);
+    margin: 40px auto;
 }
 
-/* ==========================
-   REUSABLE SECTION CARD
-========================== */
+/* =========================================================
+   SECTION SPACING
+========================================================= */
 .lab-section {
-    background: #111827;
-    border: 1px solid #1e293b;
-    border-radius: 14px;
-    padding: 28px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    margin-bottom: 24px;
 }
 
-/* ==========================
+/* =========================================================
+   REUSABLE CARD SYSTEM
+========================================================= */
+
+.security-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.25);
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.security-card:hover {
+    transform: translateY(-2px);
+    border-color: #374151;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
    EXPLOIT PANELS
-========================== */
+========================================================= */
+
 .exploit-box {
     border-left: 4px solid #ef4444;
-    background: rgba(239, 68, 68, 0.08);
+    background:
+        rgba(239, 68, 68, 0.08);
 }
 
 .exploit-impact {
     border-left: 4px solid #f59e0b;
-    background: rgba(245, 158, 11, 0.08);
+    background:
+        rgba(245, 158, 11, 0.08);
 }
 
-/* ==========================
-   AUTH FORM
-========================== */
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 20px;
-}
-
-/* ==========================
-   FORM GROUP
-========================== */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #cbd5e1;
-}
-
-/* ==========================
-   INPUTS
-========================== */
-.auth-form input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid #334155;
-    background: #0f172a;
-    color: #e2e8f0;
-    font-size: 15px;
-    box-sizing: border-box;
-}
-
-.auth-form input:focus {
-    outline: none;
-    border-color: #3b82f6;
-}
-
-/* ==========================
-   BUTTONS
-========================== */
-.auth-form button,
-button {
-    padding: 12px 18px;
-    border: none;
-    border-radius: 10px;
-    background: #2563eb;
-    color: white;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.auth-form button:hover,
-button:hover {
-    background: #1d4ed8;
-}
-
-/* ==========================
+/* =========================================================
    TYPOGRAPHY
-========================== */
+========================================================= */
+
 h1 {
     font-size: 2rem;
     margin-bottom: 12px;
@@ -132,9 +93,37 @@ p {
     color: #cbd5e1;
 }
 
-/* ==========================
+/* =========================================================
+   CONTENT SPACING
+========================================================= */
+
+.lab-section p {
+    margin-bottom: 14px;
+}
+
+.lab-section h3 {
+    margin-top: 28px;
+}
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    margin: 0;
+}
+
+/* =========================================================
    LIST STYLING
-========================== */
+========================================================= */
+
 ul,
 ol {
     padding-left: 22px;
@@ -146,31 +135,122 @@ li {
     color: #cbd5e1;
 }
 
-/* ==========================
-   CONTENT SPACING
-========================== */
-.lab-section p {
-    margin-bottom: 14px;
-}
-
-.lab-section h3 {
-    margin-top: 28px;
-}
-
-/* ==========================
-   SECTION HEADER
-========================== */
-.section-header {
+/* =========================================================
+   FORM SYSTEM
+========================================================= */
+.auth-form {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 16px;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 20px;
 }
 
-/* ==========================
+/* =========================================================
+   FORM GROUP
+========================================================= */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.form-group input::placeholder {
+    color: #64748b;
+}
+
+/* =========================================================
+   BUTTON SYSTEM
+========================================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        background 0.2s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* Variants */
+.btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-warning {
+    background: #d97706;
+    color: white;
+}
+
+.btn-success {
+    background: #16a34a;
+    color: white;
+}
+
+/* =========================================================
+   ACTION ROWS
+========================================================= */
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+/* =========================================================
    SECURITY MODE SELECTOR
-========================== */
+========================================================= */
+
 .security-mode-selector {
     display: flex;
     gap: 20px;
@@ -189,82 +269,126 @@ li {
     color: #cbd5e1;
 }
 
-/* ==========================
+/* =========================================================
    SEVERITY BADGES
-========================== */
+========================================================= */
 .severity-badge {
     display: inline-flex;
     align-items: center;
-    padding: 6px 10px;
+    justify-content: center;
+    padding: 6px 12px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 0.78rem;
     font-weight: 700;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    border: 1px solid transparent;
 }
 
-.severity-badge.critical {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-}
-
+/* Critical */
+.severity-badge.critical,
 .severity-badge.high {
-    background: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
+    background:
+        rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color:
+        rgba(239, 68, 68, 0.35);
 }
 
+/* Medium */
 .severity-badge.medium {
-    background: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
+    background:
+        rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+    border-color:
+        rgba(251, 191, 36, 0.35);
 }
 
+/* Low */
 .severity-badge.low {
-    background: rgba(34, 197, 94, 0.15);
+    background:
+        rgba(34, 197, 94, 0.15);
     color: #4ade80;
+    border-color:
+        rgba(34, 197, 94, 0.35);
 }
 
-/* ==========================
-   STATUS MESSAGE
-========================== */
+/* Informational */
+.severity-badge.info {
+    background:
+        rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color:
+        rgba(59, 130, 246, 0.35);
+}
+
+/* =========================================================
+   ALERT SYSTEM
+========================================================= */
+.alert {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-top: 16px;
+    border: 1px solid transparent;
+    line-height: 1.6;
+}
+
+/* Danger */
+.alert-danger {
+    background:
+        rgba(239, 68, 68, 0.12);
+    border-color:
+        rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+/* Warning */
+.alert-warning {
+    background:
+        rgba(251, 191, 36, 0.12);
+    border-color:
+        rgba(251, 191, 36, 0.3);
+    color: #fde68a;
+}
+
+/* Success */
+.alert-success {
+    background:
+        rgba(34, 197, 94, 0.12);
+    border-color:
+        rgba(34, 197, 94, 0.3);
+    color: #86efac;
+}
+
+/* Informational */
+.alert-info {
+    background:
+        rgba(59, 130, 246, 0.12);
+    border-color:
+        rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+}
+
+/* =========================================================
+   STATUS MESSAGES
+========================================================= */
+
 .status-message {
     margin-top: 16px;
     font-weight: 600;
 }
 
-/* ==========================
-   CODE BLOCKS
-========================== */
-pre {
-    background: #020617;
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 16px;
-    overflow-x: auto;
-    margin-top: 14px;
-}
-
-code {
-    font-family: monospace;
-    color: #cbd5e1;
+.lockout-message {
+    margin-top: 12px;
+    color: #f87171;
     font-size: 14px;
-}
-
-/* ==========================
-   ALERTS
-========================== */
-.alert-warning {
-    background: rgba(239, 68, 68, 0.08);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    color: #fca5a5;
-    padding: 14px 16px;
-    border-radius: 10px;
-    margin: 18px 0;
     font-weight: 600;
 }
 
-/* ==========================
+/* =========================================================
    PASSWORD STRENGTH
-========================== */
+========================================================= */
+
 .password-strength {
     margin-top: 10px;
     font-weight: 700;
@@ -283,9 +407,10 @@ code {
     color: #22c55e;
 }
 
-/* ==========================
+/* =========================================================
    PASSWORD FEEDBACK
-========================== */
+========================================================= */
+
 #passwordFeedback {
     margin-top: 10px;
     padding-left: 18px;
@@ -294,4 +419,47 @@ code {
 #passwordFeedback li {
     font-size: 14px;
     color: #94a3b8;
+}
+
+/* =========================================================
+   CODE BLOCKS
+========================================================= */
+
+pre {
+    background: #020617;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 16px;
+    overflow-x: auto;
+    margin-top: 14px;
+}
+
+code {
+    font-family: monospace;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+/* =========================================================
+   SESSION TIMELINE
+========================================================= */
+
+.timeline-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+}
+
+.timeline-list li {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-left: 3px solid #334155;
+    background: #111827;
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.timeline-list li strong {
+    color: #38bdf8;
 }
