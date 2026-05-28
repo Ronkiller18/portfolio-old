@@ -20,9 +20,11 @@ import {
     initializePasswordStrengthUI,
     renderSessionDisplay,
     renderRouteProtectionStatus,
+    renderJwtDisplay,
     renderSessionTimeline,
     initializeLockoutCountdown,
-    renderRoleDisplay
+    renderRoleDisplay,
+    renderSessionMetadata
 } from "./ui.js";
 
 //import { validateLogin } from "./auth.js";
@@ -97,6 +99,12 @@ if (loginForm) {
             resetFailedAttempts();
 
             setLoginSession();
+
+            // Session expires after 60 seconds
+            localStorage.setItem(
+                "sessionExpiry",
+                Date.now() + 60000
+            );
 
             localStorage.setItem("userRole", role);
 
@@ -206,19 +214,15 @@ if (resetBtn) {
 // ==========================
 if (logoutBtn) {
 
-    logoutBtn.addEventListener(
-        "click",
-        () => {
+    logoutBtn.addEventListener("click", () => {
 
-            removeLoginSession();
+        removeLoginSession();
 
-            localStorage.removeItem(
-                "sessionId"
-            );
+        localStorage.removeItem("userRole");
 
-            localStorage.removeItem(
-                "userRole"
-            );
+        localStorage.removeItem("sessionId");
+
+        localStorage.removeItem("sessionMode");
 
             showMessage(
                 messageBox,
@@ -226,8 +230,7 @@ if (logoutBtn) {
                 "#4ade80"
             );
 
-            window.location.href =
-                "index.html";
+            window.location.href = "index.html";
         }
     );
 }
@@ -270,6 +273,12 @@ renderSessionDisplay(
 
 renderRoleDisplay();
 
+renderSessionMetadata(
+    getSessionMode
+);
+
+renderJwtDisplay();
+
 renderSessionTimeline(
     getSessionMode,
     getSessionId
@@ -288,7 +297,15 @@ if (
         "dashboard.html"
     )
 ) {
-    protectDashboardRoute();
+
+    const currentMode =
+        getSessionMode();
+
+    // Secure mode only
+    if (currentMode === "secure") {
+
+        protectDashboardRoute();
+    }
 }
 
 // ==========================

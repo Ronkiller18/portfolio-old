@@ -324,6 +324,76 @@ export function renderRoleDisplay() {
 }
 
 // ==========================
+// SESSION METADATA UI
+// ==========================
+export function renderSessionMetadata(
+    getSessionMode
+) {
+
+    const sessionModeDisplay =
+        document.getElementById(
+            "sessionModeDisplay"
+        );
+
+    const sessionRoleDisplay =
+        document.getElementById(
+            "sessionRoleDisplay"
+        );
+
+    if (
+        !sessionModeDisplay ||
+        !sessionRoleDisplay
+    ) {
+        return;
+    }
+
+    const sessionMode =
+        getSessionMode();
+
+    const userRole =
+        localStorage.getItem(
+            "userRole"
+        ) || "guest";
+
+    sessionModeDisplay.textContent =
+        sessionMode;
+
+    sessionRoleDisplay.textContent =
+        userRole;
+}
+
+// ==========================
+// JWT DISPLAY UI
+// ==========================
+export function renderJwtDisplay() {
+
+    const jwtDisplay =
+        document.getElementById(
+            "jwtDisplay"
+        );
+
+    if (!jwtDisplay) {
+        return;
+    }
+
+    const role =
+        localStorage.getItem(
+            "userRole"
+        ) || "guest";
+
+    const payload = {
+        role: role
+    };
+
+    jwtDisplay.textContent =
+        JSON.stringify(
+            payload,
+            null,
+            4
+        );
+}
+
+// ==========================
 // SESSION TIMELINE UI
 // ==========================
 export function renderSessionTimeline(

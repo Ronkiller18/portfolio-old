@@ -8,6 +8,11 @@
 <body>
     <div class="page-container">
 
+        <div class="alert alert-warning">
+            This lab intentionally uses insecure client-side
+            authentication mechanisms for educational purposes.
+        </div>
+
         <!-- INTRO -->
         <section class="lab-intro security-card ">
             <h1>🔐 Authentication Vulnerability Lab</h1>
@@ -97,6 +102,50 @@
 
         </section>
         
+        <!-- DEMO CREDENTIALS -->
+        <section class="lab-section security-card">
+
+            <div class="section-header">
+
+                <h2>🧪 Demo Credentials</h2>
+
+                <span class="severity-badge info">
+                    Testing
+                </span>
+
+            </div>
+
+            <div class="alert alert-info">
+
+                Use the following demo accounts to test
+                role-based authorization behavior.
+
+            </div>
+
+            <div class="timeline-list">
+
+                <li>
+                    <strong>Admin</strong><br>
+                    Username: <code>admin</code><br>
+                    Password: <code>admin123</code>
+                </li>
+
+                <li>
+                    <strong>Analyst</strong><br>
+                    Username: <code>analyst</code><br>
+                    Password: <code>analyst123</code>
+                </li>
+
+                <li>
+                    <strong>User</strong><br>
+                    Username: <code>user</code><br>
+                    Password: <code>user123</code>
+                </li>
+
+            </div>
+
+        </section>
+
         <!-- EXPLOIT SECTION -->
         <section class="lab-section security-card exploit-box">
 
@@ -249,6 +298,30 @@
 
             <p>
             This allows unauthorized administrative access.
+            </p>
+
+            <h3>🔴 Insecure JWT Trust</h3>
+
+            <p>
+            Applications should never trust JWT payloads
+            without proper signature validation.
+            </p>
+
+            <p>
+            Attackers may tamper with role information
+            if tokens are decoded but not verified.
+            </p>
+
+            <pre><code>
+            {
+                "role": "admin"
+            }
+            </code></pre>
+
+            <p>
+            If the backend accepts modified tokens
+            without verifying signatures,
+            attackers can escalate privileges.
             </p>
 
             <h3>🟢 Secure Mitigations</h3>
