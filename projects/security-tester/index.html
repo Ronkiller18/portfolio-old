@@ -18,78 +18,191 @@
 
         <main>
             <section class="dashboard-grid">
-                <div class="panel analyzer-panel">
 
-                    <div class="tool-header">
-                        <h2>Security Audit Console</h2>
+                <!-- LEFT TOOL COLUMN -->
+                <div class="tool-column">
 
-                        <p>
-                            Analyze suspicious URLs, DOM patterns, and client-side attack surfaces.
-                        </p>
-                    </div>
+                    <!-- MAIN SECURITY SCANNER -->
+                    <section class="panel analyzer-panel">
 
-                    <div class="input-group">
+                        <div class="tool-header">
 
-                        <input
-                            type="text"
-                            id="inputData"
-                            placeholder="Enter URL, payload, or JavaScript pattern..."
-                        >
+                            <h2>Security Audit Console</h2>
 
-                    </div>
+                            <p>
+                                Analyze suspicious URLs, DOM patterns,
+                                and client-side attack surfaces.
+                            </p>
 
-                    <div class="action-row">
-                        <button id="analyzeBtn">Run Analysis</button>
+                        </div>
 
-                        <button id="exportBtn" class="secondary-btn">
-                            Export JSON
+                        <div class="input-group">
+
+                            <input
+                                type="text"
+                                id="inputData"
+                                placeholder="Enter URL, payload, or JavaScript pattern..."
+                            >
+
+                        </div>
+
+                        <div class="action-row">
+
+                            <button id="analyzeBtn">
+                                Run Analysis
+                            </button>
+
+                            <button
+                                id="exportBtn"
+                                class="secondary-btn"
+                            >
+                                Export JSON
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                    <!-- JWT TOOL -->
+                    <section class="panel jwt-panel">
+
+                        <div class="section-header">
+                            <h3>JWT Decoder</h3>
+                        </div>
+
+                        <textarea
+                            id="jwtInput"
+                            class="tool-textarea"
+                            placeholder="Paste JWT token here..."
+                        ></textarea>
+
+                        <button id="decodeJwtBtn">
+                            Decode JWT
                         </button>
+
+                    </section>
+
+                    <!-- CSP TOOL -->
+                    <section class="panel csp-panel">
+
+                        <div class="section-header">
+                            <h3>CSP Analyzer</h3>
+                        </div>
+
+                        <textarea
+                            id="cspInput"
+                            class="tool-textarea"
+                            placeholder="Paste Content-Security-Policy header..."
+                        ></textarea>
+
+                        <button id="analyzeCspBtn">
+                            Analyze CSP
+                        </button>
+
+                    </section>
+
+                </div>
+
+                <!-- RIGHT SECURITY INTELLIGENCE PANEL -->
+                <aside class="panel findings-panel">
+
+                    <div class="section-header">
+
+                        <h3>Security Intelligence</h3>
+
+                        <span class="live-indicator">
+                            LIVE
+                        </span>
+
                     </div>
 
+                    <!-- METRICS -->
                     <div class="summary-grid">
 
                         <div class="summary-card">
-                            <span class="summary-label">Findings</span>
-                            <strong id="findingCount">0</strong>
+
+                            <span class="summary-label">
+                                Findings
+                            </span>
+
+                            <strong id="findingCount">
+                                0
+                            </strong>
+
                         </div>
 
                         <div class="summary-card">
-                            <span class="summary-label">High Risk</span>
-                            <strong id="highCount">0</strong>
+
+                            <span class="summary-label">
+                                High Risk
+                            </span>
+
+                            <strong id="highCount">
+                                0
+                            </strong>
+
                         </div>
 
                         <div class="summary-card">
-                            <span class="summary-label">Risk Score</span>
-                            <strong id="riskScore">0</strong>
+
+                            <span class="summary-label">
+                                Risk Score
+                            </span>
+
+                            <strong id="riskScore">
+                                0
+                            </strong>
+
                         </div>
 
-                        <div class="jwt-panel">
-
-                            <div class="section-header">
-                                <h3>JWT Decoder</h3>
-                            </div>
-
-                            <textarea
-                                id="jwtInput"
-                                class="jwt-input"
-                                placeholder="Paste JWT token here..."
-                            ></textarea>
-
-                            <button id="decodeJwtBtn">
-                                Decode JWT
-                            </button>
-
-                            <div id="jwtResults"></div>
-                        </div>                        
                     </div>
-                </div>
 
-                <aside class="panel findings-panel">
-                    <h3>Security Findings</h3>
-                    <div id="results"></div>
+                    <!-- CENTRAL FINDINGS -->
+                    <div class="findings-section">
+
+                    <!-- TOOL OUTPUT -->
+
+                    <div class="tool-output-section">
+
+                        <div class="section-header findings-header">
+
+                            <h4>Tool Output</h4>
+
+                            <span class="finding-counter">
+                                LIVE DATA
+                            </span>
+
+                        </div>
+
+                        <div id="toolOutput">
+
+                            <p class="empty-state">
+                                Run a tool to inspect decoded data,
+                                parsed policies, and analysis details.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                        <div class="section-header findings-header">
+
+                            <h4>Security Findings</h4>
+
+                            <span class="finding-counter" id="findingLabel">
+                                0 Active
+                            </span>
+
+                        </div>
+
+                        <div id="results"></div>
+
+                    </div>
+
                 </aside>
-            </section>
 
+            </section>
+<!--
             <section class="panel history-panel">
 
                 <div class="section-header">
@@ -102,7 +215,7 @@
 
                 <div id="history"></div>
 
-            </section>
+            </section> -->
 
         </main>
 

@@ -19,7 +19,7 @@
 }
 
 #inputData,
-.jwt-input {
+.tool-textarea {
 
     width: 100%;
 
@@ -40,7 +40,7 @@
 }
 
 #inputData:focus,
-.jwt-input:focus {
+.tool-textarea:focus {
 
     outline: none;
 
@@ -50,7 +50,7 @@
         0 0 0 3px rgba(56,189,248,0.15);
 }
 
-.jwt-input {
+.tool-textarea {
 
     min-height: 130px;
 
@@ -202,4 +202,98 @@ button:hover {
     overflow-x: auto;
 
     color: #cbd5e1;
+}
+
+.csp-panel {
+    margin-top: 32px;
+}
+
+.live-indicator {
+
+    background:
+        rgba(34, 197, 94, 0.15);
+
+    color: #4ade80;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+}
+
+.findings-section {
+
+    margin-top: 28px;
+}
+
+.findings-header {
+
+    margin-bottom: 18px;
+}
+
+.finding-counter {
+
+    font-size: 12px;
+
+    color: #94a3b8;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+}
+
+.tool-output-section {
+
+    margin-top: 28px;
+
+    padding-top: 24px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+}
+
+.tool-output-card {
+
+    background: #0f172a;
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    border-radius: 10px;
+
+    padding: 14px;
+
+    margin-top: 12px;
+}
+
+.tool-output-card h5 {
+
+    margin-top: 0;
+
+    margin-bottom: 12px;
+
+    color: #38bdf8;
+}
+
+.tool-output-card pre {
+
+    overflow-x: auto;
+
+    background: #020617;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    color: #cbd5e1;
+
+    font-size: 13px;
 }

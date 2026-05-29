@@ -36,20 +36,42 @@ export function analyzeJWT(token) {
         if (header.alg === "none") {
 
             findings.push({
+
                 type: "Unsigned JWT",
+
                 severity: "High",
+
                 description:
-                    "JWT uses alg:none which disables signature verification."
+                    "JWT uses alg:none which disables signature verification.",
+
+                confidence: 95,
+
+                recommendation:
+                    "Always enforce signed JWTs using secure algorithms like RS256 or HS256.",
+
+                payloads: []
+
             });
         }
 
         if (!payload.exp) {
 
             findings.push({
+
                 type: "Missing Expiration",
+
                 severity: "Medium",
+
                 description:
-                    "JWT does not contain an expiration timestamp."
+                    "JWT does not contain an expiration timestamp.",
+
+                confidence: 85,
+
+                recommendation:
+                    "Add exp claims to reduce replay and token abuse risks.",
+
+                payloads: []
+
             });
         }
 
@@ -59,10 +81,21 @@ export function analyzeJWT(token) {
         ) {
 
             findings.push({
+
                 type: "Sensitive Data Exposure",
+
                 severity: "High",
+
                 description:
-                    "Sensitive information detected inside JWT payload."
+                    "Sensitive information detected inside JWT payload.",
+
+                confidence: 90,
+
+                recommendation:
+                    "Avoid storing passwords, secrets, or internal sensitive data inside JWT payloads.",
+
+                payloads: []
+
             });
         }
 

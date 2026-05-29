@@ -25,7 +25,17 @@ export function renderFindings(findings) {
             <div class="result ${finding.severity.toLowerCase()}">
 
                 <div class="result-title">
-                    <strong>${escapeHTML(finding.type)}</strong>
+                <div class="finding-meta">
+
+                    <strong>
+                        ${escapeHTML(finding.type)}
+                    </strong>
+
+                    <small class="finding-source">
+                        ${escapeHTML(finding.source || "Scanner")}
+                    </small>
+
+                </div>
 
                     <span class="risk-badge">
                         ${escapeHTML(finding.severity)}
@@ -44,7 +54,7 @@ export function renderFindings(findings) {
                 </p>
         `;
 
-        if (finding.payloads.length > 0) {
+        if (finding.payloads && finding.payloads.length > 0){
             html += `<ul>`;
 
             finding.payloads.forEach(payload => {
@@ -73,6 +83,11 @@ export function updateSummary(findings) {
 
     findingCount.textContent = findings.length;
 
+    const findingLabel = document.getElementById("findingLabel");
+
+    findingLabel.textContent =
+        `${findings.length} Active`;
+
     const highRiskFindings =
         findings.filter(f => f.severity === "High");
 
@@ -98,59 +113,26 @@ export function updateSummary(findings) {
     riskScore.textContent = score;
 }
 
-export function renderJWTResults(result) {
+export function renderToolOutput(
+    title,
+    data
+) {
 
     const container =
-        document.getElementById("jwtResults");
-
-    if (result.error) {
-
-        container.innerHTML = `
-            <div class="result medium">
-                <p>${result.error}</p>
-            </div>
-        `;
-
-        return;
-    }
-
-    let findingsHTML = "";
-
-    result.findings.forEach(finding => {
-
-        findingsHTML += `
-            <div class="result ${finding.severity.toLowerCase()}">
-
-                <div class="result-title">
-                    <strong>${finding.type}</strong>
-
-                    <span class="risk-badge">
-                        ${finding.severity}
-                    </span>
-                </div>
-
-                <p>${finding.description}</p>
-
-            </div>
-        `;
-    });
+        document.getElementById("toolOutput");
 
     container.innerHTML = `
-        <div class="jwt-output">
+        <div class="tool-output-card">
 
-            <h4>Header</h4>
-
-            <pre>
-${JSON.stringify(result.header, null, 2)}
-            </pre>
-
-            <h4>Payload</h4>
+            <h5>
+                ${escapeHTML(title)}
+            </h5>
 
             <pre>
-${JSON.stringify(result.payload, null, 2)}
+${escapeHTML(
+    JSON.stringify(data, null, 2)
+)}
             </pre>
-
-            ${findingsHTML}
 
         </div>
     `;
