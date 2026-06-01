@@ -1,74 +1,37 @@
+// ============================================================
+// Imports
+// ============================================================
+
 import { escapeHTML } from "./utils/sanitize.js";
 
+
+// ============================================================
+// Findings Rendering
+// ============================================================
+
 export function renderFindings(findings) {
-    const results = document.getElementById("results");
+
+    const container =
+        document.getElementById("results");
 
     if (findings.length === 0) {
-        results.innerHTML = `
-            <div class="result low">
-                <div class="result-title">
-                    <strong>No Major Findings</strong>
-                    <span class="risk-badge">SAFE</span>
-                </div>
 
-                <p>No obvious client-side security issues detected.</p>
-            </div>
-        `;
+        container.innerHTML =
+            createEmptyState();
 
         return;
     }
 
-    let html = "";
-
-    findings.forEach(finding => {
-        html += `
-            <div class="result ${finding.severity.toLowerCase()}">
-
-                <div class="result-title">
-                <div class="finding-meta">
-
-                    <strong>
-                        ${escapeHTML(finding.type)}
-                    </strong>
-
-                    <small class="finding-source">
-                        ${escapeHTML(finding.source || "Scanner")}
-                    </small>
-
-                </div>
-
-                    <span class="risk-badge">
-                        ${escapeHTML(finding.severity)}
-                    </span>
-                </div>
-
-                <p>${escapeHTML(finding.description)}</p>
-
-                <small>
-                    Confidence: ${finding.confidence}%
-                </small>
-
-                <p>
-                    <strong>Recommendation:</strong>
-                    ${escapeHTML(finding.recommendation)}
-                </p>
-        `;
-
-        if (finding.payloads && finding.payloads.length > 0){
-            html += `<ul>`;
-
-            finding.payloads.forEach(payload => {
-                html += `<li>${escapeHTML(payload)}</li>`;
-            });
-
-            html += `</ul>`;
-        }
-
-        html += `</div>`;
-    });
-
-    results.innerHTML = html;
+    container.innerHTML =
+        findings
+            .map(createFindingCard)
+            .join("");
 }
+
+
+// ============================================================
+// Summary Rendering
+// ============================================================
 
 export function updateSummary(findings) {
 
@@ -81,37 +44,29 @@ export function updateSummary(findings) {
     const riskScore =
         document.getElementById("riskScore");
 
-    findingCount.textContent = findings.length;
+    const findingLabel =
+        document.getElementById("findingLabel");
 
-    const findingLabel = document.getElementById("findingLabel");
+    findingCount.textContent =
+        findings.length;
 
     findingLabel.textContent =
         `${findings.length} Active`;
 
-    const highRiskFindings =
-        findings.filter(f => f.severity === "High");
-
     highCount.textContent =
-        highRiskFindings.length;
+        findings.filter(
+            finding =>
+                finding.severity === "High"
+        ).length;
 
-    let score = 0;
-
-    findings.forEach(finding => {
-        if (finding.severity === "High") {
-            score += 40;
-        }
-
-        else if (finding.severity === "Medium") {
-            score += 20;
-        }
-
-        else {
-            score += 10;
-        }
-    });
-
-    riskScore.textContent = score;
+    riskScore.textContent =
+        calculateRiskScore(findings);
 }
+
+
+// ============================================================
+// Tool Output Rendering
+// ============================================================
 
 export function renderToolOutput(
     title,
@@ -130,10 +85,159 @@ export function renderToolOutput(
 
             <pre>
 ${escapeHTML(
-    JSON.stringify(data, null, 2)
+    JSON.stringify(
+        data,
+        null,
+        2
+    )
 )}
             </pre>
 
         </div>
     `;
+}
+
+
+// ============================================================
+// Helpers
+// ============================================================
+
+function createEmptyState() {
+
+    return `
+        <div class="result low">
+
+            <div class="result-title">
+
+                <strong>
+                    No Major Findings
+                </strong>
+
+                <span class="risk-badge">
+                    SAFE
+                </span>
+
+            </div>
+
+            <p>
+                No obvious client-side security
+                issues detected.
+            </p>
+
+        </div>
+    `;
+}
+
+function createFindingCard(finding) {
+
+    return `
+        <div class="
+            result
+            ${finding.severity.toLowerCase()}
+        ">
+
+            <div class="result-title">
+
+                <div class="finding-meta">
+
+                    <strong>
+                        ${escapeHTML(finding.type)}
+                    </strong>
+
+                    <small class="finding-source">
+                        ${escapeHTML(
+                            finding.source ||
+                            "Scanner"
+                        )}
+                    </small>
+
+                </div>
+
+                <span class="risk-badge">
+                    ${escapeHTML(
+                        finding.severity
+                    )}
+                </span>
+
+            </div>
+
+            <p>
+                ${escapeHTML(
+                    finding.description
+                )}
+            </p>
+
+            <small>
+                Confidence:
+                ${finding.confidence}%
+            </small>
+
+            <p>
+
+                <strong>
+                    Recommendation:
+                </strong>
+
+                ${escapeHTML(
+                    finding.recommendation
+                )}
+
+            </p>
+
+            ${createPayloadList(
+                finding.payloads
+            )}
+
+        </div>
+    `;
+}
+
+function createPayloadList(payloads) {
+
+    if (
+        !payloads ||
+        payloads.length === 0
+    ) {
+        return "";
+    }
+
+    return `
+        <ul>
+
+            ${payloads
+                .map(
+                    payload =>
+                        `<li>${escapeHTML(payload)}</li>`
+                )
+                .join("")}
+
+        </ul>
+    `;
+}
+
+function calculateRiskScore(findings) {
+
+    let score = 0;
+
+    findings.forEach(finding => {
+
+        switch (
+            finding.severity
+        ) {
+
+            case "High":
+                score += 40;
+                break;
+
+            case "Medium":
+                score += 20;
+                break;
+
+            case "Low":
+                score += 10;
+                break;
+        }
+    });
+
+    return score;
 }

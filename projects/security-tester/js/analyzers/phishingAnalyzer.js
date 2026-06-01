@@ -1,5 +1,18 @@
+// ==========================================================
+// Imports
+// ==========================================================
+
+import { createFinding }
+    from "../utils/createFinding.js";
+
+
+// ==========================================================
+// Phishing URL Detection
+// ==========================================================
+
 export function detectPhishing(input) {
-    const patterns = [
+
+    const phishingKeywords = [
         /login/i,
         /verify/i,
         /secure/i,
@@ -7,17 +20,28 @@ export function detectPhishing(input) {
         /update/i
     ];
 
-    const suspiciousDomain = /\.(xyz|tk|ml|ga|cf)/i;
+    const suspiciousDomains =
+        /\.(xyz|tk|ml|ga|cf)/i;
+
+    const looksLikeUrl =
+        /https?:\/\/|www\.|[a-z0-9-]+\.[a-z]{2,}/i;
+
+    if (!looksLikeUrl.test(input)) {
+        return null;
+    }
 
     let score = 0;
 
-    patterns.forEach(pattern => {
+    phishingKeywords.forEach(pattern => {
+
         if (pattern.test(input)) {
             score++;
         }
     });
 
-    if (suspiciousDomain.test(input)) {
+    if (
+        suspiciousDomains.test(input)
+    ) {
         score++;
     }
 
@@ -25,13 +49,26 @@ export function detectPhishing(input) {
         return null;
     }
 
-    return {
-        type: "Suspicious URL Pattern",
-        severity: "Medium",
-        confidence: 65,
-        description: "Potential phishing-related wording or suspicious domain detected.",
+    return createFinding({
+
+        type:
+            "Suspicious URL Pattern",
+
+        severity:
+            "Medium",
+
+        confidence:
+            65,
+
+        description:
+            "Potential phishing-related wording or suspicious domain detected.",
+
         recommendation:
-            "Verify domains carefully and avoid trusting login/account verification links blindly.",
-        payloads: []
-    };
+            "Verify domains carefully before entering credentials or sensitive information.",
+
+        payloads: [
+            "https://secure-login-update.xyz",
+            "https://verify-account-now.tk"
+        ]
+    });
 }

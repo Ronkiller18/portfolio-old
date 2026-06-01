@@ -1,3 +1,15 @@
+// ==========================================================
+// Imports
+// ==========================================================
+
+import { createFinding }
+    from "../utils/createFinding.js";
+
+
+// ==========================================================
+// Helpers
+// ==========================================================
+
 function base64UrlDecode(str) {
 
     str = str
@@ -11,6 +23,11 @@ function base64UrlDecode(str) {
     return atob(str);
 }
 
+
+// ==========================================================
+// JWT Analysis
+// ==========================================================
+
 export function analyzeJWT(token) {
 
     try {
@@ -18,8 +35,10 @@ export function analyzeJWT(token) {
         const parts = token.split(".");
 
         if (parts.length !== 3) {
+
             return {
-                error: "Invalid JWT structure."
+                error:
+                    "Invalid JWT structure."
             };
         }
 
@@ -33,70 +52,97 @@ export function analyzeJWT(token) {
 
         const findings = [];
 
+        // ==================================================
+        // Unsigned JWT
+        // ==================================================
+
         if (header.alg === "none") {
 
-            findings.push({
+            findings.push(
+                createFinding({
 
-                type: "Unsigned JWT",
+                    type:
+                        "Unsigned JWT",
 
-                severity: "High",
+                    severity:
+                        "High",
 
-                description:
-                    "JWT uses alg:none which disables signature verification.",
+                    confidence:
+                        95,
 
-                confidence: 95,
+                    description:
+                        "JWT uses alg:none which disables signature verification.",
 
-                recommendation:
-                    "Always enforce signed JWTs using secure algorithms like RS256 or HS256.",
-
-                payloads: []
-
-            });
+                    recommendation:
+                        "Always enforce signed JWTs using RS256 or HS256."
+                })
+            );
         }
+
+        // ==================================================
+        // Missing Expiration
+        // ==================================================
 
         if (!payload.exp) {
 
-            findings.push({
+            findings.push(
+                createFinding({
 
-                type: "Missing Expiration",
+                    type:
+                        "Missing Expiration",
 
-                severity: "Medium",
+                    severity:
+                        "Medium",
 
-                description:
-                    "JWT does not contain an expiration timestamp.",
+                    confidence:
+                        85,
 
-                confidence: 85,
+                    description:
+                        "JWT does not contain an expiration timestamp.",
 
-                recommendation:
-                    "Add exp claims to reduce replay and token abuse risks.",
-
-                payloads: []
-
-            });
+                    recommendation:
+                        "Add exp claims to reduce replay and token abuse risks."
+                })
+            );
         }
 
+        // ==================================================
+        // Sensitive Data Exposure
+        // ==================================================
+
+        const payloadKeys =
+            Object.keys(payload)
+                .join(" ")
+                .toLowerCase();
+
+        const sensitivePattern =
+            /(password|passwd|secret|apikey|api_key|tokensecret)/i;
+
         if (
-            payload.password ||
-            payload.secret
+            sensitivePattern.test(
+                payloadKeys
+            )
         ) {
 
-            findings.push({
+            findings.push(
+                createFinding({
 
-                type: "Sensitive Data Exposure",
+                    type:
+                        "Sensitive Data Exposure",
 
-                severity: "High",
+                    severity:
+                        "High",
 
-                description:
-                    "Sensitive information detected inside JWT payload.",
+                    confidence:
+                        90,
 
-                confidence: 90,
+                    description:
+                        "Sensitive information detected inside JWT payload.",
 
-                recommendation:
-                    "Avoid storing passwords, secrets, or internal sensitive data inside JWT payloads.",
-
-                payloads: []
-
-            });
+                    recommendation:
+                        "Avoid storing passwords, API keys, secrets, or sensitive internal data inside JWTs."
+                })
+            );
         }
 
         return {
@@ -104,13 +150,13 @@ export function analyzeJWT(token) {
             payload,
             findings
         };
-
     }
 
-    catch (error) {
+    catch {
 
         return {
-            error: "Failed to decode JWT."
+            error:
+                "Failed to decode JWT."
         };
     }
 }

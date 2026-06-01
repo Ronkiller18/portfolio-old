@@ -1,39 +1,69 @@
+// ============================================================
+// Imports
+// ============================================================
+
 import { escapeHTML } from "./utils/sanitize.js";
+
+
+// ============================================================
+// State
+// ============================================================
 
 const scanHistory = [];
 
-export function addToHistory(input, findings) {
+
+// ============================================================
+// Public API
+// ============================================================
+
+export function addToHistory(
+    tool,
+    input,
+    findings
+) {
 
     const timestamp =
         new Date().toLocaleTimeString();
 
     scanHistory.unshift({
+        tool,
         input,
         findings,
         timestamp
     });
 
-    if (scanHistory.length > 5) {
-        scanHistory.pop();
-    }
+    renderHistory();
+}
+
+export function getHistory() {
+
+    return scanHistory;
+}
+
+export function clearHistory() {
+
+    scanHistory.length = 0;
 
     renderHistory();
 }
 
+
+// ============================================================
+// Rendering
+// ============================================================
+
 function renderHistory() {
 
-    const historyContainer =
+    const container =
         document.getElementById("history");
 
-    const historyCount =
-        document.getElementById("historyCount");
-
-    historyCount.textContent =
-        `${scanHistory.length} Scans`;
+    if (!container) {
+        return;
+    }
 
     if (scanHistory.length === 0) {
 
-        historyContainer.innerHTML = `
+        container.innerHTML = `
             <p class="empty-history">
                 No scans performed yet.
             </p>
@@ -42,16 +72,21 @@ function renderHistory() {
         return;
     }
 
-    let html = "";
+    container.innerHTML =
+        scanHistory
+            .map(createHistoryCard)
+            .join("");
+}
 
-    scanHistory.forEach(scan => {
+function createHistoryCard(scan) {
 
-        const highRisk =
-            scan.findings.some(
-                finding => finding.severity === "High"
-            );
+    const highRisk =
+        scan.findings.some(
+            finding =>
+                finding.severity === "High"
+        );
 
-        html += `
+        return `
             <div class="history-item">
 
                 <div class="history-top">
@@ -60,22 +95,27 @@ function renderHistory() {
                         ${scan.timestamp}
                     </span>
 
-                    <span class="
-                        history-risk
-                        ${highRisk ? "high" : "low"}
-                    ">
-                        ${highRisk ? "HIGH RISK" : "LOW RISK"}
+                    <span
+                        class="
+                            history-risk
+                            ${highRisk ? "high" : "low"}
+                        "
+                    >
+                        ${scan.findings.length} Findings
                     </span>
 
                 </div>
 
+                <div class="history-tool">
+                    ${escapeHTML(scan.tool)}
+                </div>
+
                 <p class="history-input">
-                    ${escapeHTML(scan.input.slice(0, 80))}
+                    ${escapeHTML(
+                        scan.input.slice(0, 60)
+                    )}
                 </p>
 
             </div>
         `;
-    });
-
-    historyContainer.innerHTML = html;
 }

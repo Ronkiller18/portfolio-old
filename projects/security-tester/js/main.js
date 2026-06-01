@@ -1,9 +1,16 @@
+// ======================================================
+// Imports
+// ======================================================
+
 import { detectXSS } from "./analyzers/xssAnalyzer.js";
 import { detectDOMRisk } from "./analyzers/domAnalyzer.js";
 import { detectPhishing } from "./analyzers/phishingAnalyzer.js";
 import { analyzeJWT } from "./analyzers/jwtAnalyzer.js";
 import { analyzeCSP } from "./analyzers/cspAnalyzer.js";
+
 import { addToHistory } from "./history.js";
+import { initializeActivityPanel } from "./activityPanel.js";
+import { exportResults } from "./export.js";
 
 import {
     renderFindings,
@@ -17,20 +24,116 @@ import {
     getFindings
 } from "./findings.js";
 
-const analyzeBtn = document.getElementById("analyzeBtn");
-const decodeJwtBtn = document.getElementById("decodeJwtBtn");
-const analyzeCspBtn = document.getElementById("analyzeCspBtn");
 
-analyzeBtn.addEventListener("click", runAnalysis);
-decodeJwtBtn.addEventListener("click", handleJWTDecode);
-analyzeCspBtn.addEventListener("click", handleCSPAnalysis);
+// ======================================================
+// DOM Elements
+// ======================================================
 
-function runAnalysis() {
+const elements = {
+
+    inputData:
+        document.getElementById("inputData"),
+
+    jwtInput:
+        document.getElementById("jwtInput"),
+
+    cspInput:
+        document.getElementById("cspInput"),
+
+    analyzeBtn:
+        document.getElementById("analyzeBtn"),
+
+    clearBtn:
+        document.getElementById("clearBtn"),
+
+    decodeJwtBtn:
+        document.getElementById("decodeJwtBtn"),
+
+    analyzeCspBtn:
+        document.getElementById("analyzeCspBtn"),
+
+    exportBtn:
+        document.getElementById("exportBtn")
+};
+
+
+// ======================================================
+// Initialization
+// ======================================================
+
+initializeActivityPanel();
+
+
+// ======================================================
+// Event Listeners
+// ======================================================
+
+elements.analyzeBtn.addEventListener(
+    "click",
+    runAnalysis
+);
+
+elements.clearBtn.addEventListener(
+    "click",
+    clearDashboard
+);
+
+elements.decodeJwtBtn.addEventListener(
+    "click",
+    handleJWTDecode
+);
+
+elements.analyzeCspBtn.addEventListener(
+    "click",
+    handleCSPAnalysis
+);
+
+elements.exportBtn.addEventListener(
+    "click",
+    exportResults
+);
+
+
+// ======================================================
+// Dashboard Helpers
+// ======================================================
+
+function refreshDashboard() {
+
+    const findings =
+        getFindings();
+
+    renderFindings(findings);
+
+    updateSummary(findings);
+
+    return findings;
+}
+
+function resetDashboard() {
 
     clearFindings();
 
+    renderFindings([]);
+
+    updateSummary([]);
+}
+
+
+// ======================================================
+// Security Scanner
+// ======================================================
+
+function runAnalysis() {
+
     const input =
-        document.getElementById("inputData").value;
+        elements.inputData.value.trim();
+
+    if (!input) {
+        return;
+    }
+
+    clearFindings();
 
     const analyzers = [
         detectXSS,
@@ -40,7 +143,8 @@ function runAnalysis() {
 
     analyzers.forEach(analyzer => {
 
-        const result = analyzer(input);
+        const result =
+            analyzer(input);
 
         if (result) {
 
@@ -51,27 +155,32 @@ function runAnalysis() {
         }
     });
 
-    const findings = getFindings();
+    const findings =
+        refreshDashboard();
 
-    renderFindings(findings);
+    if (findings.length > 0) {
 
-    updateSummary(findings);
-
-    addToHistory(input, findings);
+        addToHistory(
+            "Security Scanner",
+            input,
+            findings
+        );
+    }
 }
+
+
+// ======================================================
+// JWT Analyzer
+// ======================================================
 
 function handleJWTDecode() {
 
     const token =
-        document.getElementById("jwtInput").value;
+        elements.jwtInput.value.trim();
 
-    if (!token.trim()) {
+    if (!token) {
 
-        clearFindings();
-
-        renderFindings([]);
-
-        updateSummary([]);
+        resetDashboard();
 
         renderToolOutput(
             "JWT Decoder",
@@ -130,25 +239,28 @@ function handleJWTDecode() {
     }
 
     const findings =
-        getFindings();
+        refreshDashboard();
 
-    renderFindings(findings);
-
-    updateSummary(findings);
+    addToHistory(
+        "JWT Analyzer",
+        token,
+        findings
+    );
 }
+
+
+// ======================================================
+// CSP Analyzer
+// ======================================================
 
 function handleCSPAnalysis() {
 
     const policy =
-        document.getElementById("cspInput").value;
+        elements.cspInput.value.trim();
 
-    if (!policy.trim()) {
+    if (!policy) {
 
-        clearFindings();
-
-        renderFindings([]);
-
-        updateSummary([]);
+        resetDashboard();
 
         renderToolOutput(
             "CSP Analyzer",
@@ -179,9 +291,35 @@ function handleCSPAnalysis() {
     );
 
     const allFindings =
-        getFindings();
+        refreshDashboard();
 
-    renderFindings(allFindings);
+    addToHistory(
+        "CSP Analyzer",
+        policy,
+        allFindings
+    );
+}
 
-    updateSummary(allFindings);
+
+// ======================================================
+// Dashboard Utilities
+// ======================================================
+
+function clearDashboard() {
+
+    elements.inputData.value = "";
+
+    elements.jwtInput.value = "";
+
+    elements.cspInput.value = "";
+
+    resetDashboard();
+
+    renderToolOutput(
+        "Security Dashboard",
+        {
+            message:
+                "All inputs and findings cleared."
+        }
+    );
 }

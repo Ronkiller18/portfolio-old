@@ -1,113 +1,178 @@
+// ==========================================================
+// Imports
+// ==========================================================
+
+import { createFinding }
+    from "../utils/createFinding.js";
+
+
+// ==========================================================
+// CSP Analyzer
+// ==========================================================
+
 export function analyzeCSP(policy) {
 
     const findings = [];
 
     const normalized =
-        policy.toLowerCase();
+        policy.toLowerCase().trim();
+
+    // ======================================================
+    // Basic CSP Validation
+    // ======================================================
+
+    const looksLikeCSP =
+        /(default-src|script-src|style-src|img-src|object-src|frame-ancestors|connect-src)/i;
+
+    if (!looksLikeCSP.test(normalized)) {
+        return [];
+    }
+
+    // ======================================================
+    // Unsafe Inline Scripts
+    // ======================================================
 
     if (
         normalized.includes("'unsafe-inline'")
     ) {
 
-        findings.push({
-            type: "Unsafe Inline Scripts",
+        findings.push(
+            createFinding({
 
-            severity: "High",
+                type:
+                    "Unsafe Inline Scripts",
 
-            description:
-                "CSP allows inline JavaScript execution which weakens XSS protections.",
+                severity:
+                    "High",
 
-            confidence: 90,
+                confidence:
+                    90,
 
-            recommendation:
-                "Avoid unsafe-inline and use nonce- or hash-based policies.",
+                description:
+                    "CSP allows inline JavaScript execution which weakens XSS protections.",
 
-            payloads: []
-        });
+                recommendation:
+                    "Avoid unsafe-inline and use nonce- or hash-based policies."
+            })
+        );
     }
+
+    // ======================================================
+    // Unsafe Eval
+    // ======================================================
 
     if (
         normalized.includes("'unsafe-eval'")
     ) {
 
-        findings.push({
-            type: "Unsafe Eval Usage",
+        findings.push(
+            createFinding({
 
-            severity: "High",
+                type:
+                    "Unsafe Eval Usage",
 
-            description:
-                "unsafe-eval allows dangerous dynamic code execution.",
+                severity:
+                    "High",
 
-            confidence: 90,
+                confidence:
+                    90,
 
-            recommendation:
-                "Remove unsafe-eval from script-src directives.",
+                description:
+                    "unsafe-eval allows dangerous dynamic code execution.",
 
-            payloads: []
-        });
+                recommendation:
+                    "Remove unsafe-eval from script-src directives."
+            })
+        );
     }
+
+    // ======================================================
+    // Wildcard Scripts
+    // ======================================================
 
     if (
         normalized.includes("script-src *")
     ) {
 
-        findings.push({
-            type: "Wildcard Script Source",
+        findings.push(
+            createFinding({
 
-            severity: "High",
+                type:
+                    "Wildcard Script Source",
 
-            description:
-                "Wildcard script sources allow JavaScript from any domain.",
+                severity:
+                    "High",
 
-            confidence: 85,
+                confidence:
+                    85,
 
-            recommendation:
-                "Restrict script-src to trusted domains only.",
+                description:
+                    "Wildcard script sources allow JavaScript from any domain.",
 
-            payloads: []
-        });
+                recommendation:
+                    "Restrict script-src to trusted domains only."
+            })
+        );
     }
+
+    // ======================================================
+    // Wildcard Object Source
+    // ======================================================
 
     if (
         normalized.includes("object-src *")
     ) {
 
-        findings.push({
-            type: "Permissive object-src",
+        findings.push(
+            createFinding({
 
-            severity: "Medium",
+                type:
+                    "Permissive object-src",
 
-            description:
-                "object-src wildcard may allow unsafe embedded content.",
+                severity:
+                    "Medium",
 
-            confidence: 80,
+                confidence:
+                    80,
 
-            recommendation:
-                "Restrict or disable object-src entirely.",
+                description:
+                    "object-src wildcard may allow unsafe embedded content.",
 
-            payloads: []
-        });
+                recommendation:
+                    "Restrict or disable object-src entirely."
+            })
+        );
     }
 
+    // ======================================================
+    // Missing Frame Ancestors
+    // ======================================================
+
     if (
-        !normalized.includes("frame-ancestors")
+        !normalized.includes(
+            "frame-ancestors"
+        )
     ) {
 
-        findings.push({
-            type: "Missing frame-ancestors",
+        findings.push(
+            createFinding({
 
-            severity: "Medium",
+                type:
+                    "Missing frame-ancestors",
 
-            description:
-                "Missing frame-ancestors may increase clickjacking risk.",
+                severity:
+                    "Medium",
 
-            confidence: 75,
+                confidence:
+                    75,
 
-            recommendation:
-                "Add frame-ancestors directive to reduce framing risks.",
+                description:
+                    "Missing frame-ancestors may increase clickjacking risk.",
 
-            payloads: []
-        });
+                recommendation:
+                    "Add frame-ancestors directive to reduce framing risks."
+            })
+        );
     }
 
     return findings;

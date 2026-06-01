@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Security Tester Documentation
+    </title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+
+</head>
+
+<body>
+
+    <!-- ===================================== -->
+    <!-- Header -->
+    <!-- ===================================== -->
+
+    <header>
+
+        <h1>
+            Security Tester Documentation
+        </h1>
+
+        <p>
+            Technical overview of the analyzers,
+            detection logic, risks, and mitigation
+            guidance used throughout the project.
+        </p>
+
+        <nav class="top-nav">
+
+            <a href="index.html">
+                Dashboard
+            </a>
+
+            <a href="learn.html">
+                Documentation
+            </a>
+
+        </nav>
+
+    </header>
+
+    <!-- ===================================== -->
+    <!-- Main Content -->
+    <!-- ===================================== -->
+
+    <main>
+
+        <!-- ===================================== -->
+        <!-- Project Overview -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                Project Overview
+            </h2>
+
+            <p>
+
+                Client-Side Security Tester is a
+                browser-based educational security
+                analysis tool designed to demonstrate
+                common client-side security risks.
+
+            </p>
+
+            <p>
+
+                The project performs heuristic analysis
+                against user-supplied input and highlights
+                potentially dangerous patterns commonly
+                associated with web application attacks.
+
+            </p>
+
+            <h3>
+                Supported Modules
+            </h3>
+
+            <ul>
+
+                <li>XSS Detection</li>
+
+                <li>DOM Sink Analysis</li>
+
+                <li>Phishing URL Detection</li>
+
+                <li>JWT Inspection</li>
+
+                <li>Content Security Policy Review</li>
+
+            </ul>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- XSS -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                Cross-Site Scripting (XSS)
+            </h2>
+
+            <h3>Description</h3>
+
+            <p>
+
+                Cross-Site Scripting occurs when
+                untrusted input is interpreted as
+                executable JavaScript by a browser.
+
+            </p>
+
+            <h3>Why It Matters</h3>
+
+            <p>
+
+                Successful XSS attacks can lead to
+                session theft, account compromise,
+                credential harvesting, and malicious
+                actions performed on behalf of users.
+
+            </p>
+
+            <h3>Example Payloads</h3>
+
+            <pre>
+                &lt;script&gt;alert(1)&lt;/script&gt;
+
+                &lt;img src=x onerror=alert(1)&gt;
+
+                &lt;svg onload=alert(1)&gt;
+            </pre>
+
+            <h3>Mitigation</h3>
+
+            <ul>
+
+                <li>Validate user input</li>
+
+                <li>Escape HTML output</li>
+
+                <li>Use Content Security Policy</li>
+
+                <li>Avoid rendering raw user content</li>
+
+            </ul>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- DOM XSS -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                DOM-Based XSS
+            </h2>
+
+            <h3>Description</h3>
+
+            <p>
+
+                DOM XSS occurs when JavaScript reads
+                attacker-controlled input and inserts
+                it into dangerous browser APIs.
+
+            </p>
+
+            <h3>Why It Matters</h3>
+
+            <p>
+
+                Vulnerable DOM sinks may allow attackers
+                to execute arbitrary JavaScript without
+                interacting with a backend server.
+
+            </p>
+
+            <h3>Common Dangerous Sinks</h3>
+
+            <pre>
+                element.innerHTML = userInput
+
+                document.write(userInput)
+
+                eval(userInput)
+
+                insertAdjacentHTML(...)
+            </pre>
+
+            <h3>Mitigation</h3>
+
+            <ul>
+
+                <li>Prefer textContent</li>
+
+                <li>Avoid eval()</li>
+
+                <li>Sanitize user-controlled data</li>
+
+                <li>Use secure templating systems</li>
+
+            </ul>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- Phishing URLs -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                Phishing URL Detection
+            </h2>
+
+            <h3>Description</h3>
+
+            <p>
+
+                Phishing attacks commonly use deceptive
+                URLs designed to mimic legitimate login
+                pages and trusted services.
+
+            </p>
+
+            <h3>Detection Logic</h3>
+
+            <p>
+
+                The analyzer searches for suspicious
+                keywords and risky domain patterns often
+                associated with phishing campaigns.
+
+            </p>
+
+            <h3>Example</h3>
+
+            <pre>
+                secure-login-update.xyz
+
+                verify-account-now.tk
+
+                bank-account-security.ml
+            </pre>
+
+            <h3>Mitigation</h3>
+
+            <ul>
+
+                <li>Verify domain ownership</li>
+
+                <li>Inspect URLs carefully</li>
+
+                <li>Enable MFA when possible</li>
+
+                <li>Never trust login links blindly</li>
+
+            </ul>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- JWT -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                JWT Security Analysis
+            </h2>
+
+            <h3>Description</h3>
+
+            <p>
+
+                JSON Web Tokens are commonly used for
+                authentication and authorization in
+                modern web applications.
+
+            </p>
+
+            <h3>Detected Issues</h3>
+
+            <ul>
+
+                <li>alg:none usage</li>
+
+                <li>Missing expiration claims</li>
+
+                <li>Sensitive data exposure</li>
+
+            </ul>
+
+            <h3>Example Token</h3>
+
+            <pre>
+                eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.
+                eyJ1c2VyIjoiYWRtaW4iLCJwYXNzd29yZCI6InNlY3JldCJ9.
+            </pre>
+
+            <h3>Mitigation</h3>
+
+            <ul>
+
+                <li>Always require signatures</li>
+
+                <li>Use exp claims</li>
+
+                <li>Avoid secrets in payloads</li>
+
+                <li>Rotate signing keys regularly</li>
+
+            </ul>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- CSP -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                Content Security Policy (CSP)
+            </h2>
+
+            <h3>Description</h3>
+
+            <p>
+
+                CSP is a browser security mechanism
+                used to restrict the sources from which
+                content may be loaded and executed.
+
+            </p>
+
+            <h3>Detected Issues</h3>
+
+            <ul>
+
+                <li>unsafe-inline</li>
+
+                <li>unsafe-eval</li>
+
+                <li>Wildcard script sources</li>
+
+                <li>Missing frame-ancestors</li>
+
+            </ul>
+
+            <h3>Example Weak Policy</h3>
+
+            <pre>
+                default-src 'self';
+                script-src 'unsafe-inline' *;
+                object-src *;
+            </pre>
+
+            <h3>Mitigation</h3>
+
+            <ul>
+
+                <li>Use nonces or hashes</li>
+
+                <li>Avoid unsafe-inline</li>
+
+                <li>Avoid unsafe-eval</li>
+
+                <li>Define frame-ancestors</li>
+
+            </ul>
+
+        </section>
+
+        <!-- ===================================== -->
+        <!-- Risk Model -->
+        <!-- ===================================== -->
+
+        <section class="panel">
+
+            <h2>
+                Risk Scoring Model
+            </h2>
+
+            <p>
+
+                The dashboard generates a simplified
+                risk score based on detected findings.
+
+            </p>
+
+            <ul>
+
+                <li>High Severity = 40 Points</li>
+
+                <li>Medium Severity = 20 Points</li>
+
+                <li>Low Severity = 10 Points</li>
+
+            </ul>
+
+            <p>
+
+                This scoring model is intentionally
+                simplified for educational purposes and
+                should not replace professional risk
+                assessment methodologies.
+
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
