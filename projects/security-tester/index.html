@@ -51,6 +51,8 @@
                         <button class="tool-tab active" data-tool="scanner" role="tab" aria-selected="true">Security Scanner</button>
                         <button class="tool-tab" data-tool="jwt"     role="tab" aria-selected="false">JWT Analyzer</button>
                         <button class="tool-tab" data-tool="csp"     role="tab" aria-selected="false">CSP Analyzer</button>
+                        <button class="tool-tab" data-tool="headers" role="tab" aria-selected="false">Header Analyzer</button>
+                        <button class="tool-tab" data-tool="cookies" role="tab" aria-selected="false">Cookie Analyzer</button>
                         <!-- Add new tool tabs here -->
                     </nav>
                 </div>
@@ -114,6 +116,71 @@
                     </div>
                 </section>
 
+                <!-- Header Analyzer Tool -->
+                <section class="tool-workspace" data-tool-panel="headers" role="tabpanel">
+                    <div class="tool-header">
+                        <h2>Security Header Analyzer</h2>
+                        <p>Paste HTTP response headers to check for missing or weak security directives.</p>
+                    </div>
+                    <div class="scanner-modules">
+                        <div class="module-card">
+                            <h4>Transport Security</h4>
+                            <p>Checks HSTS configuration and strength.</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>Content Policy</h4>
+                            <p>Checks CSP, X-Frame-Options, X-Content-Type-Options.</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>Privacy Headers</h4>
+                            <p>Checks Referrer-Policy and Permissions-Policy.</p>
+                        </div>
+                    </div>
+                    <div class="tool-content">
+                        <label for="headerInput">Response Headers</label>
+                        <textarea id="headerInput" class="tool-textarea" placeholder="Content-Security-Policy: default-src 'self'
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=()"></textarea>
+                        <div class="action-row">
+                            <button id="analyzeHeaderBtn">Analyze Headers</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cookie Analyzer Tool -->
+                <section class="tool-workspace" data-tool-panel="cookies" role="tabpanel">
+                    <div class="tool-header">
+                        <h2>Cookie Security Analyzer</h2>
+                        <p>Paste Set-Cookie headers to check for missing security attributes across all cookies.</p>
+                    </div>
+                    <div class="scanner-modules">
+                        <div class="module-card">
+                            <h4>HttpOnly</h4>
+                            <p>Detects cookies readable by JavaScript — XSS theft risk.</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>Secure Flag</h4>
+                            <p>Detects cookies sent over unencrypted HTTP connections.</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>SameSite</h4>
+                            <p>Detects missing or weak cross-site request restrictions.</p>
+                        </div>
+                    </div>
+                    <div class="tool-content">
+                        <label for="cookieInput">Set-Cookie Headers</label>
+                        <textarea id="cookieInput" class="tool-textarea" placeholder="Set-Cookie: session=abc123; Path=/
+Set-Cookie: token=xyz; HttpOnly; Secure; SameSite=Strict; Max-Age=3600
+Set-Cookie: prefs=dark; SameSite=Lax"></textarea>
+                        <div class="action-row">
+                            <button id="analyzeCookieBtn">Analyze Cookies</button>
+                        </div>
+                    </div>
+                </section>
+
             </section>
 
             <!-- Tool Output — fixed height, scrollable -->
@@ -158,7 +225,7 @@
             <section class="panel action-panel">
                 <div class="action-row">
                     <button id="exportBtn">Export JSON</button>
-                    <button id="clearBtn" class="secondary-btn">Clear All</button>
+                    <button id="clearBtn" class="secondary-btn">Clear Dashboard</button>
                 </div>
             </section>
 
