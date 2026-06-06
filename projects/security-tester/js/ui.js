@@ -1,5 +1,5 @@
 // ============================================================
-// Imports
+// ui.js — DOM rendering for findings, summary, tool output
 // ============================================================
 
 import { escapeHTML } from "./utils/sanitize.js";
@@ -10,234 +10,120 @@ import { escapeHTML } from "./utils/sanitize.js";
 // ============================================================
 
 export function renderFindings(findings) {
-
-    const container =
-        document.getElementById("results");
+    const container = document.getElementById("results");
+    if (!container) return;
 
     if (findings.length === 0) {
-
-        container.innerHTML =
-            createEmptyState();
-
+        container.innerHTML = "";   // let CSS :empty pseudo handle the empty state
         return;
     }
 
-    container.innerHTML =
-        findings
-            .map(createFindingCard)
-            .join("");
+    container.innerHTML = findings.map(createFindingCard).join("");
 }
 
 
 // ============================================================
-// Summary Rendering
+// Summary / Metrics
 // ============================================================
 
 export function updateSummary(findings) {
+    const findingCount = document.getElementById("findingCount");
+    const highCount    = document.getElementById("highCount");
+    const riskScore    = document.getElementById("riskScore");
+    const findingLabel = document.getElementById("findingLabel");
 
-    const findingCount =
-        document.getElementById("findingCount");
+    if (!findingCount || !highCount || !riskScore || !findingLabel) return;
 
-    const highCount =
-        document.getElementById("highCount");
-
-    const riskScore =
-        document.getElementById("riskScore");
-
-    const findingLabel =
-        document.getElementById("findingLabel");
-
-    findingCount.textContent =
-        findings.length;
-
-    findingLabel.textContent =
-        `${findings.length} Active`;
-
-    highCount.textContent =
-        findings.filter(
-            finding =>
-                finding.severity === "High"
-        ).length;
-
-    riskScore.textContent =
-        calculateRiskScore(findings);
+    findingCount.textContent = findings.length;
+    findingLabel.textContent = `${findings.length} Active`;
+    highCount.textContent    = findings.filter(f => f.severity === "High").length;
+    riskScore.textContent    = calculateRiskScore(findings);
 }
 
 
 // ============================================================
-// Tool Output Rendering
+// Tool Output
 // ============================================================
 
-export function renderToolOutput(
-    title,
-    data
-) {
-
-    const container =
-        document.getElementById("toolOutput");
+export function renderToolOutput(title, data) {
+    const container = document.getElementById("toolOutput");
+    if (!container) return;
 
     container.innerHTML = `
         <div class="tool-output-card">
-
-            <h5>
-                ${escapeHTML(title)}
-            </h5>
-
-            <pre>
-${escapeHTML(
-    JSON.stringify(
-        data,
-        null,
-        2
-    )
-)}
-            </pre>
-
-        </div>
-    `;
-}
-
-
-// ============================================================
-// Helpers
-// ============================================================
-
-function createEmptyState() {
-
-    return `
-        <div class="result low">
-
-            <div class="result-title">
-
-                <strong>
-                    No Major Findings
-                </strong>
-
-                <span class="risk-badge">
-                    SAFE
-                </span>
-
+            <div class="tool-output-header">
+                <h4>${escapeHTML(title)}</h4>
             </div>
-
-            <p>
-                No obvious client-side security
-                issues detected.
-            </p>
-
+            <pre class="tool-output-content">${escapeHTML(JSON.stringify(data, null, 2))}</pre>
         </div>
     `;
 }
+
+export function renderEmptyOutput() {
+    const container = document.getElementById("toolOutput");
+    if (!container) return;
+    container.innerHTML = `<p class="empty-state">Run a tool to view analysis output.</p>`;
+}
+
+
+// ============================================================
+// Finding Card
+// ============================================================
 
 function createFindingCard(finding) {
+    const severity = finding.severity.toLowerCase(); // "high" | "medium" | "low"
 
     return `
-        <div class="
-            result
-            ${finding.severity.toLowerCase()}
-        ">
+        <article class="finding-card severity-${severity}">
 
-            <div class="result-title">
-
-                <div class="finding-meta">
-
-                    <strong>
-                        ${escapeHTML(finding.type)}
-                    </strong>
-
-                    <small class="finding-source">
-                        ${escapeHTML(
-                            finding.source ||
-                            "Scanner"
-                        )}
-                    </small>
-
-                </div>
-
-                <span class="risk-badge">
-                    ${escapeHTML(
-                        finding.severity
-                    )}
-                </span>
-
+            <div class="finding-card-header">
+                <span class="finding-title">${escapeHTML(finding.type)}</span>
+                <span class="badge badge-${severity}">${escapeHTML(finding.severity)}</span>
             </div>
 
-            <p>
-                ${escapeHTML(
-                    finding.description
-                )}
+            <div class="finding-source">${escapeHTML(finding.source || "Analyzer")}</div>
+
+            <p class="finding-description">${escapeHTML(finding.description)}</p>
+
+            <p class="finding-confidence">Confidence: ${finding.confidence}%</p>
+
+            <p class="finding-recommendation">
+                <strong>Recommendation:</strong> ${escapeHTML(finding.recommendation)}
             </p>
 
-            <small>
-                Confidence:
-                ${finding.confidence}%
-            </small>
+            ${createPayloadList(finding.payloads)}
 
-            <p>
-
-                <strong>
-                    Recommendation:
-                </strong>
-
-                ${escapeHTML(
-                    finding.recommendation
-                )}
-
-            </p>
-
-            ${createPayloadList(
-                finding.payloads
-            )}
-
-        </div>
+        </article>
     `;
 }
 
-function createPayloadList(payloads) {
 
-    if (
-        !payloads ||
-        payloads.length === 0
-    ) {
-        return "";
-    }
+// ============================================================
+// Payload List
+// ============================================================
+
+function createPayloadList(payloads) {
+    if (!payloads || payloads.length === 0) return "";
 
     return `
-        <ul>
-
-            ${payloads
-                .map(
-                    payload =>
-                        `<li>${escapeHTML(payload)}</li>`
-                )
-                .join("")}
-
+        <ul class="payload-list">
+            ${payloads.map(p => `<li>${escapeHTML(p)}</li>`).join("")}
         </ul>
     `;
 }
 
+
+// ============================================================
+// Risk Score Calculator
+// ============================================================
+
 function calculateRiskScore(findings) {
-
-    let score = 0;
-
-    findings.forEach(finding => {
-
-        switch (
-            finding.severity
-        ) {
-
-            case "High":
-                score += 40;
-                break;
-
-            case "Medium":
-                score += 20;
-                break;
-
-            case "Low":
-                score += 10;
-                break;
+    return findings.reduce((score, finding) => {
+        switch (finding.severity) {
+            case "High":   return score + 40;
+            case "Medium": return score + 20;
+            case "Low":    return score + 10;
+            default:       return score;
         }
-    });
-
-    return score;
+    }, 0);
 }

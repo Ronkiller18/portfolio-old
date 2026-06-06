@@ -2,416 +2,205 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Client-Side Security Tester
-    </title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/components.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client-Side Security Tester</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/findings.css">
-
 </head>
 
 <body>
 
     <!-- ===================================== -->
-    <!-- Header -->
+    <!-- Header                               -->
     <!-- ===================================== -->
-
-    <header>
-
-        <h1>
-            Client-Side Security Tester
-        </h1>
-
-        <p class="tag">
-            Heuristic Security Analysis Tool
-        </p>
-
-        <p>
-            Analyze common client-side security
-            issues using lightweight detection
-            modules.
-        </p>
-
-        <nav class="top-nav">
-
-            <a href="index.html">
-                Dashboard
-            </a>
-
-            <a href="learn.html">
-                Documentation
-            </a>
-
-        </nav>
-
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <h1>Client-Side Security Tester</h1>
+                <span class="header-tagline">Educational Security Analysis Platform</span>
+            </div>
+            <div class="header-right">
+                <div class="platform-status">
+                    <span class="status-dot"></span>
+                    <span>Detection Engine</span>
+                    <strong>Operational</strong>
+                </div>
+                <nav class="top-nav">
+                    <a href="index.html" class="nav-link active">Dashboard</a>
+                    <a href="learn.html" class="nav-link">Documentation</a>
+                </nav>
+            </div>
+        </div>
     </header>
 
     <!-- ===================================== -->
-    <!-- Main Dashboard -->
+    <!-- Main Dashboard                       -->
     <!-- ===================================== -->
+    <main class="dashboard-grid">
 
-    <main>
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
 
-        <section class="dashboard-grid">
+            <!-- Tool Workspace -->
+            <section class="workspace-panel panel">
 
-            <!-- ===================================== -->
-            <!-- Left Column -->
-            <!-- ===================================== -->
+                <div class="tool-navigation-wrapper">
+                    <nav class="tool-navigation" role="tablist" aria-label="Security Tools">
+                        <button class="tool-tab active" data-tool="scanner" role="tab" aria-selected="true">Security Scanner</button>
+                        <button class="tool-tab" data-tool="jwt"     role="tab" aria-selected="false">JWT Analyzer</button>
+                        <button class="tool-tab" data-tool="csp"     role="tab" aria-selected="false">CSP Analyzer</button>
+                        <!-- Add new tool tabs here -->
+                    </nav>
+                </div>
 
-            <div class="tool-column">
-
-                <!-- ============================== -->
-                <!-- Security Scanner -->
-                <!-- ============================== -->
-
-                <section class="panel analyzer-panel">
-
+                <!-- Scanner Tool -->
+                <section class="tool-workspace active" data-tool-panel="scanner" role="tabpanel">
                     <div class="tool-header">
-
-                        <h2>
-                            Security Audit Console
-                        </h2>
-
-                        <p>
-                            Analyze suspicious URLs,
-                            JavaScript patterns and
-                            client-side attack vectors.
-                        </p>
-
-                        <div class="supported-checks">
-
-                            <span class="check-pill">
-                                XSS Detection
-                            </span>
-
-                            <span class="check-pill">
-                                DOM Sink Detection
-                            </span>
-
-                            <span class="check-pill">
-                                Phishing URL Analysis
-                            </span>
-
+                        <h2>Security Scanner Suite</h2>
+                        <p>Run multiple client-side security detection modules against suspicious URLs, JavaScript snippets and user supplied input.</p>
+                    </div>
+                    <div class="scanner-modules">
+                        <div class="module-card">
+                            <h4>XSS Detection</h4>
+                            <p>Detect script injection patterns and dangerous event handlers.</p>
                         </div>
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <input
-                            type="text"
-                            id="inputData"
-                            placeholder="Enter URL, payload, or JavaScript pattern..."
-                        >
-
-                    </div>
-
-                    <div class="example-section">
-
-                        <h4>
-                            Example Inputs
-                        </h4>
-
-                        <div class="example-list">
-
-                            <code>
-                                &lt;script&gt;alert(1)&lt;/script&gt;
-                            </code>
-
-                            <code>
-                                eval(userInput)
-                            </code>
-
-                            <code>
-                                secure-login-update.xyz
-                            </code>
-
+                        <div class="module-card">
+                            <h4>DOM Sink Detection</h4>
+                            <p>Detect dangerous client-side APIs and DOM manipulation.</p>
                         </div>
-
+                        <div class="module-card">
+                            <h4>Phishing Analysis</h4>
+                            <p>Detect suspicious URLs and deceptive domains.</p>
+                        </div>
                     </div>
-
-                    <div class="action-row">
-
-                        <button id="analyzeBtn">
-                            Run Analysis
-                        </button>
-
+                    <div class="tool-content">
+                        <label for="inputData">Analysis Input</label>
+                        <textarea id="inputData" class="tool-textarea" placeholder="Enter URL, payload, JavaScript pattern or suspicious content..."></textarea>
+                        <div class="action-row">
+                            <button id="analyzeBtn">Run Security Analysis</button>
+                        </div>
                     </div>
-
                 </section>
 
-                <!-- ============================== -->
-                <!-- JWT Analyzer -->
-                <!-- ============================== -->
-
-                <section class="panel jwt-panel">
-
-                    <div class="section-header">
-
-                        <h3>
-                            JWT Decoder
-                        </h3>
-
+                <!-- JWT Tool -->
+                <section class="tool-workspace" data-tool-panel="jwt" role="tabpanel">
+                    <div class="tool-header">
+                        <h2>JWT Analyzer</h2>
+                        <p>Decode and inspect JWTs for common security issues.</p>
                     </div>
-
-                    <textarea
-                        id="jwtInput"
-                        class="tool-textarea"
-                        placeholder="Paste JWT token..."
-                    ></textarea>
-
-                    <button id="decodeJwtBtn">
-                        Decode JWT
-                    </button>
-
+                    <div class="tool-content">
+                        <label for="jwtInput">JWT Token</label>
+                        <textarea id="jwtInput" class="tool-textarea" placeholder="Paste JWT token..."></textarea>
+                        <div class="action-row">
+                            <button id="decodeJwtBtn">Decode JWT</button>
+                        </div>
+                    </div>
                 </section>
 
-                <!-- ============================== -->
-                <!-- CSP Analyzer -->
-                <!-- ============================== -->
-
-                <section class="panel csp-panel">
-
-                    <div class="section-header">
-
-                        <h3>
-                            CSP Analyzer
-                        </h3>
-
+                <!-- CSP Tool -->
+                <section class="tool-workspace" data-tool-panel="csp" role="tabpanel">
+                    <div class="tool-header">
+                        <h2>CSP Analyzer</h2>
+                        <p>Review Content Security Policies and identify weak directives.</p>
                     </div>
-
-                    <textarea
-                        id="cspInput"
-                        class="tool-textarea"
-                        placeholder="Paste CSP policy..."
-                    ></textarea>
-
-                    <button id="analyzeCspBtn">
-                        Analyze CSP
-                    </button>
-
+                    <div class="tool-content">
+                        <label for="cspInput">CSP Policy</label>
+                        <textarea id="cspInput" class="tool-textarea" placeholder="Paste CSP policy..."></textarea>
+                        <div class="action-row">
+                            <button id="analyzeCspBtn">Analyze CSP</button>
+                        </div>
+                    </div>
                 </section>
 
-            </div>
+            </section>
 
-            <!-- ===================================== -->
-            <!-- Right Column -->
-            <!-- ===================================== -->
-
-            <aside class="panel findings-panel">
-
-                <!-- ============================== -->
-                <!-- Intelligence Header -->
-                <!-- ============================== -->
-
+            <!-- Tool Output — fixed height, scrollable -->
+            <section class="panel tool-output-section">
                 <div class="section-header">
-
-                    <h3>
-                        Security Intelligence
-                    </h3>
-
-                    <span class="live-indicator">
-                        LIVE
-                    </span>
-
+                    <h3>Tool Output</h3>
                 </div>
-
-                <!-- ============================== -->
-                <!-- Metrics -->
-                <!-- ============================== -->
-
-                <div class="summary-grid">
-
-                    <div class="summary-card">
-
-                        <span class="summary-label">
-                            Findings
-                        </span>
-
-                        <strong id="findingCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                    <div class="summary-card">
-
-                        <span class="summary-label">
-                            High Risk
-                        </span>
-
-                        <strong id="highCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                    <div class="summary-card">
-
-                        <span class="summary-label">
-                            Risk Score
-                        </span>
-
-                        <strong id="riskScore">
-                            0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-                <!-- ============================== -->
-                <!-- Global Actions -->
-                <!-- ============================== -->
-
-                <div class="action-row">
-
-                    <button
-                        id="exportBtn"
-                        class="secondary-btn"
-                    >
-                        Export JSON
-                    </button>
-
-                    <button
-                        id="clearBtn"
-                        class="secondary-btn"
-                    >
-                        Clear Dashboard
-                    </button>
-
-                </div>
-
-                <!-- ============================== -->
-                <!-- Tool Output -->
-                <!-- ============================== -->
-
-                <div class="tool-output-section">
-
-                    <div class="section-header">
-
-                        <h4>
-                            Tool Output
-                        </h4>
-
-                        <span class="finding-counter">
-                            LIVE DATA
-                        </span>
-
-                    </div>
-
+                <div class="tool-output-scroll">
                     <div id="toolOutput">
-
-                        <p class="empty-state">
-
-                            Run a tool to inspect
-                            decoded JWT data,
-                            CSP policies and
-                            analysis details.
-
-                        </p>
-
+                        <p class="empty-state">Run a tool to view analysis output.</p>
                     </div>
-
                 </div>
+            </section>
 
-                <!-- ============================== -->
-                <!-- Findings -->
-                <!-- ============================== -->
+        </div>
 
-                <div class="findings-section">
+        <!-- RIGHT COLUMN -->
+        <aside class="right-column">
 
-                    <div class="section-header">
-
-                        <h4>
-                            Security Findings
-                        </h4>
-
-                        <span
-                            id="findingLabel"
-                            class="finding-counter"
-                        >
-                            0 Active
-                        </span>
-
+            <!-- Security Metrics -->
+            <section class="panel summary-panel">
+                <div class="section-header">
+                    <h3>Security Metrics</h3>
+                </div>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <span class="summary-label">Findings</span>
+                        <strong id="findingCount">0</strong>
                     </div>
+                    <div class="summary-card">
+                        <span class="summary-label">High Risk</span>
+                        <strong id="highCount">0</strong>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-label">Risk Score</span>
+                        <strong id="riskScore">0</strong>
+                    </div>
+                </div>
+            </section>
 
+            <!-- Actions -->
+            <section class="panel action-panel">
+                <div class="action-row">
+                    <button id="exportBtn">Export JSON</button>
+                    <button id="clearBtn" class="secondary-btn">Clear All</button>
+                </div>
+            </section>
+
+            <!-- Security Findings -->
+            <section class="panel findings-section">
+                <div class="section-header collapsible-header" data-target="findings-body">
+                    <h3>Security Findings</h3>
+                    <div class="header-right-group">
+                        <span id="findingLabel" class="finding-counter">0 Active</span>
+                        <span class="collapse-icon">▾</span>
+                    </div>
+                </div>
+                <div id="findings-body" class="collapsible-body">
                     <div id="results"></div>
-
                 </div>
+            </section>
 
-                <!-- ============================== -->
-                <!-- Recent Activity -->
-                <!-- ============================== -->
-
-                <div class="history-section">
-
-                    <div
-                        class="section-header history-toggle"
-                    >
-
-                        <h4>
-                            Recent Activity
-                        </h4>
-
-                        <button
-                            id="historyToggleBtn"
-                            class="toggle-btn"
-                        >
-                            ▼
-                        </button>
-
-                    </div>
-
-                    <div
-                        id="historyWrapper"
-                        class="history-wrapper"
-                    >
-
-                        <div id="history"></div>
-
-                    </div>
-
+            <!-- Activity History -->
+            <section class="panel history-section">
+                <div class="section-header collapsible-header" data-target="history-body">
+                    <h3>Activity History</h3>
+                    <span class="collapse-icon">▾</span>
                 </div>
+                <div id="history-body" class="collapsible-body history-scroll">
+                    <div id="history"></div>
+                </div>
+            </section>
 
-            </aside>
-
-        </section>
+        </aside>
 
     </main>
 
     <!-- ===================================== -->
-    <!-- Footer -->
+    <!-- Footer                               -->
     <!-- ===================================== -->
-
-    <footer>
-
-        <p>
-
-            This project is intended for
-            educational and portfolio
-            demonstration purposes.
-
-        </p>
-
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>Educational cybersecurity portfolio project. Findings are heuristic and intended for learning purposes only.</p>
+        </div>
     </footer>
 
-    <script
-        type="module"
-        src="js/main.js"
-    ></script>
+    <script type="module" src="js/main.js"></script>
 
 </body>
-
 </html>

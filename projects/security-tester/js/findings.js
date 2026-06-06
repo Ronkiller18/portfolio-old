@@ -1,67 +1,37 @@
-// ======================================================
-// Findings Store
-// ======================================================
+// ============================================================
+// findings.js — In-memory findings store
+// ============================================================
 
 let findingsStore = [];
 
-
-// ======================================================
-// Clear Store
-// ======================================================
-
+// ---- Clear ----
 export function clearFindings() {
-
     findingsStore = [];
 }
 
-
-// ======================================================
-// Add Findings
-// ======================================================
-
+// ---- Add ----
+// source is set here so it always overwrites the factory default,
+// giving each tool full control over the source label.
 export function addFindings(source, findings) {
-
-    if (!Array.isArray(findings)) {
-        return;
-    }
+    if (!Array.isArray(findings)) return;
 
     const normalized = findings.map(finding => ({
-
         ...finding,
-
-        source
-
+        source  // intentionally overwrites factory default
     }));
 
     findingsStore.push(...normalized);
 }
 
-
-// ======================================================
-// Get Findings
-// ======================================================
-
+// ---- Read ----
 export function getFindings() {
-
-    return [...findingsStore];
+    return [...findingsStore]; // return a copy — callers cannot mutate the store
 }
 
-
-// ======================================================
-// Get Finding Count
-// ======================================================
-
 export function getFindingCount() {
-
     return findingsStore.length;
 }
 
-
-// ======================================================
-// Check If Store Is Empty
-// ======================================================
-
 export function hasFindings() {
-
     return findingsStore.length > 0;
 }

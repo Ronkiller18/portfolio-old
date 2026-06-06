@@ -1,0 +1,616 @@
+/* ============================================
+   learn.css — Documentation page layout,
+   sidebar TOC, doc sections, code blocks,
+   copy buttons, callouts, risk table
+   ============================================ */
+
+/* ============================================
+   PAGE HERO
+   ============================================ */
+.doc-hero {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+}
+
+.doc-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.doc-hero-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+}
+
+.doc-hero-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+}
+
+.doc-hero-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.6;
+}
+
+/* ============================================
+   TWO-COLUMN LAYOUT: sidebar + content
+   ============================================ */
+.doc-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    align-items: start;
+    flex: 1;
+    /* Prevent any child from blowing out the grid column */
+    min-width: 0;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.doc-sidebar {
+    position: sticky;
+    top: 120px;   /* clears centered stacked header */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* TOC panel */
+.toc-panel,
+.quick-ref-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+}
+
+.toc-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.toc-link {
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    border-left: 2px solid transparent;
+    transition: all var(--transition);
+    display: block;
+}
+
+.toc-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    opacity: 1;
+    border-left-color: var(--border-light);
+}
+
+.toc-link.active {
+    color: var(--accent);
+    background: var(--accent-glow);
+    border-left-color: var(--accent);
+    font-weight: 700;
+}
+
+/* Quick reference cards */
+.qr-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.qr-card {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+    transition: all var(--transition);
+    text-decoration: none;
+}
+
+.qr-card:hover {
+    border-color: var(--accent-dim);
+    background: var(--bg-hover);
+    opacity: 1;
+}
+
+.qr-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid var(--accent-dim);
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.qr-desc {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   DOC SECTIONS
+   ============================================ */
+.doc-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;   /* critical — lets flex child shrink inside grid */
+}
+
+.doc-section {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    min-width: 0;   /* prevent section from blowing out column width */
+}
+
+/* Section header bar */
+.doc-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+}
+
+.doc-section-number {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.doc-section-header h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+/* Section body */
+.doc-section-body {
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.doc-section-body p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.doc-section-body h3 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: -0.25rem; /* pull next sibling closer */
+}
+
+/* ---- Topic tags (XSS, DOM, etc.) ---- */
+.doc-tag {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.doc-tag--high {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.doc-tag--medium {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.doc-tag--low {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+/* ---- Meta row (severity + score) ---- */
+.doc-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.doc-severity {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+}
+
+.doc-severity--high {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.doc-severity--medium {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.doc-severity--low {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.doc-score {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+}
+
+/* ---- Lists ---- */
+.doc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0;
+    margin: 0;
+}
+
+.doc-list li {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    padding-left: 1.1rem;
+    position: relative;
+    line-height: 1.6;
+}
+
+.doc-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* ---- Inline code ---- */
+.inline-code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.05rem 0.35rem;
+    color: var(--accent);
+}
+
+/* ============================================
+   CODE BLOCKS WITH COPY BUTTON
+   ============================================ */
+.code-block-wrapper {
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    /* Contain the pre — never let it push past the panel */
+    min-width: 0;
+    max-width: 100%;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+}
+
+.code-lang {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   COPY BUTTON — icon via CSS ::before only,
+   no SVG in HTML
+   ============================================ */
+
+/* Copy icon — two overlapping squares (clipboard) */
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.6rem 0.2rem 0.45rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    transform: none;   /* override global button lift */
+}
+
+/* Default icon: copy (two squares) */
+.copy-btn::before {
+    content: '';
+    display: block;
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%233d5473' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='9' y='9' width='13' height='13' rx='2'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: background-image var(--transition);
+}
+
+.copy-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-light);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Hover: brighten the icon stroke to match text-primary (#e2e8f0) */
+.copy-btn:hover::before {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='9' y='9' width='13' height='13' rx='2'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E");
+}
+
+/* Success state: swap to checkmark icon, green colours */
+.copy-btn--success {
+    color: var(--risk-low) !important;
+    border-color: rgba(52, 211, 153, 0.35) !important;
+    background: var(--risk-low-bg) !important;
+}
+
+.copy-btn--success::before {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") !important;
+}
+
+/* Code pre */
+.code-block {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-primary);
+    line-height: 1.75;
+    overflow-x: auto;
+    white-space: pre;
+    background: transparent;
+}
+
+.code-block code {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* ============================================
+   CALLOUT BOXES
+   ============================================ */
+.doc-callout {
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    border-left: 3px solid;
+}
+
+.doc-callout strong {
+    font-weight: 700;
+    margin-right: 0.25rem;
+}
+
+.doc-callout--info {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--text-secondary);
+}
+
+.doc-callout--info strong { color: var(--accent); }
+
+.doc-callout--warning {
+    background: var(--risk-medium-bg);
+    border-color: var(--risk-medium);
+    color: var(--text-secondary);
+}
+
+.doc-callout--warning strong { color: var(--risk-medium); }
+
+/* ============================================
+   RISK SCORING TABLE
+   ============================================ */
+.risk-table {
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.risk-row {
+    display: grid;
+    grid-template-columns: 120px 80px 1fr;
+    align-items: center;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    gap: 1rem;
+    transition: background var(--transition);
+}
+
+.risk-row:last-child { border-bottom: none; }
+.risk-row:not(.risk-row--header):hover { background: var(--bg-hover); }
+
+.risk-row--header {
+    background: var(--bg-base);
+    padding: 0.45rem 1rem;
+}
+
+.risk-row--header span {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.risk-points {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.risk-points--high   { color: var(--risk-high); }
+.risk-points--medium { color: var(--risk-medium); }
+.risk-points--low    { color: var(--risk-low); }
+
+.risk-example {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   RESPONSIVE
+   — mirrors the same breakpoints as dashboard.css
+   — global.css already handles body overflow-x,
+     header sticky, and footer — no overrides needed
+   ============================================ */
+
+/* Code blocks scroll inside their wrapper only —
+   overflow: hidden on .code-block-wrapper clips it,
+   so the page never shifts sideways */
+.code-block {
+    overflow-x: auto;
+    white-space: pre;
+    /* Never wider than its container */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* ---- 960px: collapse to single column ---- */
+@media (max-width: 960px) {
+    .doc-layout {
+        grid-template-columns: 1fr;
+        padding: 1.25rem 1rem 3rem;
+        gap: 1.25rem;
+    }
+
+    /* Sidebar above content, side-by-side panels */
+    .doc-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .doc-hero         { padding: 1.5rem 1rem 1.25rem; }
+    .doc-hero-title   { font-size: 1.35rem; }
+
+    .risk-row {
+        grid-template-columns: 110px 70px 1fr;
+        gap: 0.5rem;
+    }
+}
+
+/* ---- 600px: single column everything ---- */
+@media (max-width: 600px) {
+    .doc-layout { padding: 0.75rem 0.75rem 2rem; }
+
+    .doc-sidebar { grid-template-columns: 1fr; }
+
+    .doc-section-header { padding: 0.85rem 1rem; }
+    .doc-section-body   { padding: 1rem; }
+
+    .doc-hero-title { font-size: 1.15rem; }
+    .doc-hero-sub   { font-size: 0.78rem; }
+
+    .risk-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+        padding: 0.75rem 0.85rem;
+    }
+
+    .risk-row--header { display: none; }
+}

@@ -1,6 +1,10 @@
 // ============================================================
-// Finding Factory
+// createFinding.js — Finding factory
+// Centralises the finding shape so every analyzer
+// produces a consistent object.
 // ============================================================
+
+const VALID_SEVERITIES = ["High", "Medium", "Low"];
 
 export function createFinding({
     type,
@@ -8,8 +12,14 @@ export function createFinding({
     description,
     recommendation,
     confidence = 100,
-    payloads = []
+    payloads   = [],
+    source     = ""     // can be overwritten by addFindings()
 }) {
+    // Validate severity — prevents bad data reaching scoring/badges
+    if (!VALID_SEVERITIES.includes(severity)) {
+        console.warn(`createFinding: invalid severity "${severity}" on "${type}" — defaulting to "Low"`);
+        severity = "Low";
+    }
 
     return {
         type,
@@ -17,6 +27,7 @@ export function createFinding({
         description,
         recommendation,
         confidence,
-        payloads
+        payloads,
+        source
     };
 }

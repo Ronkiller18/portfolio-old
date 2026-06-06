@@ -2,434 +2,413 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation — Client-Side Security Tester</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Security Tester Documentation
-    </title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/components.css">
-
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/learn.css">
 </head>
 
 <body>
 
     <!-- ===================================== -->
-    <!-- Header -->
+    <!-- Header — matches dashboard exactly   -->
     <!-- ===================================== -->
+    <header class="app-header">
+        <div class="header-content">
 
-    <header>
+            <div class="header-brand">
+                <h1>Client-Side Security Tester</h1>
+                <span class="header-tagline">Educational Security Analysis Platform</span>
+            </div>
 
-        <h1>
-            Security Tester Documentation
-        </h1>
+            <div class="header-right">
+                <div class="platform-status">
+                    <span class="status-dot"></span>
+                    <span>Detection Engine</span>
+                    <strong>Operational</strong>
+                </div>
+                <nav class="top-nav">
+                    <a href="index.html" class="nav-link">Dashboard</a>
+                    <a href="learn.html" class="nav-link active">Documentation</a>
+                </nav>
+            </div>
 
-        <p>
-            Technical overview of the analyzers,
-            detection logic, risks, and mitigation
-            guidance used throughout the project.
-        </p>
-
-        <nav class="top-nav">
-
-            <a href="index.html">
-                Dashboard
-            </a>
-
-            <a href="learn.html">
-                Documentation
-            </a>
-
-        </nav>
-
+        </div>
     </header>
 
     <!-- ===================================== -->
-    <!-- Main Content -->
+    <!-- Page Hero                            -->
     <!-- ===================================== -->
-
-    <main>
-
-        <!-- ===================================== -->
-        <!-- Project Overview -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                Project Overview
-            </h2>
-
-            <p>
-
-                Client-Side Security Tester is a
-                browser-based educational security
-                analysis tool designed to demonstrate
-                common client-side security risks.
-
-            </p>
-
-            <p>
-
-                The project performs heuristic analysis
-                against user-supplied input and highlights
-                potentially dangerous patterns commonly
-                associated with web application attacks.
-
-            </p>
-
-            <h3>
-                Supported Modules
-            </h3>
-
-            <ul>
-
-                <li>XSS Detection</li>
-
-                <li>DOM Sink Analysis</li>
-
-                <li>Phishing URL Detection</li>
-
-                <li>JWT Inspection</li>
-
-                <li>Content Security Policy Review</li>
-
-            </ul>
-
-        </section>
-
-        <!-- ===================================== -->
-        <!-- XSS -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                Cross-Site Scripting (XSS)
-            </h2>
-
-            <h3>Description</h3>
-
-            <p>
-
-                Cross-Site Scripting occurs when
-                untrusted input is interpreted as
-                executable JavaScript by a browser.
-
-            </p>
-
-            <h3>Why It Matters</h3>
-
-            <p>
-
-                Successful XSS attacks can lead to
-                session theft, account compromise,
-                credential harvesting, and malicious
-                actions performed on behalf of users.
-
-            </p>
-
-            <h3>Example Payloads</h3>
-
-            <pre>
-                &lt;script&gt;alert(1)&lt;/script&gt;
-
-                &lt;img src=x onerror=alert(1)&gt;
-
-                &lt;svg onload=alert(1)&gt;
-            </pre>
-
-            <h3>Mitigation</h3>
-
-            <ul>
-
-                <li>Validate user input</li>
-
-                <li>Escape HTML output</li>
-
-                <li>Use Content Security Policy</li>
-
-                <li>Avoid rendering raw user content</li>
-
-            </ul>
-
-        </section>
-
-        <!-- ===================================== -->
-        <!-- DOM XSS -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                DOM-Based XSS
-            </h2>
-
-            <h3>Description</h3>
-
-            <p>
-
-                DOM XSS occurs when JavaScript reads
-                attacker-controlled input and inserts
-                it into dangerous browser APIs.
-
-            </p>
-
-            <h3>Why It Matters</h3>
-
-            <p>
-
-                Vulnerable DOM sinks may allow attackers
-                to execute arbitrary JavaScript without
-                interacting with a backend server.
-
-            </p>
-
-            <h3>Common Dangerous Sinks</h3>
-
-            <pre>
-                element.innerHTML = userInput
-
-                document.write(userInput)
-
-                eval(userInput)
-
-                insertAdjacentHTML(...)
-            </pre>
-
-            <h3>Mitigation</h3>
-
-            <ul>
-
-                <li>Prefer textContent</li>
-
-                <li>Avoid eval()</li>
-
-                <li>Sanitize user-controlled data</li>
-
-                <li>Use secure templating systems</li>
-
-            </ul>
-
-        </section>
-
-        <!-- ===================================== -->
-        <!-- Phishing URLs -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                Phishing URL Detection
-            </h2>
-
-            <h3>Description</h3>
-
-            <p>
-
-                Phishing attacks commonly use deceptive
-                URLs designed to mimic legitimate login
-                pages and trusted services.
-
-            </p>
-
-            <h3>Detection Logic</h3>
-
-            <p>
-
-                The analyzer searches for suspicious
-                keywords and risky domain patterns often
-                associated with phishing campaigns.
-
-            </p>
-
-            <h3>Example</h3>
-
-            <pre>
-                secure-login-update.xyz
-
-                verify-account-now.tk
-
-                bank-account-security.ml
-            </pre>
-
-            <h3>Mitigation</h3>
-
-            <ul>
-
-                <li>Verify domain ownership</li>
-
-                <li>Inspect URLs carefully</li>
-
-                <li>Enable MFA when possible</li>
-
-                <li>Never trust login links blindly</li>
-
-            </ul>
-
-        </section>
-
-        <!-- ===================================== -->
-        <!-- JWT -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                JWT Security Analysis
-            </h2>
-
-            <h3>Description</h3>
-
-            <p>
-
-                JSON Web Tokens are commonly used for
-                authentication and authorization in
-                modern web applications.
-
-            </p>
-
-            <h3>Detected Issues</h3>
-
-            <ul>
-
-                <li>alg:none usage</li>
-
-                <li>Missing expiration claims</li>
-
-                <li>Sensitive data exposure</li>
-
-            </ul>
-
-            <h3>Example Token</h3>
-
-            <pre>
-                eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.
-                eyJ1c2VyIjoiYWRtaW4iLCJwYXNzd29yZCI6InNlY3JldCJ9.
-            </pre>
-
-            <h3>Mitigation</h3>
-
-            <ul>
-
-                <li>Always require signatures</li>
-
-                <li>Use exp claims</li>
-
-                <li>Avoid secrets in payloads</li>
-
-                <li>Rotate signing keys regularly</li>
-
-            </ul>
-
-        </section>
-
-        <!-- ===================================== -->
-        <!-- CSP -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                Content Security Policy (CSP)
-            </h2>
-
-            <h3>Description</h3>
-
-            <p>
-
-                CSP is a browser security mechanism
-                used to restrict the sources from which
-                content may be loaded and executed.
-
-            </p>
-
-            <h3>Detected Issues</h3>
-
-            <ul>
-
-                <li>unsafe-inline</li>
-
-                <li>unsafe-eval</li>
-
-                <li>Wildcard script sources</li>
-
-                <li>Missing frame-ancestors</li>
-
-            </ul>
-
-            <h3>Example Weak Policy</h3>
-
-            <pre>
-                default-src 'self';
-                script-src 'unsafe-inline' *;
-                object-src *;
-            </pre>
-
-            <h3>Mitigation</h3>
-
-            <ul>
-
-                <li>Use nonces or hashes</li>
-
-                <li>Avoid unsafe-inline</li>
-
-                <li>Avoid unsafe-eval</li>
-
-                <li>Define frame-ancestors</li>
-
-            </ul>
-
-        </section>
-
-        <!-- ===================================== -->
-        <!-- Risk Model -->
-        <!-- ===================================== -->
-
-        <section class="panel">
-
-            <h2>
-                Risk Scoring Model
-            </h2>
-
-            <p>
-
-                The dashboard generates a simplified
-                risk score based on detected findings.
-
-            </p>
-
-            <ul>
-
-                <li>High Severity = 40 Points</li>
-
-                <li>Medium Severity = 20 Points</li>
-
-                <li>Low Severity = 10 Points</li>
-
-            </ul>
-
-            <p>
-
-                This scoring model is intentionally
-                simplified for educational purposes and
-                should not replace professional risk
-                assessment methodologies.
-
-            </p>
-
-        </section>
+    <div class="doc-hero">
+        <div class="doc-hero-inner">
+            <p class="doc-hero-label">Reference</p>
+            <h2 class="doc-hero-title">Security Documentation</h2>
+            <p class="doc-hero-sub">Technical overview of analyzers, detection logic, risk scoring, and mitigation guidance used throughout the project.</p>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Main Content                         -->
+    <!-- ===================================== -->
+    <main class="doc-layout">
+
+        <!-- ======================== -->
+        <!-- Sidebar TOC              -->
+        <!-- ======================== -->
+        <aside class="doc-sidebar">
+            <div class="toc-panel">
+                <p class="toc-label">On this page</p>
+                <nav class="toc-nav">
+                    <a href="#overview"  class="toc-link active">Project Overview</a>
+                    <a href="#xss"       class="toc-link">Cross-Site Scripting</a>
+                    <a href="#dom-xss"   class="toc-link">DOM-Based XSS</a>
+                    <a href="#phishing"  class="toc-link">Phishing URLs</a>
+                    <a href="#jwt"       class="toc-link">JWT Analysis</a>
+                    <a href="#csp"       class="toc-link">Content Security Policy</a>
+                    <a href="#risk"      class="toc-link">Risk Scoring</a>
+                </nav>
+            </div>
+
+            <!-- Quick reference cards in sidebar -->
+            <div class="quick-ref-panel">
+                <p class="toc-label">Quick Reference</p>
+                <div class="qr-grid">
+                    <a href="#xss"      class="qr-card"><span class="qr-tag">XSS</span><span class="qr-desc">Script injection</span></a>
+                    <a href="#dom-xss"  class="qr-card"><span class="qr-tag">DOM</span><span class="qr-desc">Sink exploitation</span></a>
+                    <a href="#phishing" class="qr-card"><span class="qr-tag">PHSH</span><span class="qr-desc">Fake domains</span></a>
+                    <a href="#jwt"      class="qr-card"><span class="qr-tag">JWT</span><span class="qr-desc">Token security</span></a>
+                    <a href="#csp"      class="qr-card"><span class="qr-tag">CSP</span><span class="qr-desc">Execution policy</span></a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ======================== -->
+        <!-- Doc Sections             -->
+        <!-- ======================== -->
+        <div class="doc-content">
+
+            <!-- Project Overview -->
+            <section class="doc-section" id="overview">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">00</span>
+                    <h2>Project Overview</h2>
+                </div>
+                <div class="doc-section-body">
+                    <p>Client-Side Security Tester is a browser-based educational security analysis tool designed to demonstrate common client-side security risks. The project performs heuristic analysis against user-supplied input and highlights potentially dangerous patterns commonly associated with web application attacks.</p>
+                    <p>All findings are heuristic and intended for learning purposes only. They should not replace a professional security assessment.</p>
+
+                    <h3>Supported Modules</h3>
+                    <ul class="doc-list">
+                        <li>XSS Detection</li>
+                        <li>DOM Sink Analysis</li>
+                        <li>Phishing URL Detection</li>
+                        <li>JWT Inspection</li>
+                        <li>Content Security Policy Review</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- XSS -->
+            <section class="doc-section" id="xss">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">01</span>
+                    <h2>Cross-Site Scripting <span class="doc-tag doc-tag--high">XSS</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High Severity</span>
+                        <span class="doc-score">+40 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>Cross-Site Scripting occurs when untrusted input is interpreted as executable JavaScript by a browser. Attackers inject malicious scripts that run in the context of a victim's session.</p>
+
+                    <h3>Why It Matters</h3>
+                    <p>Successful XSS attacks can lead to session theft, account compromise, credential harvesting, and malicious actions performed on behalf of users without their knowledge.</p>
+
+                    <h3>Example Payloads</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">HTML / JS</span>
+                            <button class="copy-btn" data-target="xss-payloads">
+                                Copy
+                            </button>
+                        </div>
+                        <pre class="code-block" id="xss-payloads"><code>&lt;script&gt;alert(1)&lt;/script&gt;
+&lt;img src=x onerror=alert(1)&gt;
+&lt;svg onload=alert(1)&gt;
+&lt;body onload=alert(document.cookie)&gt;
+javascript:alert(1)</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Validate and sanitize all user input server-side</li>
+                        <li>Escape HTML output before rendering</li>
+                        <li>Implement a strict Content Security Policy</li>
+                        <li>Avoid rendering raw user-controlled content in the DOM</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- DOM XSS -->
+            <section class="doc-section" id="dom-xss">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">02</span>
+                    <h2>DOM-Based XSS <span class="doc-tag doc-tag--high">DOM</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--high">High Severity</span>
+                        <span class="doc-score">+40 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>DOM XSS occurs when JavaScript reads attacker-controlled input and inserts it directly into dangerous browser APIs — entirely client-side, with no server interaction required.</p>
+
+                    <h3>Why It Matters</h3>
+                    <p>Vulnerable DOM sinks may allow attackers to execute arbitrary JavaScript without interacting with a backend server, bypassing many traditional server-side protections.</p>
+
+                    <h3>Common Dangerous Sinks</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">JavaScript</span>
+                            <button class="copy-btn" data-target="dom-sinks">
+                                Copy
+                            </button>
+                        </div>
+                        <pre class="code-block" id="dom-sinks"><code>element.innerHTML = userInput
+document.write(userInput)
+eval(userInput)
+element.insertAdjacentHTML('beforeend', userInput)
+location.href = userInput
+setTimeout(userInput, 0)</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Prefer <code class="inline-code">textContent</code> over <code class="inline-code">innerHTML</code></li>
+                        <li>Never pass user input to <code class="inline-code">eval()</code></li>
+                        <li>Sanitize user-controlled data before DOM insertion</li>
+                        <li>Use secure templating systems with auto-escaping</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Phishing -->
+            <section class="doc-section" id="phishing">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">03</span>
+                    <h2>Phishing URL Detection <span class="doc-tag doc-tag--medium">PHSH</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--medium">Medium Severity</span>
+                        <span class="doc-score">+20 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>Phishing attacks commonly use deceptive URLs designed to mimic legitimate login pages and trusted services. Attackers rely on lookalike domains, suspicious TLDs, and urgency keywords.</p>
+
+                    <h3>Detection Logic</h3>
+                    <p>The analyzer searches for suspicious keywords and risky domain patterns often associated with phishing campaigns, including free TLDs and common trust-baiting terms.</p>
+
+                    <h3>Example Suspicious URLs</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">URLs</span>
+                            <button class="copy-btn" data-target="phishing-urls">
+                                Copy
+                            </button>
+                        </div>
+                        <pre class="code-block" id="phishing-urls"><code>secure-login-update.xyz
+verify-account-now.tk
+bank-account-security.ml
+paypal-secure-verify.gq
+login-account-confirm.cf</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Verify domain ownership before trusting a URL</li>
+                        <li>Inspect full URLs carefully — not just display text</li>
+                        <li>Enable multi-factor authentication when possible</li>
+                        <li>Never trust login links received via email blindly</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- JWT -->
+            <section class="doc-section" id="jwt">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">04</span>
+                    <h2>JWT Security Analysis <span class="doc-tag doc-tag--medium">JWT</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--medium">Medium Severity</span>
+                        <span class="doc-score">+20 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>JSON Web Tokens are commonly used for authentication and authorization in modern web applications. Misconfigured tokens can expose sensitive data or allow signature bypass entirely.</p>
+
+                    <h3>Detected Issues</h3>
+                    <ul class="doc-list">
+                        <li><code class="inline-code">alg: none</code> — signature verification bypass</li>
+                        <li>Missing <code class="inline-code">exp</code> claim — tokens never expire</li>
+                        <li>Sensitive data stored in the unencrypted payload</li>
+                    </ul>
+
+                    <h3>Example Vulnerable Token</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">JWT</span>
+                            <button class="copy-btn" data-target="jwt-token">
+                                Copy
+                            </button>
+                        </div>
+                        <pre class="code-block" id="jwt-token"><code>eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4iLCJwYXNzd29yZCI6InNlY3JldCJ9.</code></pre>
+                    </div>
+
+                    <div class="doc-callout doc-callout--info">
+                        <strong>Note:</strong> The token above decodes to <code class="inline-code">alg: none</code> with <code class="inline-code">password: "secret"</code> in the payload — both critical issues detectable by the JWT Analyzer.
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Always require and verify token signatures</li>
+                        <li>Include and validate <code class="inline-code">exp</code> claims</li>
+                        <li>Never store secrets or passwords in token payloads</li>
+                        <li>Rotate signing keys regularly</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- CSP -->
+            <section class="doc-section" id="csp">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">05</span>
+                    <h2>Content Security Policy <span class="doc-tag doc-tag--medium">CSP</span></h2>
+                </div>
+                <div class="doc-section-body">
+
+                    <div class="doc-meta-row">
+                        <span class="doc-severity doc-severity--medium">Medium Severity</span>
+                        <span class="doc-score">+20 pts per finding</span>
+                    </div>
+
+                    <h3>Description</h3>
+                    <p>CSP is a browser security mechanism used to restrict the sources from which content may be loaded and executed. A weak or missing CSP leaves users exposed to XSS and data injection attacks.</p>
+
+                    <h3>Detected Issues</h3>
+                    <ul class="doc-list">
+                        <li><code class="inline-code">unsafe-inline</code> — allows inline script execution</li>
+                        <li><code class="inline-code">unsafe-eval</code> — allows eval() and similar</li>
+                        <li>Wildcard script sources (<code class="inline-code">script-src *</code>)</li>
+                        <li>Missing <code class="inline-code">frame-ancestors</code> — clickjacking risk</li>
+                    </ul>
+
+                    <h3>Example Weak Policy</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">CSP Header</span>
+                            <button class="copy-btn" data-target="csp-weak">
+                                Copy
+                            </button>
+                        </div>
+                        <pre class="code-block" id="csp-weak"><code>default-src 'self';
+script-src 'unsafe-inline' *;
+object-src *;</code></pre>
+                    </div>
+
+                    <h3>Example Strong Policy</h3>
+                    <div class="code-block-wrapper">
+                        <div class="code-block-header">
+                            <span class="code-lang">CSP Header</span>
+                            <button class="copy-btn" data-target="csp-strong">
+                                Copy
+                            </button>
+                        </div>
+                        <pre class="code-block" id="csp-strong"><code>default-src 'none';
+script-src 'self' 'nonce-{random}';
+style-src 'self';
+img-src 'self' data:;
+font-src 'self';
+connect-src 'self';
+frame-ancestors 'none';
+base-uri 'self';
+form-action 'self';</code></pre>
+                    </div>
+
+                    <h3>Mitigation</h3>
+                    <ul class="doc-list">
+                        <li>Use nonces or hashes instead of <code class="inline-code">unsafe-inline</code></li>
+                        <li>Never use <code class="inline-code">unsafe-eval</code> in production</li>
+                        <li>Avoid wildcard sources for scripts</li>
+                        <li>Always define <code class="inline-code">frame-ancestors</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Risk Scoring -->
+            <section class="doc-section" id="risk">
+                <div class="doc-section-header">
+                    <span class="doc-section-number">06</span>
+                    <h2>Risk Scoring Model</h2>
+                </div>
+                <div class="doc-section-body">
+                    <p>The dashboard generates a simplified cumulative risk score based on the severity of detected findings. Scores are additive across all active findings.</p>
+
+                    <div class="risk-table">
+                        <div class="risk-row risk-row--header">
+                            <span>Severity</span>
+                            <span>Points</span>
+                            <span>Examples</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="doc-severity doc-severity--high">High</span>
+                            <span class="risk-points risk-points--high">+40</span>
+                            <span class="risk-example">XSS, DOM Sinks</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="doc-severity doc-severity--medium">Medium</span>
+                            <span class="risk-points risk-points--medium">+20</span>
+                            <span class="risk-example">Phishing URLs, Weak CSP, JWT Issues</span>
+                        </div>
+                        <div class="risk-row">
+                            <span class="doc-severity doc-severity--low">Low</span>
+                            <span class="risk-points risk-points--low">+10</span>
+                            <span class="risk-example">Missing headers, Info exposure</span>
+                        </div>
+                    </div>
+
+                    <div class="doc-callout doc-callout--warning">
+                        <strong>Disclaimer:</strong> This scoring model is intentionally simplified for educational purposes and should not replace professional risk assessment methodologies or formal security audits.
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /.doc-content -->
 
     </main>
 
-</body>
+    <!-- ===================================== -->
+    <!-- Footer                               -->
+    <!-- ===================================== -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>Educational cybersecurity portfolio project. Findings are heuristic and intended for learning purposes only.</p>
+        </div>
+    </footer>
 
+    <script src="js/learn.js" defer></script>
+
+</body>
 </html>

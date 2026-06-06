@@ -1,74 +1,49 @@
-// ==========================================================
-// Imports
-// ==========================================================
+// ============================================================
+// phishingAnalyzer.js — Phishing URL detection
+// Returns: Finding[] (empty array = no match)
+// ============================================================
 
-import { createFinding }
-    from "../utils/createFinding.js";
+import { createFinding } from "../utils/createFinding.js";
 
+const PHISHING_KEYWORDS = [
+    /login/i,
+    /verify/i,
+    /secure/i,
+    /account/i,
+    /update/i
+];
 
-// ==========================================================
-// Phishing URL Detection
-// ==========================================================
+const SUSPICIOUS_TLDS = /\.(xyz|tk|ml|ga|cf)/i;
+
+// Anchored to start — avoids false matches on code like element.innerHTML
+const LOOKS_LIKE_URL = /^https?:\/\/|^www\./i;
 
 export function detectPhishing(input) {
-
-    const phishingKeywords = [
-        /login/i,
-        /verify/i,
-        /secure/i,
-        /account/i,
-        /update/i
-    ];
-
-    const suspiciousDomains =
-        /\.(xyz|tk|ml|ga|cf)/i;
-
-    const looksLikeUrl =
-        /https?:\/\/|www\.|[a-z0-9-]+\.[a-z]{2,}/i;
-
-    if (!looksLikeUrl.test(input)) {
-        return null;
-    }
+    if (!LOOKS_LIKE_URL.test(input)) return [];    // always return array
 
     let score = 0;
 
-    phishingKeywords.forEach(pattern => {
-
-        if (pattern.test(input)) {
-            score++;
-        }
+    PHISHING_KEYWORDS.forEach(pattern => {
+        if (pattern.test(input)) score++;
     });
 
-    if (
-        suspiciousDomains.test(input)
-    ) {
-        score++;
-    }
+    if (SUSPICIOUS_TLDS.test(input)) score++;
 
-    if (score < 2) {
-        return null;
-    }
+    // Require at least 2 signals to reduce false positives on
+    // legitimate sites that happen to use keywords like "secure" or "login"
+    if (score < 2) return [];
 
-    return createFinding({
-
-        type:
-            "Suspicious URL Pattern",
-
-        severity:
-            "Medium",
-
-        confidence:
-            65,
-
-        description:
-            "Potential phishing-related wording or suspicious domain detected.",
-
-        recommendation:
-            "Verify domains carefully before entering credentials or sensitive information.",
-
-        payloads: [
-            "https://secure-login-update.xyz",
-            "https://verify-account-now.tk"
-        ]
-    });
+    return [
+        createFinding({
+            type:           "Suspicious URL Pattern",
+            severity:       "Medium",
+            confidence:     65,
+            description:    "Potential phishing-related wording or suspicious domain detected.",
+            recommendation: "Verify domains carefully before entering credentials or sensitive information.",
+            payloads: [
+                "https://secure-login-update.xyz",
+                "https://verify-account-now.tk"
+            ]
+        })
+    ];
 }

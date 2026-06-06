@@ -1,99 +1,57 @@
 // ============================================================
-// Imports
+// export.js — JSON report export
 // ============================================================
 
 import { getFindings } from "./findings.js";
+import { renderToolOutput } from "./ui.js";
 
 
-// ============================================================
-// Public API
-// ============================================================
+export function initializeExport() {
+    const button = document.getElementById("exportBtn");
+    if (!button) return;
+    button.addEventListener("click", exportResults);
+}
+
 
 export function exportResults() {
-
-    const findings =
-        getFindings();
+    const findings = getFindings();
 
     if (findings.length === 0) {
-
-        alert(
-            "No findings available to export."
-        );
-
+        // Inline message instead of alert()
+        renderToolOutput("Export", {
+            status:  "No findings to export.",
+            message: "Run an analysis first, then export the results."
+        });
         return;
     }
 
-    const report =
-        createExportReport(findings);
-
-    downloadJSON(
-        report,
-        createFileName()
-    );
-}
-
-
-// ============================================================
-// Report Builder
-// ============================================================
-
-function createExportReport(findings) {
-
-    return {
-
-        exportedAt:
-            new Date().toISOString(),
-
-        totalFindings:
-            findings.length,
-
+    const report = {
+        exportedAt:    new Date().toISOString(),
+        totalFindings: findings.length,
         findings
     };
+
+    downloadJSON(report, createFileName());
 }
 
 
-// ============================================================
-// Download Helpers
-// ============================================================
+// ---- Helpers ----
 
 function downloadJSON(data, filename) {
-
     const blob = new Blob(
-        [
-            JSON.stringify(
-                data,
-                null,
-                2
-            )
-        ],
-        {
-            type: "application/json"
-        }
+        [JSON.stringify(data, null, 2)],
+        { type: "application/json" }
     );
 
-    const url =
-        URL.createObjectURL(blob);
-
-    const link =
-        document.createElement("a");
-
-    link.href = url;
-
+    const url  = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href     = url;
     link.download = filename;
-
     link.click();
-
     URL.revokeObjectURL(url);
 }
 
 function createFileName() {
-
-    const timestamp =
-        new Date()
-            .toISOString()
-            .replace(/:/g, "-");
-
-    return `
-security-report-${timestamp}.json
-    `.trim();
+    const timestamp = new Date().toISOString().replace(/:/g, "-");
+    return `security-report-${timestamp}.json`;
 }
