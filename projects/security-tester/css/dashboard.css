@@ -284,14 +284,15 @@
 
 .action-panel .action-row {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;  /* stack vertically — right column was too narrow for 3 side-by-side */
+    gap: 0.45rem;
     width: 100%;
 }
 
 .action-panel button {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     text-align: center;
+    min-width: 0;
 }
 
 /* ============================================
@@ -310,4 +311,69 @@
 
 @media (max-width: 600px) {
     .dashboard-grid { padding: 0.75rem; }
+}
+
+/* ============================================
+   SEVERITY BAR CHART
+   ============================================ */
+.severity-chart {
+    padding: 0.75rem 1rem 0.9rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    /* Hidden by default — JS adds --visible when findings exist */
+    display: none;
+}
+
+.severity-chart--visible {
+    display: flex;
+}
+
+/* Each row: label | track | count */
+.chart-row {
+    display: grid;
+    grid-template-columns: 44px 1fr 24px;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* Background track */
+.chart-track {
+    height: 6px;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+/* Animated fill bar */
+.chart-bar {
+    height: 100%;
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chart-bar--high   { background: var(--risk-high); }
+.chart-bar--medium { background: var(--risk-medium); }
+.chart-bar--low    { background: var(--risk-low); }
+
+/* Count on the right */
+.chart-count {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-align: right;
+    line-height: 1;
 }

@@ -180,7 +180,7 @@
                         <!-- 1. Title -->
                         <h3>Client-Side Security Tester</h3>
                         <p class="project-subtitle">
-                            Frontend-focused project with real-world UI patterns
+                            Browser-based security analysis platform with eight detection modules
                         </p>
 
                         <!-- 2. Meta (quick signals) -->
@@ -192,7 +192,7 @@
 
                         <!-- Description -->
                         <p class="project-role">
-                            Role: Designed and developed the full frontend, focusing on performance, responsiveness, and interaction design.
+                            Role: Designed and developed the full frontend architecture — modular analyzer system, multi-tool dashboard, findings pipeline, and documentation page.
                         </p>
 
                         <!-- 3. Tech stack -->
@@ -200,19 +200,20 @@
                         <div class="project-tech">
                             <span>HTML</span>
                             <span>CSS</span>
-                            <span>JavaScript</span>
+                            <span>Vanilla JavaScript</span>
+                            <span>ES Modules</span>
                         </div>
 
                         <!-- 4. Actions (interaction) -->
                         <div class="project-actions">
                             <button class="btn preview-btn" aria-label="Preview project" data-url="https://ronkiller18.github.io/portfolio/projects/security-tester/">
-                             Preview
+                                Preview
                             </button>
                             <a href="https://ronkiller18.github.io/portfolio/projects/security-tester/" target="_blank" rel="noopener noreferrer" class="btn">
-                            🔗 Live
+                                🔗 Live
                             </a>
                             <a href="https://github.com/Ronkiller18/portfolio/tree/main/projects/security-tester" target="_blank" rel="noopener noreferrer" class="btn">
-                            💻 Code
+                                💻 Code
                             </a>
                             <button class="btn details-btn">View Details</button>
                         </div>
@@ -220,39 +221,49 @@
                         <!-- 5. Expandable details -->
                         <div class="project-details">
 
-                            <!-- Features (proof of skill) -->
+                            <!-- Detection modules -->
                             <ul class="project-features">
-                                <h2>How Detection Works</h2>
+                                <h2>Detection Modules</h2>
 
-                                <p><strong>XSS:</strong> Detects script tags, event handlers, and JavaScript URIs.</p>
-                                <p><strong>Phishing:</strong> Identifies suspicious keywords and domain patterns.</p>
-                                <p><strong>DOM Risk:</strong> Flags unsafe JavaScript functions like innerHTML and eval.</p>
+                                <p><strong>XSS:</strong> Detects script tags, inline event handlers, javascript: URIs, and iframe injection patterns.</p>
+                                <p><strong>DOM Sinks:</strong> Flags unsafe APIs — innerHTML, eval(), document.write(), location.href assignment, and insertAdjacentHTML.</p>
+                                <p><strong>URL Reputation:</strong> Identifies raw IP domains, excessive subdomain depth, brand impersonation, homograph characters, and URL-encoded hostnames.</p>
+                                <p><strong>JWT:</strong> Decodes tokens and checks for alg:none, missing expiration claims, and sensitive data in the payload.</p>
+                                <p><strong>CSP:</strong> Parses Content Security Policy headers and flags unsafe-inline, unsafe-eval, wildcard sources, and missing frame-ancestors.</p>
+                                <p><strong>Security Headers:</strong> Checks HTTP response headers for missing or misconfigured HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.</p>
+                                <p><strong>Cookie Security:</strong> Analyses Set-Cookie headers per cookie — detects missing HttpOnly, Secure, SameSite, and SameSite=None without Secure.</p>
+                                <p><strong>Storage Security:</strong> Scans JavaScript code for sensitive data written to localStorage or sessionStorage, JWT values, Bearer tokens, and eval() with storage data.</p>
                             </ul>
 
                             <ul class="project-details-list">
-                                <li>Built responsive layout using CSS Grid and Flexbox</li>
-                                <li>Implemented dark mode toggle using classList</li>
-                                <li>Added scroll reveal animations using IntersectionObserver</li>
-                                <li>Optimized layout for mobile devices</li>
-                                <li><strong>Problem:</strong> Needed a clean way to present projects professionally</li>
-                                <li><strong>Solution:</strong> Built a modular, responsive UI with reusable components</li>
+                                <li>Modular ES Module architecture — each analyzer is a pure function returning a typed findings array</li>
+                                <li>Centralised findings store with severity-based risk scoring (High +40, Medium +20, Low +10)</li>
+                                <li>Live severity bar chart updates on every scan — no canvas, no library, pure CSS animation</li>
+                                <li>Findings filter bar (All / High / Medium / Low) with per-severity colour states</li>
+                                <li>Activity history with instant keyword search and match highlighting</li>
+                                <li>JSON export and formatted HTML security report generation</li>
+                                <li>Full documentation page with sticky TOC, copy-enabled code blocks, and scroll-based active link tracking</li>
+                                <li><strong>Problem:</strong> Needed a clean, extensible way to add new security tools without touching existing code</li>
+                                <li><strong>Solution:</strong> Reset callback registry in dashboard.js — each tool registers its own clear function, so the dashboard never needs to know tool input IDs</li>
                             </ul>
 
                             <!-- Security -->
                             <div class="project-security">
                                 <p class="tech-label">🔐 Security Notes</p>
                                 <ul>
-                                    <li>Static content reduces attack surface</li>
-                                    <li>No user input stored or processed</li>
-                                    <li>External links handled safely</li>
-                                    <li>Future scope: apply Content Security Policy (CSP)</li>
+                                    <li>All user input rendered through escapeHTML() — no raw DOM insertion anywhere</li>
+                                    <li>No data leaves the browser — all analysis runs client-side with no network requests</li>
+                                    <li>No localStorage or sessionStorage used by the tool itself</li>
+                                    <li>ES Module imports prevent global scope pollution</li>
+                                    <li>External links use rel="noopener noreferrer"</li>
                                 </ul>
                             </div>
 
-                            <!-- Note (thinking signal) -->
+                            <!-- Note -->
                             <p class="project-note">
-                                Focused on performance and clean DOM structure
-                            </p>                        
+                                Detection logic is heuristic and educational — designed to demonstrate vulnerability patterns, not replace professional security tooling.
+                            </p>
+
                         </div>
                     </div>
                     

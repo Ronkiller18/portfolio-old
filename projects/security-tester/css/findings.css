@@ -265,3 +265,135 @@
     max-width: 100%;
     margin: 0;
 }
+
+/* ============================================
+   FINDINGS FILTER BAR
+   ============================================ */
+.findings-filter-bar {
+    display: flex;
+    gap: 0.35rem;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+    flex-wrap: wrap;
+}
+
+/* Filter buttons — override global button styles */
+.filter-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.65rem;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition);
+    transform: none;
+    box-shadow: none;
+}
+
+.filter-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+    transform: none;
+    box-shadow: none;
+}
+
+.filter-btn.active {
+    color: var(--accent);
+    background: var(--accent-glow);
+    border-color: var(--accent-dim);
+}
+
+/* Per-severity active states */
+.filter-btn[data-filter="high"].active {
+    color: var(--risk-high);
+    background: var(--risk-high-bg);
+    border-color: rgba(248, 113, 113, 0.25);
+}
+
+.filter-btn[data-filter="medium"].active {
+    color: var(--risk-medium);
+    background: var(--risk-medium-bg);
+    border-color: rgba(251, 191, 36, 0.25);
+}
+
+.filter-btn[data-filter="low"].active {
+    color: var(--risk-low);
+    background: var(--risk-low-bg);
+    border-color: rgba(52, 211, 153, 0.2);
+}
+
+/* Hidden finding cards when filtered out */
+.finding-card.filter-hidden {
+    display: none;
+}
+
+/* Empty filter state message */
+.filter-empty-state {
+    padding: 1.25rem 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ============================================
+   HISTORY SEARCH BAR
+   ============================================ */
+.history-search-bar {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-alt);
+    flex-shrink: 0;
+}
+
+.history-search-input {
+    width: 100%;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    padding: 0.35rem 0.65rem;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.history-search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.history-search-input:focus {
+    border-color: var(--accent-dim);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Scroll container sits below the search bar */
+.history-scroll {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+/* No-results message when search yields nothing */
+.history-empty-search {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Search match highlight */
+mark.history-highlight {
+    background: rgba(56, 189, 248, 0.25);
+    color: var(--accent);
+    border-radius: 2px;
+    padding: 0 1px;
+    font-weight: 700;
+}

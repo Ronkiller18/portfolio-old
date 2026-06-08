@@ -2,7 +2,8 @@
 // ui.js — DOM rendering for findings, summary, tool output
 // ============================================================
 
-import { escapeHTML } from "./utils/sanitize.js";
+import { escapeHTML }  from "./utils/sanitize.js";
+import { resetFilter } from "./activityPanel.js";
 
 
 // ============================================================
@@ -14,16 +15,18 @@ export function renderFindings(findings) {
     if (!container) return;
 
     if (findings.length === 0) {
-        container.innerHTML = "";   // let CSS :empty pseudo handle the empty state
+        container.innerHTML = "";   // CSS :empty handles the empty message
+        resetFilter();              // reset filter buttons to "All"
         return;
     }
 
     container.innerHTML = findings.map(createFindingCard).join("");
+    resetFilter();                  // new scan always starts showing all findings
 }
 
 
 // ============================================================
-// Summary / Metrics
+// Summary / Metrics + Severity Chart
 // ============================================================
 
 export function updateSummary(findings) {
@@ -34,10 +37,54 @@ export function updateSummary(findings) {
 
     if (!findingCount || !highCount || !riskScore || !findingLabel) return;
 
-    findingCount.textContent = findings.length;
-    findingLabel.textContent = `${findings.length} Active`;
-    highCount.textContent    = findings.filter(f => f.severity === "High").length;
-    riskScore.textContent    = calculateRiskScore(findings);
+    const high   = findings.filter(f => f.severity === "High").length;
+    const medium = findings.filter(f => f.severity === "Medium").length;
+    const low    = findings.filter(f => f.severity === "Low").length;
+    const total  = findings.length;
+    const score  = calculateRiskScore(findings);
+
+    findingCount.textContent = total;
+    findingLabel.textContent = `${total} Active`;
+    highCount.textContent    = high;
+    riskScore.textContent    = score;
+
+    updateChart(high, medium, low, total);
+}
+
+function updateChart(high, medium, low, total) {
+    const chart     = document.getElementById("severityChart");
+    const barHigh   = document.getElementById("barHigh");
+    const barMedium = document.getElementById("barMedium");
+    const barLow    = document.getElementById("barLow");
+    const countHigh   = document.getElementById("countHigh");
+    const countMedium = document.getElementById("countMedium");
+    const countLow    = document.getElementById("countLow");
+
+    if (!chart || !barHigh || !barMedium || !barLow) return;
+
+    if (total === 0) {
+        // Hide chart when no findings
+        chart.classList.remove("severity-chart--visible");
+        barHigh.style.width   = "0%";
+        barMedium.style.width = "0%";
+        barLow.style.width    = "0%";
+        return;
+    }
+
+    // Show chart
+    chart.classList.add("severity-chart--visible");
+
+    // Bars are relative to the highest count so the
+    // dominant severity always fills the track fully
+    const max = Math.max(high, medium, low, 1);
+
+    barHigh.style.width   = `${(high   / max) * 100}%`;
+    barMedium.style.width = `${(medium / max) * 100}%`;
+    barLow.style.width    = `${(low    / max) * 100}%`;
+
+    if (countHigh)   countHigh.textContent   = high;
+    if (countMedium) countMedium.textContent = medium;
+    if (countLow)    countLow.textContent    = low;
 }
 
 
