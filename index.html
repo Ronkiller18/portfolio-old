@@ -73,7 +73,7 @@
                     <div>Cybersecurity</div>
                     <div>Game Development</div>
                     <div>CSS</div>
-                    <div>JavaScript (Learning)</div>
+                    <div>javascript</div>
                     <div>Git & GitHub</div>
                     <div>Networking</div>
                     <div>Python</div>
@@ -179,89 +179,128 @@
 
                         <!-- 1. Title -->
                         <h3>Client-Side Security Tester</h3>
+
                         <p class="project-subtitle">
-                            Browser-based security analysis platform with eight detection modules
+                            Browser-based Security Analysis & Detection Platform
                         </p>
 
-                        <!-- 2. Meta (quick signals) -->
+                        <!-- 2. Meta -->
                         <div class="project-meta">
                             <span class="status live">Live • Deployed</span>
                             <span class="complexity">Intermediate</span>
-                            <span class="type">Frontend</span>
+                            <span class="type">Security Application</span>
                         </div>
 
                         <!-- Description -->
-                        <p class="project-role">
-                            Role: Designed and developed the full frontend architecture — modular analyzer system, multi-tool dashboard, findings pipeline, and documentation page.
+                        <p class="project-desc">
+                            A browser-based educational security analysis platform that performs
+                            heuristic detection against user-supplied input across eight independent
+                            analyzers. Produces structured findings with severity scoring, remediation
+                            guidance, and exportable security reports — all running entirely client-side
+                            with no backend or build tools required.
                         </p>
 
-                        <!-- 3. Tech stack -->
+                        <!-- Security Topics -->
+                        <p class="tech-label">Security Topics Covered:</p>
+
+                        <div class="project-tech">
+                            <span>XSS</span>
+                            <span>DOM Sinks</span>
+                            <span>URL Reputation</span>
+                            <span>JWT Security</span>
+                            <span>CSP Analysis</span>
+                            <span>HTTP Headers</span>
+                            <span>Cookie Security</span>
+                            <span>Storage Security</span>
+                        </div>
+
+                        <!-- Technical Skills -->
+                        <p class="tech-label">Technical Skills Demonstrated:</p>
+
+                        <div class="project-tech">
+                            <span>ES Modules</span>
+                            <span>DOM APIs</span>
+                            <span>Regex Detection</span>
+                            <span>State Management</span>
+                            <span>CSS Grid & Flexbox</span>
+                            <span>Modular Architecture</span>
+                            <span>Dynamic UI Rendering</span>
+                            <span>Input Sanitization</span>
+                        </div>
+
+                        <!-- Tech Stack -->
                         <p class="tech-label">Tech Stack:</p>
+
                         <div class="project-tech">
                             <span>HTML</span>
                             <span>CSS</span>
-                            <span>Vanilla JavaScript</span>
-                            <span>ES Modules</span>
+                            <span>JavaScript</span>
                         </div>
 
-                        <!-- 4. Actions (interaction) -->
+                        <!-- Actions -->
                         <div class="project-actions">
+
                             <button class="btn preview-btn" aria-label="Preview project" data-url="https://ronkiller18.github.io/portfolio/projects/security-tester/">
                                 Preview
                             </button>
+
                             <a href="https://ronkiller18.github.io/portfolio/projects/security-tester/" target="_blank" rel="noopener noreferrer" class="btn">
                                 🔗 Live
                             </a>
+
                             <a href="https://github.com/Ronkiller18/portfolio/tree/main/projects/security-tester" target="_blank" rel="noopener noreferrer" class="btn">
                                 💻 Code
                             </a>
-                            <button class="btn details-btn">View Details</button>
+
+                            <button class="btn details-btn">
+                                View Details
+                            </button>
+
                         </div>
 
-                        <!-- 5. Expandable details -->
+                        <!-- Expandable Details -->
                         <div class="project-details">
 
-                            <!-- Detection modules -->
+                            <!-- Features -->
                             <ul class="project-features">
-                                <h2>Detection Modules</h2>
-
-                                <p><strong>XSS:</strong> Detects script tags, inline event handlers, javascript: URIs, and iframe injection patterns.</p>
-                                <p><strong>DOM Sinks:</strong> Flags unsafe APIs — innerHTML, eval(), document.write(), location.href assignment, and insertAdjacentHTML.</p>
-                                <p><strong>URL Reputation:</strong> Identifies raw IP domains, excessive subdomain depth, brand impersonation, homograph characters, and URL-encoded hostnames.</p>
-                                <p><strong>JWT:</strong> Decodes tokens and checks for alg:none, missing expiration claims, and sensitive data in the payload.</p>
-                                <p><strong>CSP:</strong> Parses Content Security Policy headers and flags unsafe-inline, unsafe-eval, wildcard sources, and missing frame-ancestors.</p>
-                                <p><strong>Security Headers:</strong> Checks HTTP response headers for missing or misconfigured HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.</p>
-                                <p><strong>Cookie Security:</strong> Analyses Set-Cookie headers per cookie — detects missing HttpOnly, Secure, SameSite, and SameSite=None without Secure.</p>
-                                <p><strong>Storage Security:</strong> Scans JavaScript code for sensitive data written to localStorage or sessionStorage, JWT values, Bearer tokens, and eval() with storage data.</p>
+                                <li>XSS detection — script tags, event handlers, javascript: URIs, and iframe injection</li>
+                                <li>DOM sink analysis — flags innerHTML, eval(), document.write(), location.href, and insertAdjacentHTML</li>
+                                <li>URL reputation — detects raw IP domains, excessive subdomains, brand impersonation, homograph characters, and encoded hostnames</li>
+                                <li>JWT analyzer — decodes tokens and checks for alg:none, missing expiry, and sensitive payload data</li>
+                                <li>CSP analyzer — flags unsafe-inline, unsafe-eval, wildcard sources, and missing frame-ancestors</li>
+                                <li>Security header analysis — checks HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy</li>
+                                <li>Cookie security — per-cookie checks for missing HttpOnly, Secure, SameSite, and SameSite=None without Secure</li>
+                                <li>Storage security — scans JavaScript code for sensitive keys, JWT values, Bearer tokens, and eval() with storage data</li>
                             </ul>
 
+                            <!-- Engineering Focus -->
                             <ul class="project-details-list">
                                 <li>Modular ES Module architecture — each analyzer is a pure function returning a typed findings array</li>
                                 <li>Centralised findings store with severity-based risk scoring (High +40, Medium +20, Low +10)</li>
-                                <li>Live severity bar chart updates on every scan — no canvas, no library, pure CSS animation</li>
+                                <li>Live severity bar chart on every scan — no canvas, no library, pure CSS transition</li>
                                 <li>Findings filter bar (All / High / Medium / Low) with per-severity colour states</li>
                                 <li>Activity history with instant keyword search and match highlighting</li>
                                 <li>JSON export and formatted HTML security report generation</li>
-                                <li>Full documentation page with sticky TOC, copy-enabled code blocks, and scroll-based active link tracking</li>
-                                <li><strong>Problem:</strong> Needed a clean, extensible way to add new security tools without touching existing code</li>
-                                <li><strong>Solution:</strong> Reset callback registry in dashboard.js — each tool registers its own clear function, so the dashboard never needs to know tool input IDs</li>
+                                <li>Full documentation page with sticky sidebar TOC, copy-enabled code blocks, and scroll-tracked active links</li>
+                                <li><strong>Problem:</strong> Adding new tools required touching dashboard.js to clear inputs on reset</li>
+                                <li><strong>Solution:</strong> Reset callback registry — each tool registers its own clear function so the dashboard never knows input IDs</li>
                             </ul>
 
-                            <!-- Security -->
+                            <!-- Security Breakdown -->
                             <div class="project-security">
-                                <p class="tech-label">🔐 Security Notes</p>
+                                <p class="tech-label">🔐 Security Breakdown</p>
                                 <ul>
-                                    <li>All user input rendered through escapeHTML() — no raw DOM insertion anywhere</li>
-                                    <li>No data leaves the browser — all analysis runs client-side with no network requests</li>
-                                    <li>No localStorage or sessionStorage used by the tool itself</li>
-                                    <li>ES Module imports prevent global scope pollution</li>
-                                    <li>External links use rel="noopener noreferrer"</li>
+                                    <li><strong>Input Safety:</strong> All user input passes through escapeHTML() before any DOM insertion — no raw rendering anywhere in the codebase.</li>
+                                    <li><strong>No Data Exfiltration:</strong> All analysis runs entirely in the browser — no network requests, no external APIs, no data ever leaves the page.</li>
+                                    <li><strong>Scope Isolation:</strong> ES Module imports prevent global scope pollution and accidental cross-module state leaks.</li>
+                                    <li><strong>Storage:</strong> The tool itself uses no localStorage or sessionStorage — ironic given it detects misuse of both.</li>
+                                    <li><strong>External Links:</strong> All outbound links use rel="noopener noreferrer" to prevent tab-napping.</li>
                                 </ul>
                             </div>
 
-                            <!-- Note -->
+                            <!-- Project Note -->
                             <p class="project-note">
-                                Detection logic is heuristic and educational — designed to demonstrate vulnerability patterns, not replace professional security tooling.
+                                Detection logic is heuristic and educational — designed to demonstrate vulnerability patterns and detection techniques, not replace professional security tooling.
                             </p>
 
                         </div>
