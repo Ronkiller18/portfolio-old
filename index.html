@@ -65,20 +65,54 @@
         <!-- Skills -->
         <section id="skills" class="section reveal">
             <div class="section-content">
-                <h2>Skills (Learning)</h2>
 
-                <div class="skills-container">
-                    <div>HTML</div>
-                    <div>Linux</div>
-                    <div>Cybersecurity</div>
-                    <div>Game Development</div>
-                    <div>CSS</div>
-                    <div>javascript</div>
-                    <div>Git & GitHub</div>
-                    <div>Networking</div>
-                    <div>Python</div>
-                    <div>Burp Suite</div>
+                <h2>Skills & Technologies</h2>
+
+                <div class="skills-grid">
+
+                    <div class="skill-category">
+                        <h3>Languages</h3>
+                        <div class="skill-tags">
+                            <span>JavaScript</span>
+                            <span>Python</span>
+                            <span>SQL</span>
+                            <span>C</span>
+                            <span>C++</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Security</h3>
+                        <div class="skill-tags">
+                            <span>XSS</span>
+                            <span>DOM Security</span>
+                            <span>Access Control</span>
+                            <span>Open Redirects</span>
+                            <span>Clickjacking</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Tools</h3>
+                        <div class="skill-tags">
+                            <span>Burp Suite</span>
+                            <span>Linux</span>
+                            <span>Git</span>
+                            <span>GitHub</span>
+                            <span>DevTools</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Databases</h3>
+                        <div class="skill-tags">
+                            <span>MySQL</span>
+                            <span>MongoDB</span>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </section>
 
@@ -97,40 +131,40 @@
                     <div class="project-card">
 
                         <!-- 1. Title -->
-                        <h3>Vulnerability Demo Web App</h3>
+                        <h3>LockBox — Local Password Manager</h3>
                         <p class="project-subtitle">
-                            Frontend-focused project with real-world UI patterns
+                            Full-stack desktop application with AES-256 encryption and offline-first architecture
                         </p>
 
                         <!-- 2. Meta (quick signals) -->
                         <div class="project-meta">
-                            <span class="status live">Live • Deployed</span>
-                            <span class="complexity">Intermediate</span>
-                            <span class="type">Frontend</span>
+                            <span class="status live">Live • Desktop App</span>
+                            <span class="complexity">Advanced</span>
+                            <span class="type">Full Stack</span>
                         </div>
 
                         <!-- Description -->
                         <p class="project-role">
-                            Role: Designed and developed the full frontend, focusing on performance, responsiveness, and interaction design.
+                            Role: Designed and developed the entire application — cryptography layer, REST API, Electron desktop wrapper, and dark UI — with no frameworks or third-party password logic.
                         </p>
 
                         <!-- 3. Tech stack -->
                         <p class="tech-label">Tech Stack:</p>
                         <div class="project-tech">
+                            <span>Python</span>
+                            <span>FastAPI</span>
+                            <span>AES-256</span>
+                            <span>Electron</span>
                             <span>HTML</span>
                             <span>CSS</span>
                             <span>JavaScript</span>
+                            <span>IndexedDB</span>
+                            <span>Tailscale</span>
                         </div>
 
                         <!-- 4. Actions (interaction) -->
                         <div class="project-actions">
-                            <button class="btn preview-btn" aria-label="Preview project" data-url="https://ronkiller18.github.io/portfolio/projects/vuln-demo-app/">
-                             Preview
-                            </button>
-                            <a href="https://ronkiller18.github.io/portfolio/projects/vuln-demo-app/" target="_blank" rel="noopener noreferrer" class="btn">
-                            🔗 Live
-                            </a>
-                            <a href="https://github.com/Ronkiller18/portfolio/tree/main/projects/vuln-demo-app" target="_blank" rel="noopener noreferrer" class="btn">
+                            <a href="https://github.com/Ronkiller18/lockbox" target="_blank" rel="noopener noreferrer" class="btn">
                             💻 Code
                             </a>
                             <button class="btn details-btn">View Details</button>
@@ -141,37 +175,43 @@
 
                             <!-- Features (proof of skill) -->
                             <ul class="project-features">
-                                <li>Demonstrates DOM-based XSS vulnerability</li>
-                                <li>Includes secure fix using safe DOM handling</li>
-                                <li>Side-by-side comparison view</li>
-                                <li>Predefined attack payload testing</li>
-                                <li>Phishing detection mini feature</li>
+                                <li>AES-256 encrypted vault with PBKDF2 at 600,000 iterations</li>
+                                <li>Zero-knowledge design — master password never stored anywhere</li>
+                                <li>Native desktop app via Electron — auto-starts backend, system tray</li>
+                                <li>Full offline read/write using IndexedDB as primary store</li>
+                                <li>Manual sync between devices with last-write-wins conflict resolution</li>
+                                <li>Password generator, strength indicator, and tag-based organisation</li>
+                                <li>6 complete UI themes, profile with avatar, and master password change</li>
+                                <li>55 automated tests across crypto, vault I/O, and API layers</li>
                             </ul>
 
                             <ul class="project-details-list">
-                                <li>Built responsive layout using CSS Grid and Flexbox</li>
-                                <li>Implemented dark mode toggle using classList</li>
-                                <li>Added scroll reveal animations using IntersectionObserver</li>
-                                <li>Optimized layout for mobile devices</li>
-                                <li><strong>Problem:</strong> Needed a clean way to present projects professionally</li>
-                                <li><strong>Solution:</strong> Built a modular, responsive UI with reusable components</li>
+                                <li>Built REST API with FastAPI — 10 endpoints including sync and re-encryption</li>
+                                <li>Implemented atomic file writes — vault never corrupted on crash</li>
+                                <li>Constant-time password comparison to prevent timing attacks</li>
+                                <li>Service worker + PWA manifest for browser access on any device</li>
+                                <li>Encrypted tunnel access via Tailscale WireGuard VPN</li>
+                                <li><strong>Problem:</strong> Needed a password manager with no cloud dependency or subscription</li>
+                                <li><strong>Solution:</strong> Built the entire stack from scratch — crypto, storage, API, and UI</li>
                             </ul>
 
                             <!-- Security -->
                             <div class="project-security">
                                 <p class="tech-label">🔐 Security Notes</p>
                                 <ul>
-                                    <li>Static content reduces attack surface</li>
-                                    <li>No user input stored or processed</li>
-                                    <li>External links handled safely</li>
-                                    <li>Future scope: apply Content Security Policy (CSP)</li>
+                                    <li>AES-256-CBC + HMAC-SHA256 via Python cryptography library (Fernet)</li>
+                                    <li>PBKDF2-HMAC-SHA256 with 600,000 iterations for key derivation</li>
+                                    <li>Session key lives only in server memory — never written to disk</li>
+                                    <li>vault.enc excluded from version control via .gitignore</li>
+                                    <li>Auto-lock clears session key and IndexedDB cache after inactivity</li>
+                                    <li>All device traffic encrypted via Tailscale WireGuard tunnel</li>
                                 </ul>
                             </div>
 
                             <!-- Note (thinking signal) -->
                             <p class="project-note">
-                                Focused on performance and clean DOM structure
-                            </p>                        
+                                Built as a daily-use tool — every decision prioritised security and reliability over convenience
+                            </p>
                         </div>
                     </div>
 
